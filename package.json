@@ -1,0 +1,75 @@
+{
+  "name": "claps.dev",
+  "version": "0.1.0",
+  "description": "Help you funding the creators and projects you appreciate with crypto currencies.",
+  "repository": "git@github.com:JounQin/Claps.dev.git",
+  "author": "JounQin <admin@1stg.me>",
+  "license": "MIT",
+  "scripts": {
+    "build": "cross-env TS_NODE_FILES=true nuxt-ts build",
+    "dev": "cross-env TS_NODE_FILES=true nuxt-ts",
+    "lint": "run-p lint:*",
+    "lint:es": "cross-env PARSER_NO_WATCH=true eslint . --cache --ext md,ts,tsx,vue",
+    "lint:style": "stylelint --cache 'pages/**/*.{scss,vue}'",
+    "lint:ts": "tsc --noEmit",
+    "postinstall": "yarn-deduplicate && t || exit 0",
+    "start": "cross-env TS_NODE_FILES=true nuxt-ts start"
+  },
+  "dependencies": {
+    "@vue/composition-api": "^0.3.4",
+    "core-js": "^3.6.1",
+    "nuxt": "^2.11.0",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@1stg/app-config": "^0.1.17",
+    "@d-ts/bin": "^0.3.3",
+    "@d-ts/vue": "^0.3.0",
+    "@nuxt/types": "^0.5.9",
+    "@nuxt/typescript-build": "^0.5.4",
+    "@nuxt/typescript-runtime": "^0.3.5",
+    "@nuxtjs/eslint-config-typescript": "^1.0.0",
+    "babel-preset-vca-jsx": "^0.3.4",
+    "npm-run-all": "^4.1.5",
+    "vue-class-component": "^7.1.0"
+  },
+  "resolutions": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@types/node": "^13.1.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@1stg"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@1stg"
+    ],
+    "overrides": [
+      {
+        "files": "*.{vue,ts,tsx}",
+        "extends": [
+          "@nuxtjs/eslint-config-typescript",
+          "@1stg"
+        ]
+      }
+    ]
+  },
+  "postcss": {
+    "extends": "@1stg"
+  },
+  "prettier": "@1stg/prettier-config",
+  "remarkConfig": {
+    "plugins": [
+      "@1stg/remark-config"
+    ]
+  },
+  "renovate": {
+    "extends": "@1stg"
+  },
+  "stylelint": {
+    "extends": "@1stg/stylelint-config"
+  }
+}

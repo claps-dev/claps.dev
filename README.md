@@ -1,2 +1,3 @@
 # Claps.dev
-We help you fund the creators and projects you appreciate with cryptocurrencies.
+
+Help you funding the creators and projects you appreciate with crypto currencies.
