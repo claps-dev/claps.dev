@@ -1,0 +1,11 @@
+{
+  "extends": "@1stg/tsconfig/app",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "types": ["@types/node", "@nuxt/types"]
+  }
+}
