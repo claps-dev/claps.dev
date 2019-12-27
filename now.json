@@ -7,8 +7,8 @@
   ],
   "builds": [
     {
-      "src": "*.md",
-      "use": "@now/md"
+      "src": "package.json",
+      "use": "@now/static-build"
     }
   ],
   "routes": [

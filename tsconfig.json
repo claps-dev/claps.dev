@@ -4,8 +4,11 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"],
+      "@@/*": ["./*"],
+      "vuetify": ["vuetify/lib"]
     },
-    "types": ["@types/node", "@nuxt/types"]
+    "target": "esnext",
+    "types": ["@types/node", "@nuxt/vue-app", "@nuxtjs/vuetify"]
   }
 }
