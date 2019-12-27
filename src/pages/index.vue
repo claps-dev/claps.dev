@@ -21,7 +21,7 @@
         </p>
       </v-card-text>
       <v-card-actions class="justify-center">
-        <v-btn rounded color="primary">Getting Started</v-btn>
+        <v-btn rounded block color="primary">Getting Started</v-btn>
       </v-card-actions>
     </v-card>
     <v-card style="margin-top:25px">
@@ -38,7 +38,7 @@
         </p>
       </v-card-text>
       <v-card-actions class="justify-center">
-        <v-btn rounded color="primary">Sign in with Github</v-btn>
+        <v-btn rounded block color="primary">Sign in with Github</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>

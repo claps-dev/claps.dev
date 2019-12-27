@@ -2,6 +2,9 @@ import Vue, { VNode } from 'vue'
 import { ComponentRenderProxy } from '@vue/composition-api'
 
 declare global {
+  const __DEV__: boolean
+  const __SERVER__: boolean
+
   namespace JSX {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
     interface Element extends VNode {}

@@ -6,7 +6,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["./*"],
-      "vuetify": ["vuetify/lib"]
+      "lodash": ["lodash-es"],
+      "vuetify": ["vuetify/src"]
     },
     "target": "esnext",
     "types": ["@types/node", "@nuxt/vue-app", "@nuxtjs/vuetify"]

@@ -1,5 +1,9 @@
-import { Configuration } from '@nuxt/types'
+import { resolve } from 'path'
+
 import postcssConfig from '@1stg/postcss-config'
+import { Configuration } from '@nuxt/types'
+import webpack, { RuleSetUseItem } from 'webpack'
+import { version as __VUETIFY_VERSION__ } from 'vuetify/package.json'
 
 const config: Configuration = {
   build: {
@@ -22,6 +26,37 @@ const config: Configuration = {
       ],
     },
     cache: true,
+    extend(config, { isDev, isServer }) {
+      Object.assign(config.resolve.alias, {
+        lodash$: 'lodash-es',
+        vuetify$: 'vuetify/src',
+      })
+      config.resolve.extensions.unshift('.ts', '.tsx')
+      const sassRules = config.module.rules.filter(({ test }) =>
+        ['/\\.sass$/i', '/\\.scss$/i'].includes(test.toString()),
+      )
+      sassRules.forEach(({ test, oneOf }) =>
+        oneOf.forEach(({ use }: { use: RuleSetUseItem[] }) =>
+          use.push({
+            loader: 'style-resources-loader',
+            options: {
+              patterns: resolve(
+                `src/styles/_variables.${
+                  /(sass|scss)/.exec(test.toString())[0]
+                }`,
+              ),
+            },
+          }),
+        ),
+      )
+      config.plugins.push(
+        new webpack.DefinePlugin({
+          __DEV__: isDev,
+          __SERVER__: isServer,
+          __VUETIFY_VERSION__: JSON.stringify(__VUETIFY_VERSION__),
+        }),
+      )
+    },
     postcss: postcssConfig,
   },
   buildModules: [
@@ -42,10 +77,14 @@ const config: Configuration = {
   ],
   css: ['styles/global.scss'],
   head: {
-    titleTemplate: chunk =>
-      chunk
-        ? [chunk, process.env.npm_package_name].join(' - ')
-        : process.env.npm_package_name,
+    titleTemplate(chunk) {
+      let pkgName = process.env.npm_package_name
+      if (!pkgName) {
+        return
+      }
+      pkgName = pkgName[0].toUpperCase() + pkgName.slice(1)
+      return chunk ? [chunk, pkgName].join(' - ') : pkgName
+    },
     meta: [
       {
         charset: 'utf-8',
