@@ -14,7 +14,7 @@
       placeholder="type to search"
       :class="$style.search"
     ></v-text-field>
-    <v-card :class="$style.card">
+    <v-card>
       <div class="d-flex flex-no-wrap justify-space-between">
         <v-avatar :class="$style.avatar" color="grey" size="48">
           <v-img />
@@ -66,11 +66,6 @@ export default createComponent({
   input {
     text-align: center;
   }
-}
-
-.card {
-  border-radius: $square-radius;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .avatar {

@@ -4,18 +4,29 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
-.v-card__actions {
-  .v-btn:last-child {
-    margin-bottom: 10px;
+.v-application {
+  &--wrap {
+    padding: 20px;
   }
-}
 
-.v-application .v-text-field {
-  &--filled,
-  &--full-width,
-  &--outlined {
-    > .v-input__control > .v-input__slot {
-      min-height: unset;
+  .v-card {
+    border-radius: $square-radius;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    &__actions {
+      .v-btn:last-child {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .v-text-field {
+    &--filled,
+    &--full-width,
+    &--outlined {
+      > .v-input__control > .v-input__slot {
+        min-height: unset;
+      }
     }
   }
 }

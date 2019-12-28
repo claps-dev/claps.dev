@@ -9,22 +9,27 @@
     "node": ">=12"
   },
   "scripts": {
-    "build": "env-cmd nuxt-ts build",
-    "dev": "env-cmd nuxt-ts",
+    "build": "run-p build:*",
+    "build:app": "env-cmd nuxt-ts build",
+    "build:server": "r -i server/index -f cjs -x '*' -o dist",
+    "dev": "env-cmd ts-node -P tsconfig.server.json server",
     "lint": "run-p lint:*",
     "lint:es": "env-cmd eslint . --cache --ext md,ts,tsx,vue",
     "lint:style": "stylelint --cache 'src/**/*.{scss,vue}'",
     "lint:tsc": "tsc --noEmit",
+    "now-build": "yarn build:app -s",
     "postinstall": "yarn-deduplicate && t || exit 0",
-    "start": "env-cmd nuxt-ts start"
+    "start": "cross-env NODE_ENV=production env-cmd node dist/cjs"
   },
   "dependencies": {
     "@mdi/js": "^4.7.95",
     "@vue/composition-api": "^0.3.4",
     "axios": "^0.19.0",
     "core-js": "^3.6.1",
+    "koa": "^2.11.0",
     "lodash-es": "^4.17.15",
     "nuxt": "^2.11.0",
+    "tslib": "^1.10.0",
     "vue": "^2.6.11",
     "vuetify": "^2.1.15"
   },
@@ -37,8 +42,12 @@
     "@nuxt/typescript-runtime": "^0.3.5",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/vuetify": "^1.9.1",
+    "@pkgr/rollup": "^0.8.7",
+    "@types/koa": "^2.11.0",
     "@types/lodash": "^4.14.149",
     "babel-preset-vca-jsx": "^0.3.4",
+    "consola": "^2.11.2",
+    "dotenv": "^8.2.0",
     "env-cmd": "^10.0.1",
     "eslint-config-vuetify": "^0.4.1",
     "lodash": "^4.17.15",

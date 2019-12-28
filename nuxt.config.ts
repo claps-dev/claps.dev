@@ -64,6 +64,7 @@ const config: Configuration = {
     },
     postcss: postcssConfig,
   },
+  buildDir: 'node_modules/.nuxt',
   buildModules: [
     [
       '@nuxt/typescript-build',
@@ -112,7 +113,6 @@ const config: Configuration = {
       },
     ],
   },
-  mode: 'spa',
   plugins: ['@plugins/composition-api', '@plugins/http', '@plugins/vuetify'],
   srcDir: 'src',
 }
