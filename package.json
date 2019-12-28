@@ -5,6 +5,9 @@
   "repository": "git@github.com:JounQin/Claps.dev.git",
   "author": "JounQin <admin@1stg.me>",
   "license": "MIT",
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "build": "env-cmd nuxt-ts build",
     "dev": "env-cmd nuxt-ts",
@@ -16,6 +19,7 @@
     "start": "env-cmd nuxt-ts start"
   },
   "dependencies": {
+    "@mdi/js": "^4.7.95",
     "@vue/composition-api": "^0.3.4",
     "axios": "^0.19.0",
     "core-js": "^3.6.1",
@@ -47,11 +51,9 @@
     "@babel/preset-env": "^7.7.7",
     "@types/node": "^13.1.0"
   },
-  "browserslist": {
-    "extends": [
-      "@1stg/browserslist-config/modern"
-    ]
-  },
+  "browserslist": [
+    "extends @1stg/browserslist-config/modern"
+  ],
   "commitlint": {
     "extends": [
       "@1stg"
@@ -85,6 +87,9 @@
     "extends": "@1stg"
   },
   "stylelint": {
-    "extends": "@1stg/stylelint-config"
+    "extends": [
+      "@1stg/stylelint-config/scss/loose",
+      "@1stg/stylelint-config/modules"
+    ]
   }
 }

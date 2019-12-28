@@ -1393,6 +1393,11 @@
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
+"@mdi/js@^4.7.95":
+  version "4.7.95"
+  resolved "https://registry.yarnpkg.com/@mdi/js/-/js-4.7.95.tgz#ddca3280bcda9e761ab9c9e0261ff360e2e0f99c"
+  integrity sha512-npzFZFA+PqNOuUkGjXRCvQ1lUet5lPuus5bi888+nXwqOYkGGqx/LzrKE3RLxrkc8ZTbF674UumMqq+R/RfBfw==
+
 "@mdx-js/util@^1.5.3":
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.5.3.tgz#49f939313a8561814ef72c231257865aa127ca55"

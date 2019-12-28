@@ -41,7 +41,7 @@ const config: Configuration = {
             loader: 'style-resources-loader',
             options: {
               patterns: resolve(
-                `src/styles/_variables.${
+                `src/styles/prepend/*.${
                   /(sass|scss)/.exec(test.toString())[0]
                 }`,
               ),
@@ -56,6 +56,11 @@ const config: Configuration = {
           __VUETIFY_VERSION__: JSON.stringify(__VUETIFY_VERSION__),
         }),
       )
+    },
+    loaders: {
+      cssModules: {
+        localsConvention: 'camelCaseOnly',
+      },
     },
     postcss: postcssConfig,
   },

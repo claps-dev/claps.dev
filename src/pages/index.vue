@@ -21,7 +21,9 @@
         </p>
       </v-card-text>
       <v-card-actions class="justify-center">
-        <v-btn rounded block color="primary">Getting Started</v-btn>
+        <router-link is="v-btn" to="list" rounded block color="primary">
+          Getting Started
+        </router-link>
       </v-card-actions>
     </v-card>
     <v-card style="margin-top:25px">

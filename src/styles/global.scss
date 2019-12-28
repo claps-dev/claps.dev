@@ -1,5 +1,21 @@
+.split-line {
+  margin: 0 16px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
 .v-card__actions {
   .v-btn:last-child {
     margin-bottom: 10px;
+  }
+}
+
+.v-application .v-text-field {
+  &--filled,
+  &--full-width,
+  &--outlined {
+    > .v-input__control > .v-input__slot {
+      min-height: unset;
+    }
   }
 }
