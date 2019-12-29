@@ -52,8 +52,15 @@
         >
           Sign in with Github
         </a>
-        <router-link is="v-btn" v-else to="list" rounded block color="primary">
-          Getting Started
+        <router-link
+          is="v-btn"
+          v-else
+          to="Profile"
+          rounded
+          block
+          color="primary"
+        >
+          View My Profile
         </router-link>
       </v-card-actions>
     </v-card>

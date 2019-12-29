@@ -1,11 +1,6 @@
 <template>
   <v-container>
-    <div class="headline title">
-      <router-link :to="$prevRoutePath">
-        <v-icon @click="$router.back()">{{ leftSvg }}</v-icon>
-      </router-link>
-      Explore
-    </div>
+    <c-back-title>Explore</c-back-title>
     <v-text-field
       clearable
       outlined
@@ -19,10 +14,8 @@
         <v-avatar :class="$style.avatar" color="grey" size="48">
           <v-img />
         </v-avatar>
-        <div>
-          <v-card-title>
-            Project Name A
-          </v-card-title>
+        <div class="flex-grow-1">
+          <v-card-title>Project Name A</v-card-title>
           <v-card-subtitle>
             PN is an operating system aiming to simplify as much as possible the
             administration of a server. This repository corresponds to the core
@@ -30,7 +23,7 @@
           </v-card-subtitle>
         </div>
       </div>
-      <div class="split-line"></div>
+      <v-divider class="ml-4 mr-4" />
       <v-card-actions
         class="d-flex justify-space-between"
         :class="$style.cardFooter"
@@ -47,31 +40,14 @@
     </v-card>
   </v-container>
 </template>
-<script lang="ts">
-import { createComponent } from '@vue/composition-api'
-import { mdiArrowLeft } from '@mdi/js'
-
-export default createComponent({
-  setup() {
-    return {
-      leftSvg: mdiArrowLeft,
-    }
-  },
-})
-</script>
 <style lang="scss" module>
-.search:global(.v-input) {
-  margin-top: $top-spacing;
-
-  input {
-    text-align: center;
-  }
+.search:global(.v-input) input {
+  text-align: center;
 }
 
 .avatar {
   margin: $top-spacing;
   margin-right: 0;
-  border-radius: $square-radius;
 }
 
 .card-footer {

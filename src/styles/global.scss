@@ -1,12 +1,19 @@
-.split-line {
-  margin: 0 16px;
-  height: 1px;
-  background: rgba(0, 0, 0, 0.1);
+.border-2 {
+  border-width: 2px;
 }
 
 .v-application {
   &--wrap {
     padding: 20px;
+  }
+
+  .list-unstyled {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .v-avatar {
+    border-radius: $square-radius;
   }
 
   .v-card {

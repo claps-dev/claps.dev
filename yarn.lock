@@ -1267,11 +1267,6 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@d-ts/bin@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@d-ts/bin/-/bin-0.3.3.tgz#8803685c0d46c8e0f95fdf26088532e8ca12132b"
-  integrity sha512-Sd2o0j0QQHRRpv+Aj/xLeyOacy8pXeGz1QplDm5kr1jaPdAPlPayRTmir//2oel+J2v5e/C0s5/GiOTEZisK7Q==
-
 "@d-ts/vue@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@d-ts/vue/-/vue-0.3.0.tgz#4d7f0a6726ac315e4f022a886c2982cb12393a2f"

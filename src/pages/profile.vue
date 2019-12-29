@@ -1,0 +1,142 @@
+<template>
+  <v-container :class="$style.container">
+    <c-back-title>Profile</c-back-title>
+    <v-card>
+      <div class="d-flex flex-no-wrap justify-space-between">
+        <v-avatar :class="$style.avatar" color="grey" size="32">
+          <v-img />
+        </v-avatar>
+        <div class="flex-grow-1">
+          <v-card-title class="subtitle-2">Project Name A</v-card-title>
+          <v-card-subtitle class="caption">bio from github</v-card-subtitle>
+        </div>
+      </div>
+      <ul class="list-unstyled body-2 pl-4 pr-4" :class="$style.emails">
+        <li class="d-flex align-center">
+          <v-icon class="mr-2">{{ checkCircle }}</v-icon>
+          Email: xxx@gmail.com
+        </li>
+        <li class="d-flex align-center">
+          <v-icon class="mr-2">{{ checkCircle }}</v-icon>
+          Email: abc@xyz.com
+        </li>
+      </ul>
+      <a class="d-flex align-center subtitle-2 pa-4 pt-2">
+        Claim a Email address
+        <v-icon class="primary--text">{{ doubleRight }}</v-icon>
+      </a>
+      <v-divider />
+      <div class="body-2 pa-4">
+        <div class="mb-4">
+          You receives
+          <strong class="primary--text">$53.30</strong>
+          from
+          <strong class="primary--text">166</strong>
+          patrons.
+        </div>
+        <div class="d-flex flex-no-wrap justify-space-between mb-4">
+          <v-btn rounded color="primary" class="flex-grow-1 font-weight-bold">
+            Withdraw
+          </v-btn>
+          <v-btn
+            rounded
+            outlined
+            color="primary"
+            class="flex-grow-1 ml-4 font-weight-bold border-2"
+          >
+            Details
+          </v-btn>
+        </div>
+        <div class="d-flex flex-no-wrap justify-space-between align-center">
+          <div class="secondary--text caption">
+            Transfer donation to Fox.ONE App
+          </div>
+          <v-switch :class="$style.switch"></v-switch>
+        </div>
+      </div>
+      <v-divider />
+      <v-list subheader>
+        <v-subheader class="black--text font-weight-bold">Projects</v-subheader>
+        <template v-for="(item, index) of 3">
+          <v-divider v-if="index" :key="'_' + item" class="ml-4 mr-4" />
+          <v-list-item :key="item">
+            <v-list-item-avatar size="32" color="grey" class="mr-3">
+              <v-img></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title class="subtitle-2 mb-0">
+                Project Name
+              </v-list-item-title>
+              <v-list-item-subtitle class="caption">
+                412 stars, updated 2 weeks ago
+              </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-icon class="mt-5 mb-5">
+              <v-icon :color="item ? 'deep-purple accent-4' : 'grey'">
+                {{ right }}
+              </v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-card>
+  </v-container>
+</template>
+<script lang="ts">
+import { mdiCheckCircle, mdiChevronDoubleRight, mdiChevronRight } from '@mdi/js'
+import { createComponent } from '@vue/composition-api'
+
+export default createComponent({
+  setup() {
+    return {
+      checkCircle: mdiCheckCircle,
+      doubleRight: mdiChevronDoubleRight,
+      right: mdiChevronRight,
+    }
+  },
+})
+</script>
+<style lang="scss" module>
+.container {
+  :global {
+    .subtitle-2 {
+      line-height: 20px;
+    }
+
+    .caption {
+      line-height: 12px;
+    }
+
+    .v-icon {
+      height: $top-spacing;
+      width: $top-spacing;
+    }
+  }
+}
+
+.avatar {
+  margin: $top-spacing;
+  margin-right: 0;
+}
+
+.switch {
+  margin-top: 0;
+  padding-top: 0;
+
+  :global {
+    .v-input__control > {
+      .v-input__slot {
+        margin-bottom: 0;
+      }
+
+      .v-messages {
+        display: none;
+      }
+    }
+  }
+}
+
+.emails :global(.v-icon) {
+  color: #27ae60;
+}
+</style>

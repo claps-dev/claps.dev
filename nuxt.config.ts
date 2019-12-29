@@ -130,6 +130,7 @@ const config: Configuration = {
     ],
   },
   plugins: [
+    '@plugins/components',
     '@plugins/composition-api',
     '@plugins/http',
     '@plugins/router',
