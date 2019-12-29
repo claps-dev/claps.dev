@@ -113,7 +113,12 @@ const config: Configuration = {
       },
     ],
   },
-  plugins: ['@plugins/composition-api', '@plugins/http', '@plugins/vuetify'],
+  plugins: [
+    '@plugins/composition-api',
+    '@plugins/http',
+    '@plugins/router',
+    '@plugins/vuetify',
+  ],
   srcDir: 'src',
 }
 

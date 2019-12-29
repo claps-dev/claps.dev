@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="headline title">
-      <router-link to="/">
+      <router-link :to="$prevRoutePath">
         <v-icon @click="$router.back()">{{ leftSvg }}</v-icon>
       </router-link>
       Explore

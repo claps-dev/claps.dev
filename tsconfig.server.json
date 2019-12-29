@@ -1,8 +1,0 @@
-{
-  "extends": "@1stg/tsconfig/node",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "strictNullChecks": false,
-    "strictFunctionTypes": false
-  }
-}
