@@ -1,6 +1,6 @@
 {
   "name": "Claps.dev",
-  "version": 2,
+  "version": 1,
   "alias": [
     "claps.now.sh",
     "claps-dev.now.sh"
@@ -10,15 +10,5 @@
     "GITHUB_CLIENT_SECRET": "@github_client_secret",
     "GITHUB_OAUTH_CALLBACK": "@github_oauth_callback",
     "NODE_ENV": "production"
-  },
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@now/static-build"
-    },
-    {
-      "src": "server/index.ts",
-      "use": "@now/node"
-    }
-  ]
+  }
 }

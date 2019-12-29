@@ -4,24 +4,22 @@ import proxy from 'koa-better-http-proxy'
 import compose from 'koa-compose'
 import compress from 'koa-compress'
 import logger from 'koa-logger'
-import session from 'koa-session'
 import { Nuxt, Builder } from 'nuxt'
 
 import config from '../nuxt.config'
-import { serverHost, serverPort } from '../build/config'
+import { __DEV__, serverHost, serverPort } from '../build/config'
 
+import { session } from './session'
 import startRouter from './router'
 
 const app = new Koa()
 
-app.keys = (process.env.APP_KEYS || '').split(',')
-
-config.dev = app.env !== 'production'
+config.dev = __DEV__
 
 async function start() {
   const nuxt = new Nuxt(config)
 
-  const sessionMiddleware = session({}, app)
+  const sessionMiddleware = session(app)
 
   const middlewares: Koa.Middleware[] = [
     logger(),
@@ -37,7 +35,7 @@ async function start() {
     },
   ]
 
-  if (config.dev) {
+  if (__DEV__) {
     middlewares.splice(
       1,
       0,
@@ -48,16 +46,13 @@ async function start() {
         filter: ctx => ctx.url.startsWith('/api/'),
       }),
     )
-    const builder = new Builder(nuxt)
-    await builder.build()
+    await new Builder(nuxt).build()
   } else {
     middlewares.splice(1, 0, compress(), sessionMiddleware, ...startRouter(app))
     await nuxt.ready()
   }
 
-  app.use(compose(middlewares))
-
-  app.listen(serverPort, serverHost)
+  app.use(compose(middlewares)).listen(serverPort, serverHost)
 
   consola.ready({
     message: `Server listening on http://${serverHost}:${serverPort}`,

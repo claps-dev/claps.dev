@@ -11,7 +11,7 @@
   "scripts": {
     "build": "run-p build:*",
     "build:app": "env-cmd nuxt-ts build",
-    "build:server": "r -i server/index -f cjs -x '*' -o dist",
+    "build:server": "cross-env NODE_ENV=production r -i server/index -f cjs -x '*' -o dist",
     "dev": "env-cmd run-p dev:server dev:router:watch",
     "dev:router": "env-cmd ts-node -O '{\"module\":\"commonjs\"}' -T server/router/dev",
     "dev:router:watch": "nodemon --exec 'yarn dev:router'",
@@ -21,7 +21,7 @@
     "lint:style": "stylelint --cache 'src/**/*.{scss,vue}'",
     "lint:tsc": "tsc --noEmit",
     "postinstall": "yarn-deduplicate && t || exit 0",
-    "start": "cross-env NODE_ENV=production env-cmd node dist/cjs"
+    "start": "cross-env NODE_ENV=production env-cmd node dist/cjs.min"
   },
   "dependencies": {
     "@mdi/js": "^4.7.95",

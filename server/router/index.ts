@@ -4,9 +4,9 @@ import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import compose from 'koa-compose'
 import Router from 'koa-router'
-import session from 'koa-session'
 import uuid from 'uuid'
 
+import { session } from '../session'
 import { serverHost, serverPort } from '../../build/config'
 
 import { User } from '@/types'
@@ -90,8 +90,7 @@ export default (app?: Koa) => {
 
   if (!app) {
     app = new Koa()
-    app.keys = app.keys = (process.env.APP_KEYS || '').split(',')
-    middlewares.unshift(session({}, app))
+    middlewares.unshift(session(app))
   }
 
   if (provided) {
