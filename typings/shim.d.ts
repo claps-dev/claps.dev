@@ -3,6 +3,14 @@ declare module '@1stg/postcss-config' {
   export = postcssConfig
 }
 
+declare module 'http' {
+  import { Context } from 'koa'
+
+  interface IncomingMessage {
+    ctx?: Context
+  }
+}
+
 declare module 'vue/types/vue' {
   import { AxiosInstance } from 'axios'
 

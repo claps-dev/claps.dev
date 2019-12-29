@@ -5,10 +5,20 @@
     "claps.now.sh",
     "claps-dev.now.sh"
   ],
+  "env": {
+    "GITHUB_CLIENT_ID": "@github_client_id",
+    "GITHUB_CLIENT_SECRET": "@github_client_secret",
+    "GITHUB_OAUTH_CALLBACK": "@github_oauth_callback",
+    "NODE_ENV": "production"
+  },
   "builds": [
     {
       "src": "package.json",
       "use": "@now/static-build"
+    },
+    {
+      "src": "server/index.ts",
+      "use": "@now/node"
     }
   ]
 }

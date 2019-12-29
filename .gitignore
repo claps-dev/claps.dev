@@ -1,4 +1,5 @@
 .*cache
 .env.local
+/api
 dist
 node_modules

@@ -40,8 +40,34 @@
         </p>
       </v-card-text>
       <v-card-actions class="justify-center">
-        <v-btn rounded block color="primary">Sign in with Github</v-btn>
+        <a
+          is="v-btn"
+          v-if="user.uuid"
+          :href="
+            `https://github.com/login/oauth/authorize?client_id=${envs.GITHUB_CLIENT_ID}&state=${user.uuid}&redirect_uri=${envs.GITHUB_OAUTH_CALLBACK}?path=${$route.fullPath}`
+          "
+          rounded
+          block
+          color="primary"
+        >
+          Sign in with Github
+        </a>
+        <router-link is="v-btn" v-else to="list" rounded block color="primary">
+          Getting Started
+        </router-link>
       </v-card-actions>
     </v-card>
   </v-container>
 </template>
+<script lang="ts">
+import Vue from 'vue'
+
+import { BasicInfo } from '@/types'
+
+export default Vue.extend({
+  async asyncData({ app }) {
+    const { data } = await app.http.get<BasicInfo>('/fetchInfo')
+    return data
+  },
+})
+</script>

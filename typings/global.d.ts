@@ -4,6 +4,7 @@ import { ComponentRenderProxy } from '@vue/composition-api'
 declare global {
   const __DEV__: boolean
   const __SERVER__: boolean
+  const SERVER_PREFIX: boolean
 
   namespace JSX {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface

@@ -5,6 +5,8 @@ import { Configuration } from '@nuxt/types'
 import webpack, { RuleSetUseItem } from 'webpack'
 import { version as __VUETIFY_VERSION__ } from 'vuetify/package.json'
 
+import { __DEV__, __PROD__, innerServer } from './build/config'
+
 const config: Configuration = {
   build: {
     babel: {
@@ -26,7 +28,7 @@ const config: Configuration = {
       ],
     },
     cache: true,
-    extend(config, { isDev, isServer }) {
+    extend(config, { isServer }) {
       Object.assign(config.resolve.alias, {
         lodash$: 'lodash-es',
         vuetify$: 'vuetify/src',
@@ -51,9 +53,23 @@ const config: Configuration = {
       )
       config.plugins.push(
         new webpack.DefinePlugin({
-          __DEV__: isDev,
+          __DEV__,
+          __PROD__,
           __SERVER__: isServer,
           __VUETIFY_VERSION__: JSON.stringify(__VUETIFY_VERSION__),
+          SERVER_PREFIX: JSON.stringify(isServer ? innerServer : '/'),
+          ...['GITHUB_CLIENT_ID', 'GITHUB_OAUTH_CALLBACK'].reduce(
+            (acc, envName) =>
+              Object.assign(
+                acc,
+                typeof process.env[envName] === 'string' && {
+                  [`process.env.${envName}`]: JSON.stringify(
+                    process.env[envName],
+                  ),
+                },
+              ),
+            {},
+          ),
         }),
       )
     },
