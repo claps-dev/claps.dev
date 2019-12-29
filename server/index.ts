@@ -10,31 +10,30 @@ import config from '../nuxt.config'
 import { __DEV__, serverHost, serverPort } from '../build/config'
 
 import { session } from './session'
-import startRouter from './router'
-
-const app = new Koa()
+import { startRouter } from './router'
 
 config.dev = __DEV__
 
+const app = new Koa()
+const nuxt = new Nuxt(config)
+
+const sessionMiddleware = session(app)
+
+const middlewares: Koa.Middleware[] = [
+  logger(),
+  (ctx, next) => {
+    if (ctx.method !== 'GET' || ctx.url.startsWith('/api/')) {
+      return next()
+    }
+
+    ctx.status = 200
+    ctx.respond = false
+    ctx.req.ctx = ctx as Context
+    nuxt.render(ctx.req, ctx.res)
+  },
+]
+
 async function start() {
-  const nuxt = new Nuxt(config)
-
-  const sessionMiddleware = session(app)
-
-  const middlewares: Koa.Middleware[] = [
-    logger(),
-    (ctx, next) => {
-      if (ctx.method !== 'GET' || ctx.url.startsWith('/api/')) {
-        return next()
-      }
-
-      ctx.status = 200
-      ctx.respond = false
-      ctx.req.ctx = ctx as Context
-      nuxt.render(ctx.req, ctx.res)
-    },
-  ]
-
   if (__DEV__) {
     middlewares.splice(
       1,

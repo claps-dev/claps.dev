@@ -1,14 +1,13 @@
 const fs = require('fs')
 
-const { tryFile } = require('@pkgr/utils')
 const { parse } = require('dotenv')
 
-const localEnvFile = tryFile('.env.local')
+const LOCAL_ENV = '.env.local'
 
 let localEnv
 
-if (localEnvFile) {
-  localEnv = parse(fs.readFileSync(localEnvFile))
+if (fs.existsSync(LOCAL_ENV)) {
+  localEnv = parse(fs.readFileSync(LOCAL_ENV))
 }
 
 module.exports = {

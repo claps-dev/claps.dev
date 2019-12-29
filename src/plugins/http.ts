@@ -31,15 +31,15 @@ const setCookieInterceptor = (
   )
 
 const httpPlugin: Plugin = (
-  { app, req = { ctx: {} as import('koa').Context } },
+  { app, req: { ctx } = { ctx: {} as import('koa').Context } },
   inject,
 ) => {
   const http = axios.create({
-    headers: req.ctx.headers,
+    headers: ctx.headers,
   })
   inject('http', (app.http = http))
   if (__SERVER__) {
-    setCookieInterceptor(http, req.ctx)
+    setCookieInterceptor(http, ctx)
   }
 }
 

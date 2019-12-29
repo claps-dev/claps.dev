@@ -1,3 +1,4 @@
+import Octokit, { UsersGetAuthenticatedResponse } from '@octokit/rest'
 import axios from 'axios'
 import consola from 'consola'
 import Koa from 'koa'
@@ -9,7 +10,7 @@ import uuid from 'uuid'
 import { session } from '../session'
 import { serverHost, serverPort } from '../../build/config'
 
-import { User } from '@/types'
+const octokit = new Octokit()
 
 const router = new Router<unknown, Koa.Context>({
   prefix: '/api',
@@ -23,7 +24,8 @@ const ENV_KEYS = [...STR_ENV_KEYS, ...STR_ARR_ENV_KEYS]
 
 router
   .get('/fetchInfo', ctx => {
-    const { user } = ctx.session
+    const user: UsersGetAuthenticatedResponse = ctx.session.user
+
     let sessionID
 
     if (!user) {
@@ -55,7 +57,13 @@ router
       return ctx.throw('invalid oauth redirect')
     }
 
-    const { data } = await axios.post(
+    const {
+      data: { access_token: token, error, error_description },
+    } = await axios.post<{
+      access_token?: string
+      error?: string
+      error_description?: string
+    }>(
       'https://github.com/login/oauth/access_token',
       {
         client_id: process.env.GITHUB_CLIENT_ID,
@@ -70,20 +78,25 @@ router
       },
     )
 
-    if (data.error) {
-      return ctx.throw(data)
+    if (error) {
+      return ctx.throw(error, error_description)
     }
 
-    const token = data.access_token
-    const user = {} as User
+    const { data: user } = await octokit.users.getAuthenticated({
+      headers: {
+        authorization: `bearer ${token}`,
+      },
+    })
 
-    ctx.session.token = token
-    ctx.session.user = user
+    Object.assign(ctx.session, {
+      token,
+      user,
+    })
 
     ctx.redirect(`${path.replace(/ /g, '%2B')}`)
   })
 
-export default (app?: Koa) => {
+export const startRouter = (app?: Koa) => {
   const provided = !!app
 
   const middlewares = [bodyParser(), router.routes(), router.allowedMethods()]

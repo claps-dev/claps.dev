@@ -4,7 +4,7 @@ import consola from 'consola'
 
 import { serverPort } from '../../build/config'
 
-import startRouter from '.'
+import { startRouter } from '.'
 
 exec(
   `kill -9 $(lsof -i:${serverPort + 1} -t) 2> /dev/null`,
