@@ -35,17 +35,21 @@
           patrons.
         </div>
         <div class="d-flex flex-no-wrap justify-space-between mb-4">
-          <v-btn rounded color="primary" class="flex-grow-1 font-weight-bold">
-            Withdraw
-          </v-btn>
-          <v-btn
-            rounded
-            outlined
-            color="primary"
-            class="flex-grow-1 ml-4 font-weight-bold border-2"
-          >
-            Details
-          </v-btn>
+          <n-link to="assets">
+            <v-btn rounded color="primary" class="flex-grow-1 font-weight-bold">
+              Withdraw
+            </v-btn>
+          </n-link>
+          <n-link to="donations">
+            <v-btn
+              rounded
+              outlined
+              color="primary"
+              class="flex-grow-1 ml-4 font-weight-bold border-2"
+            >
+              Details
+            </v-btn>
+          </n-link>
         </div>
         <div class="d-flex flex-no-wrap justify-space-between align-center">
           <div class="secondary--text caption">
@@ -55,28 +59,30 @@
         </div>
       </div>
       <v-divider />
-      <v-list subheader>
+      <v-list subheader class="mt-3">
         <v-subheader class="black--text font-weight-bold">Projects</v-subheader>
         <template v-for="(item, index) of 3">
           <v-divider v-if="index" :key="'_' + item" class="ml-4 mr-4" />
-          <v-list-item :key="item">
-            <v-list-item-avatar size="32" color="grey" class="mr-3">
-              <v-img></v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title class="subtitle-2 mb-0">
-                Project Name
-              </v-list-item-title>
-              <v-list-item-subtitle class="caption">
-                412 stars, updated 2 weeks ago
-              </v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-icon class="mt-5 mb-5">
-              <v-icon :color="item ? 'deep-purple accent-4' : 'grey'">
-                {{ right }}
-              </v-icon>
-            </v-list-item-icon>
-          </v-list-item>
+          <n-link :key="item" :to="'projects/' + item">
+            <v-list-item>
+              <v-list-item-avatar size="32" color="grey" class="mr-3">
+                <v-img></v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title class="subtitle-2 mb-0">
+                  Project Name
+                </v-list-item-title>
+                <v-list-item-subtitle class="caption">
+                  412 stars, updated 2 weeks ago
+                </v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-icon class="mt-5 mb-5">
+                <v-icon color="grey">
+                  {{ right }}
+                </v-icon>
+              </v-list-item-icon>
+            </v-list-item>
+          </n-link>
         </template>
       </v-list>
     </v-card>

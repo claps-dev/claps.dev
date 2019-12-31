@@ -9,7 +9,7 @@
       placeholder="type to search"
       :class="$style.search"
     ></v-text-field>
-    <router-link to="project/1">
+    <n-link to="projects/1">
       <v-card>
         <div class="d-flex flex-no-wrap justify-space-between">
           <v-avatar class="ma-4 mr-0" color="grey" size="48">
@@ -25,9 +25,7 @@
           </div>
         </div>
         <v-divider class="ml-4 mr-4" />
-        <v-card-actions
-          class="d-flex justify-space-between pa-3 pl-4 pr-4 body-2"
-        >
+        <v-card-actions class="d-flex justify-space-between px-4 py-3 body-2">
           <div>
             <strong class="primary--text">$10.23</strong>
             / Mon
@@ -38,7 +36,7 @@
           </div>
         </v-card-actions>
       </v-card>
-    </router-link>
+    </n-link>
   </v-container>
 </template>
 <style lang="scss" module>

@@ -21,9 +21,9 @@
         </p>
       </v-card-text>
       <v-card-actions class="justify-center">
-        <router-link is="v-btn" to="projects" rounded block color="primary">
+        <n-link is="v-btn" to="projects" rounded block color="primary">
           Getting Started
-        </router-link>
+        </n-link>
       </v-card-actions>
     </v-card>
     <v-card style="margin-top:25px">
@@ -52,16 +52,9 @@
         >
           Sign in with Github
         </a>
-        <router-link
-          is="v-btn"
-          v-else
-          to="profile"
-          rounded
-          block
-          color="primary"
-        >
+        <n-link is="v-btn" v-else to="profile" rounded block color="primary">
           View My Profile
-        </router-link>
+        </n-link>
       </v-card-actions>
     </v-card>
   </v-container>
