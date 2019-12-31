@@ -1,7 +1,7 @@
 <template>
-  <div class="headline title" :class="$style.container">
-    <router-link :to="$prevRoutePath">
-      <v-icon @click="$router.back()">{{ svgPath }}</v-icon>
+  <div class="d-flex headline font-weight-bold" :class="$style.container">
+    <router-link class="d-inline-flex align-center mr-3" :to="$prevRoutePath">
+      <v-icon class="black--text" @click="$router.back()">{{ svgPath }}</v-icon>
     </router-link>
     <slot />
   </div>

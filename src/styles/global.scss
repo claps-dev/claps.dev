@@ -1,3 +1,7 @@
+a {
+  text-decoration: none;
+}
+
 .border-2 {
   border-width: 2px;
 }
@@ -25,6 +29,10 @@
         margin-bottom: 10px;
       }
     }
+  }
+
+  .v-subheader {
+    height: 28px;
   }
 
   .v-text-field {

@@ -3,7 +3,7 @@
     <c-back-title>Profile</c-back-title>
     <v-card>
       <div class="d-flex flex-no-wrap justify-space-between">
-        <v-avatar :class="$style.avatar" color="grey" size="32">
+        <v-avatar class="ma-4 mr-0" color="grey" size="32">
           <v-img />
         </v-avatar>
         <div class="flex-grow-1">
@@ -22,7 +22,7 @@
         </li>
       </ul>
       <a class="d-flex align-center subtitle-2 pa-4 pt-2">
-        Claim a Email address
+        Claim an Email Address
         <v-icon class="primary--text">{{ doubleRight }}</v-icon>
       </a>
       <v-divider />
@@ -51,7 +51,7 @@
           <div class="secondary--text caption">
             Transfer donation to Fox.ONE App
           </div>
-          <v-switch :class="$style.switch"></v-switch>
+          <v-switch class="mt-0 pt-0" :class="$style.switch"></v-switch>
         </div>
       </div>
       <v-divider />
@@ -114,15 +114,7 @@ export default createComponent({
   }
 }
 
-.avatar {
-  margin: $top-spacing;
-  margin-right: 0;
-}
-
 .switch {
-  margin-top: 0;
-  padding-top: 0;
-
   :global {
     .v-input__control > {
       .v-input__slot {

@@ -21,7 +21,7 @@
         </p>
       </v-card-text>
       <v-card-actions class="justify-center">
-        <router-link is="v-btn" to="list" rounded block color="primary">
+        <router-link is="v-btn" to="projects" rounded block color="primary">
           Getting Started
         </router-link>
       </v-card-actions>
@@ -55,7 +55,7 @@
         <router-link
           is="v-btn"
           v-else
-          to="Profile"
+          to="profile"
           rounded
           block
           color="primary"
