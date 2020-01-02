@@ -35,20 +35,24 @@
           patrons.
         </div>
         <div class="d-flex flex-no-wrap justify-space-between mb-4">
-          <n-link to="assets">
-            <v-btn rounded color="primary" class="flex-grow-1 font-weight-bold">
-              Withdraw
-            </v-btn>
+          <n-link
+            is="v-btn"
+            to="assets"
+            rounded
+            color="primary"
+            class="flex-grow-1 font-weight-bold"
+          >
+            Withdraw
           </n-link>
-          <n-link to="donations">
-            <v-btn
-              rounded
-              outlined
-              color="primary"
-              class="flex-grow-1 ml-4 font-weight-bold border-2"
-            >
-              Details
-            </v-btn>
+          <n-link
+            is="v-btn"
+            to="donations"
+            rounded
+            outlined
+            color="primary"
+            class="flex-grow-1 ml-4 font-weight-bold border-2"
+          >
+            Details
           </n-link>
         </div>
         <div class="d-flex flex-no-wrap justify-space-between align-center">

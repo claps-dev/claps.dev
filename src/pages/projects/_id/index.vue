@@ -18,24 +18,32 @@
       <v-divider class="ml-4 mr-4" />
       <div class="body-2 pa-4">
         <div class="mb-4">
-          Project Name receives
+          Project Name A receives
           <strong class="primary--text">$53.30</strong>
           per month from
           <strong class="primary--text">166</strong>
           patrons.
         </div>
         <div class="d-flex flex-no-wrap justify-space-between">
-          <v-btn rounded color="primary" class="flex-grow-1 font-weight-bold">
+          <n-link
+            is="v-btn"
+            to=""
+            rounded
+            color="primary"
+            class="flex-grow-1 font-weight-bold"
+          >
             Donate
-          </v-btn>
-          <v-btn
+          </n-link>
+          <n-link
+            is="v-btn"
+            :to="`/projects/${$route.params.id}/donations`"
             rounded
             outlined
             color="primary"
             class="flex-grow-1 ml-4 font-weight-bold border-2"
           >
             Details
-          </v-btn>
+          </n-link>
         </div>
       </div>
       <v-divider class="ma-4 mt-0 mb-3" />
