@@ -36,16 +36,21 @@
         </div>
       </v-card-actions>
     </v-card>
-    <v-list subheader class="mt-5 transparent" :class="$style.transactions">
+    <v-list subheader class="mt-5 mx--4 transparent">
       <v-subheader class="black--text font-weight-bold">
         Transactions
       </v-subheader>
       <template v-for="(item, index) of 3">
-        <v-divider v-if="index" :key="'_' + item" />
-        <n-link :key="item" :to="'projects/' + item">
+        <v-divider
+          v-if="index"
+          :key="'_' + item"
+          class="mr-4"
+          style="margin-left:60px"
+        />
+        <n-link :key="item" :to="'/transactions/' + item">
           <v-list-item>
             <v-list-item-avatar size="32" color="grey" class="mr-3">
-              <v-img></v-img>
+              <v-img />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="subtitle-2 mb-0">
@@ -81,16 +86,3 @@ export default createComponent({
   },
 })
 </script>
-<style lang="scss" module>
-.transactions {
-  margin-left: -$top-spacing;
-  margin-right: -$top-spacing;
-
-  :global {
-    .v-divider {
-      margin-left: 60px;
-      margin-right: $top-spacing;
-    }
-  }
-}
-</style>

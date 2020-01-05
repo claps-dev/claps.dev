@@ -1,0 +1,20 @@
+<template>
+  <v-container>
+    <c-back-title>Withdraw BTC</c-back-title>
+    <v-card>
+      <div class="pa-4">
+        <c-coin-select />
+        <v-text-field
+          hint="≈$0.67"
+          persistent-hint
+          suffix="BTC"
+          type="number"
+          value="0.0001"
+        ></v-text-field>
+      </div>
+      <v-card-actions>
+        <v-btn block color="primary" rounded>Send</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-container>
+</template>

@@ -6,6 +6,11 @@ a {
   border-width: 2px;
 }
 
+.mx--4 {
+  margin-left: -$top-spacing;
+  margin-right: -$top-spacing;
+}
+
 .v-application {
   &--wrap {
     padding: 20px;
@@ -18,6 +23,10 @@ a {
 
   .v-avatar {
     border-radius: $square-radius;
+
+    &.rounded {
+      border-radius: 50%;
+    }
   }
 
   .v-card {

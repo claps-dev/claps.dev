@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex headline font-weight-bold" :class="$style.container">
+  <div class="d-flex mb-4 headline font-weight-bold">
     <n-link class="d-inline-flex align-center mr-3" :to="$prevRoutePath">
       <v-icon class="black--text" @click="$router.back()">{{ svgPath }}</v-icon>
     </n-link>
@@ -19,8 +19,3 @@ export default createComponent({
   },
 })
 </script>
-<style lang="scss" module>
-.container {
-  margin-bottom: $top-spacing;
-}
-</style>

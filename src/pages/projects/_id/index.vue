@@ -52,7 +52,7 @@
         <template v-for="item of 3">
           <v-list-item :key="item">
             <v-list-item-avatar size="32" color="grey" class="mr-3">
-              <v-img></v-img>
+              <v-img />
             </v-list-item-avatar>
             <v-list-item-content class="pa-1">
               <v-list-item-title class="subtitle-2 mb-0">

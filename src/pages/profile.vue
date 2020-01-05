@@ -70,7 +70,7 @@
           <n-link :key="item" :to="'projects/' + item">
             <v-list-item>
               <v-list-item-avatar size="32" color="grey" class="mr-3">
-                <v-img></v-img>
+                <v-img />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="subtitle-2 mb-0">
