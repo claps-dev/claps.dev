@@ -1584,10 +1584,10 @@
     serve-static "^1.14.1"
     server-destroy "^1.0.1"
 
-"@nuxt/types@0.5.9", "@nuxt/types@^0.5.9":
-  version "0.5.9"
-  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.5.9.tgz#568ddc9f1c1869c4321d070e544e8c84c4794825"
-  integrity sha512-CLpAxcI31ZZjrCiHZLk27k2VnMRa6ipXkrMegcZVkG2i3tnycErq+ydnlS2EPxPG0WNDYQXli192UEBKT12Dfw==
+"@nuxt/types@0.6.0", "@nuxt/types@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.6.0.tgz#f127c31d8c86cfbe522654da91704a98a2cb0fb3"
+  integrity sha512-LJF95jLe4Ir/mrKJ5d2QC+t89xnXVM2EWagXx8YDM32RObIAHEU8jUQLPy4uvx1w3APDOMAtByG5V3vlRo7HwQ==
   dependencies:
     "@types/autoprefixer" "^9.6.1"
     "@types/babel__core" "^7.1.3"
@@ -1603,28 +1603,28 @@
     "@types/pug" "^2.0.4"
     "@types/serve-static" "^1.13.3"
     "@types/terser-webpack-plugin" "^2.2.0"
-    "@types/webpack" "^4.41.0"
+    "@types/webpack" "^4.41.1"
     "@types/webpack-bundle-analyzer" "^2.13.3"
     "@types/webpack-dev-middleware" "^2.0.3"
     "@types/webpack-hot-middleware" "^2.25.0"
 
-"@nuxt/typescript-build@^0.5.4":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@nuxt/typescript-build/-/typescript-build-0.5.4.tgz#5b4b3b310d86bbe4eb1a5a10d8327e8160a0b02d"
-  integrity sha512-BuVdoQMbaantvp4OrYhgTJ/4Q+OXTE/1gRxV8h/JyhWkKbiyekfKj388XUoH6lSH0/4BiGpbpg2FgUcZvxZOvA==
+"@nuxt/typescript-build@^0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@nuxt/typescript-build/-/typescript-build-0.5.5.tgz#5cb01380f567344339b016a88503fed2bd67b8bf"
+  integrity sha512-VB2PcS8XbW0nUn+AY9+JqbuBO3K3Ys9xoIG8s4uJ9vua/rwLRe4mS6jIoIhMVOoiPjoz8CNq7F3edOXsevSleA==
   dependencies:
-    "@nuxt/types" "0.5.9"
-    consola "^2.11.1"
+    "@nuxt/types" "0.6.0"
+    consola "^2.11.3"
     fork-ts-checker-webpack-plugin "^3.1.1"
     ts-loader "^6.2.1"
     typescript "~3.7"
 
-"@nuxt/typescript-runtime@^0.3.5":
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/@nuxt/typescript-runtime/-/typescript-runtime-0.3.5.tgz#604be92be337c287461fd1b224613e0612a37949"
-  integrity sha512-eVvNtDu+OD3cuWZPfc1Zvw+MyvLXgd5iegikcTzmGJSwXhUmo3c6ykZRnfG1QJNeAR1ds3w3LynjScq0HqDAIw==
+"@nuxt/typescript-runtime@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@nuxt/typescript-runtime/-/typescript-runtime-0.3.6.tgz#be6d3622dd8ea86ac29c737c37344308653aef29"
+  integrity sha512-oqxGfnFXMzBCmfR+58vQRScFsEbbk6poA5b15Ypb67jx8Z4IN5cK3aaLX7Zf+0Ub9W5Qg0y9yktsLperkkoTDQ==
   dependencies:
-    "@nuxt/types" "0.5.9"
+    "@nuxt/types" "0.6.0"
     ts-node "^8.5.4"
     typescript "~3.7"
 
@@ -2414,10 +2414,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@>= 8", "@types/node@^12.0.2", "@types/node@^12.12.22", "@types/node@^13.1.1":
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.1.tgz#6d11a8c2d58405b3db9388ab740106cbfa64c3c9"
-  integrity sha512-hx6zWtudh3Arsbl3cXay+JnkvVgCKzCWKv42C9J01N2T2np4h8w5X8u6Tpz5mj38kE3M9FM0Pazx8vKFFMnjLQ==
+"@types/node@*", "@types/node@>= 8", "@types/node@^12.0.2", "@types/node@^12.12.22", "@types/node@^13.1.4":
+  version "13.1.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.4.tgz#4cfd90175a200ee9b02bd6b1cd19bc349741607e"
+  integrity sha512-Lue/mlp2egZJoHXZr4LndxDAd7i/7SQYhV0EjWfb/a4/OZ6tuVwMCVPiwkU5nsEipxEf7hmkSU7Em5VQ8P5NGA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2563,10 +2563,10 @@
     "@types/source-list-map" "*"
     source-map "^0.6.1"
 
-"@types/webpack@*", "@types/webpack@^4.41.0":
-  version "4.41.0"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.0.tgz#b813a044d8b0dec7dfcd7622fdbe327bde06eb9a"
-  integrity sha512-tWkdf9nO0zFgAY/EumUKwrDUhraHKDqCPhwfFR/R8l0qnPdgb9le0Gzhvb7uzVpouuDGBgiE//ZdY+5jcZy2TA==
+"@types/webpack@*", "@types/webpack@^4.41.1":
+  version "4.41.1"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.1.tgz#571f0e137ce698710dd2637f7d222811eb83e274"
+  integrity sha512-n9fP8UrMxOi1wiM3oM+vMZHMJJ7WoQohqd63C20cmKOFkNEy9Q8hyZyDR6PWdvSYt3V3A7cwDq/kWxHlRYYZEg==
   dependencies:
     "@types/anymatch" "*"
     "@types/node" "*"
@@ -4547,10 +4547,10 @@ connect@^3.7.0:
     parseurl "~1.3.3"
     utils-merge "1.0.1"
 
-consola@^2.10.0, consola@^2.10.1, consola@^2.11.1, consola@^2.11.2, consola@^2.6.0, consola@^2.9.0:
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/consola/-/consola-2.11.2.tgz#e2d2028d634b2c44db81c26cc328b8e42d24f2f5"
-  integrity sha512-kiOd0jqR5wo4swTf/aTu/Y+mynBjFD70tEpVS83jMtzqahKLPLJTDjVFDhg9ihuiWVV5TLQ43LlwleXuz2yYKg==
+consola@^2.10.0, consola@^2.10.1, consola@^2.11.1, consola@^2.11.3, consola@^2.6.0, consola@^2.9.0:
+  version "2.11.3"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-2.11.3.tgz#f7315836224c143ac5094b47fd4c816c2cd1560e"
+  integrity sha512-aoW0YIIAmeftGR8GSpw6CGQluNdkWMWh3yEFjH/hmynTYnMtibXszii3lxCXmk8YxJtI3FAK5aTiquA5VH68Gw==
 
 console-browserify@^1.1.0:
   version "1.2.0"
@@ -15629,10 +15629,10 @@ vuetify-loader@^1.4.3:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^2.1.13, vuetify@^2.1.14, vuetify@^2.1.15:
-  version "2.1.15"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.1.15.tgz#26386557c63ad700e6e8d8a330f8d2831fbef6ef"
-  integrity sha512-M35NJvlzkbCpFfsK08xraNvCpiNCIbYUXI/hkzjWHQV1MFIZnjrDTVtYoiudCyJ52zlrhWezAr4pzFOCLAr6RA==
+vuetify@^2.1.13, vuetify@^2.1.14, vuetify@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.1.tgz#ff09812ec3c439e379c8a717385a92678ce590ca"
+  integrity sha512-S6MkPNb9tnRtCZ3snCxWk9oYhcoDcmYKjhESpDIm0D8rhqUbif7r14BRq5UXy7007DFkNbPx/PFoygl2D4L0AQ==
 
 vuex@^3.1.2:
   version "3.1.2"
