@@ -4,7 +4,7 @@
     <v-card>
       <v-card-subtitle>Choose a asset you want to donate</v-card-subtitle>
       <v-card-text>
-        <c-coin-select></c-coin-select>
+        <full-select v-model="coin" :items="COINS">Choose Coin</full-select>
       </v-card-text>
       <v-card-subtitle class="py-0">
         How much
@@ -24,7 +24,13 @@
         Donation Distributions
       </v-card-subtitle>
       <v-card-text>
-        <c-coin-select></c-coin-select>
+        <full-select
+          v-model="donationDistribution"
+          :items="DONATION_DISTRIBUTIONS"
+          concise
+        >
+          Choose Distribution
+        </full-select>
         <tips class="mb-0">
           The algorithm of Persper use code analytics to calculate each
           developer’s contribution.
@@ -49,11 +55,22 @@
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
 
-import { Tips } from '@/components'
+import { FullSelect, Tips } from '@/components'
+import { Coin, DonationDistribution } from '@/types'
+import { COINS, DONATION_DISTRIBUTIONS } from '@/utils'
 
 export default createComponent({
   components: {
+    FullSelect,
     Tips,
+  },
+  setup() {
+    return {
+      COINS,
+      DONATION_DISTRIBUTIONS,
+      coin: Coin.BTC,
+      donationDistribution: DonationDistribution.PersperAlgorithm,
+    }
   },
 })
 </script>

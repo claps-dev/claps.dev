@@ -3,7 +3,7 @@
     <c-back-title>Withdraw BTC</c-back-title>
     <v-card>
       <v-card-text>
-        <c-coin-select />
+        <full-select :items="COINS" />
         <v-text-field
           hint="≈$0.67"
           persistent-hint
@@ -18,3 +18,20 @@
     </v-card>
   </v-container>
 </template>
+<script lang="ts">
+import { createComponent } from '@vue/composition-api'
+
+import { FullSelect } from '@/components'
+import { COINS } from '@/utils'
+
+export default createComponent({
+  components: {
+    FullSelect,
+  },
+  setup() {
+    return {
+      COINS,
+    }
+  },
+})
+</script>
