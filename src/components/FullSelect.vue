@@ -21,15 +21,9 @@
     </template>
     <v-app>
       <v-container>
-        <div class="d-flex mb-4 headline font-weight-bold">
-          <v-icon
-            class="d-inline-flex align-center mr-3 black--text"
-            @click="visible = false"
-          >
-            {{ arrowLeft }}
-          </v-icon>
+        <c-back-title @click="visible = false">
           <slot />
-        </div>
+        </c-back-title>
         <v-list class="transparent">
           <template v-for="(item, index) of items">
             <v-divider v-if="index" :key="'_' + item.title" />

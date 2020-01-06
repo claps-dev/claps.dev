@@ -1,7 +1,7 @@
 <template>
   <div class="my-4 pa-3 caption" :class="$style.tips">
     <slot />
-    <div class="font-weight-bold text-right">
+    <div v-if="link" class="font-weight-bold text-right">
       Learn more
       <v-icon color="#b67800" small>{{ doubleRight }}</v-icon>
     </div>
@@ -12,6 +12,9 @@ import { mdiChevronDoubleRight } from '@mdi/js'
 import { createComponent } from '@vue/composition-api'
 
 export default createComponent({
+  props: {
+    link: String,
+  },
   setup() {
     return {
       doubleRight: mdiChevronDoubleRight,

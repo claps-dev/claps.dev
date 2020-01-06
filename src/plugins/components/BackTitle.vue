@@ -1,6 +1,13 @@
 <template>
-  <div class="d-flex mb-4 headline font-weight-bold">
-    <n-link class="d-inline-flex align-center mr-3" :to="$prevRoutePath">
+  <div class="d-flex mb-4 headline align-center font-weight-bold">
+    <v-icon
+      v-if="$listeners.click"
+      class="d-inline-flex  mr-3 black--text"
+      @click="$listeners.click"
+    >
+      {{ svgPath }}
+    </v-icon>
+    <n-link v-else class="d-inline-flex mr-3" :to="$prevRoutePath">
       <v-icon class="black--text" @click="$router.back()">{{ svgPath }}</v-icon>
     </n-link>
     <slot />
