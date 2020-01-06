@@ -15,14 +15,10 @@
       Withdraw to Fox.ONE
     </n-link>
     <template v-else>
-      <div class="my-4 pa-3 body-2" :class="$style.tips">
+      <tips>
         Because we store assets in Mixin Network, you must connect to Mixin or
         Fox.ONE App to withdraw your assets.
-        <div class="font-weight-bold text-right">
-          Learn more
-          <v-icon color="#b67800" small>{{ doubleRight }}</v-icon>
-        </div>
-      </div>
+      </tips>
       <v-btn class="mb-4" block color="primary" rounded>
         Connect with Mixin
       </v-btn>
@@ -50,22 +46,18 @@
   </v-container>
 </template>
 <script lang="ts">
-import { mdiChevronDoubleRight } from '@mdi/js'
 import { createComponent } from '@vue/composition-api'
 
+import { Tips } from '@/components'
+
 export default createComponent({
+  components: {
+    Tips,
+  },
   setup() {
     return {
-      doubleRight: mdiChevronDoubleRight,
       connected: Math.random() > 0.5,
     }
   },
 })
 </script>
-<style lang="scss" module>
-.tips {
-  background-color: #fff6e6;
-  border: 1px solid #ffc24a;
-  color: #b67800;
-}
-</style>

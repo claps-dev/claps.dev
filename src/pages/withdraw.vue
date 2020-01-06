@@ -2,7 +2,7 @@
   <v-container>
     <c-back-title>Withdraw BTC</c-back-title>
     <v-card>
-      <div class="pa-4">
+      <v-card-text>
         <c-coin-select />
         <v-text-field
           hint="≈$0.67"
@@ -11,7 +11,7 @@
           type="number"
           value="0.0001"
         ></v-text-field>
-      </div>
+      </v-card-text>
       <v-card-actions>
         <v-btn block color="primary" rounded>Send</v-btn>
       </v-card-actions>

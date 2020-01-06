@@ -27,7 +27,7 @@
         <div class="d-flex flex-no-wrap justify-space-between">
           <n-link
             is="v-btn"
-            to=""
+            :to="`/projects/${$route.params.id}/donate`"
             rounded
             color="primary"
             class="flex-grow-1 font-weight-bold"
