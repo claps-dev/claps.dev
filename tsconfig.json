@@ -10,6 +10,6 @@
       "vuetify": ["vuetify/src"]
     },
     "target": "esnext",
-    "types": ["@d-ts/vue", "@nuxt/vue-app", "@nuxtjs/vuetify", "@types/node"]
+    "types": ["@d-ts/vue", "@nuxt/vue-app", "@types/node"]
   }
 }

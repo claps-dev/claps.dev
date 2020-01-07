@@ -89,13 +89,6 @@ const config: Configuration = {
         typeCheck: false,
       },
     ],
-    [
-      '@nuxtjs/vuetify',
-      {
-        defaultAssets: false,
-        optionsPath: './vuetify.options.ts',
-      },
-    ],
   ],
   css: ['styles/global.scss'],
   head: {
@@ -129,11 +122,13 @@ const config: Configuration = {
       },
     ],
   },
+  mode: __DEV__ ? 'spa' : undefined,
   plugins: [
     '@plugins/components',
     '@plugins/composition-api',
     '@plugins/http',
     '@plugins/router',
+    '@plugins/utils',
     '@plugins/vuetify',
   ],
   srcDir: 'src',

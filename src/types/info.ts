@@ -4,5 +4,6 @@ import { Env } from './env'
 
 export interface BasicInfo {
   envs: Env
-  user: UsersGetAuthenticatedResponse
+  user?: UsersGetAuthenticatedResponse
+  randomUid?: string
 }

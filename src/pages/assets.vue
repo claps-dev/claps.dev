@@ -3,9 +3,28 @@
     <c-back-title>Assets</c-back-title>
     <div class="headline">≈0.00783823 BTC</div>
     <div class="subtitle-1">≈$53.30</div>
+    <template v-if="codeChallenge">
+      <tips>
+        Because we store assets in Mixin Network, you must connect to Mixin or
+        Fox.ONE App to withdraw your assets.
+      </tips>
+      <a
+        is="v-btn"
+        :href="mixinOauthUrl"
+        class="mb-4"
+        block
+        color="primary"
+        rounded
+      >
+        Connect with Mixin
+      </a>
+      <a is="v-btn" block color="primary" rounded>
+        Connect with Fox.ONE
+      </a>
+    </template>
     <n-link
       is="v-btn"
-      v-if="connected"
+      v-else
       to="withdraw"
       class="mt-5"
       block
@@ -14,18 +33,6 @@
     >
       Withdraw to Fox.ONE
     </n-link>
-    <template v-else>
-      <tips>
-        Because we store assets in Mixin Network, you must connect to Mixin or
-        Fox.ONE App to withdraw your assets.
-      </tips>
-      <v-btn class="mb-4" block color="primary" rounded>
-        Connect with Mixin
-      </v-btn>
-      <v-btn block color="primary" rounded>
-        Connect with Fox.ONE
-      </v-btn>
-    </template>
     <v-list class="mt-2 mx--4 transparent">
       <v-list-item v-for="item of 3" :key="item">
         <v-list-item-avatar size="42" color="grey" class="mr-3 rounded">
@@ -46,18 +53,27 @@
   </v-container>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { Context } from '@nuxt/types'
 
 import { Tips } from '@/components'
 
-export default createComponent({
+export default {
   components: {
     Tips,
   },
-  setup() {
-    return {
-      connected: Math.random() > 0.5,
-    }
+  async asyncData({ app }: Context) {
+    const { data } = await app.http.get<BasicInfo>('/fetchInfo')
+    return data
   },
-})
+  computed: {
+    mixinOauthUrl() {
+      return this.$utils.normalizeUrl('https://mixin.one/oauth/authorize', {
+        client_id: this.envs.MIXIN_CLIENT_ID,
+        scope: 'PHONE:READ+PROFILE:READ+ASSETS:READ',
+        code_challenge: this.codeChallenge,
+        state: this.randomUid,
+      })
+    },
+  },
+}
 </script>

@@ -13,8 +13,10 @@ declare module 'http' {
 
 declare module 'vue/types/vue' {
   import { AxiosInstance } from 'axios'
+  import * as utils from '@/utils'
 
   interface Vue {
     $http: AxiosInstance
+    $utils: typeof utils
   }
 }

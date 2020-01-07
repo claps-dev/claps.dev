@@ -1,9 +1,14 @@
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
-import { UsersGetAuthenticatedResponse } from '@octokit/rest'
 import { Context } from 'koa'
 import uuid from 'uuid'
 
-const STR_ENV_KEYS = ['GITHUB_CLIENT_ID', 'GITHUB_OAUTH_CALLBACK']
+import { sha256 } from '../utils'
+
+const STR_ENV_KEYS = [
+  'GITHUB_CLIENT_ID',
+  'GITHUB_OAUTH_CALLBACK',
+  'MIXIN_CLIENT_ID',
+]
 
 const STR_ARR_ENV_KEYS: string[] = []
 
@@ -13,19 +18,24 @@ const ENV_KEYS = [...STR_ENV_KEYS, ...STR_ARR_ENV_KEYS]
 export class CommonController {
   @RequestMapping('/fetchInfo')
   fetchInfo(ctx: Context) {
-    const user: UsersGetAuthenticatedResponse = ctx.session.user
+    const { user, mixinToken } = ctx.session
 
-    let sessionID
+    let randomUid: string
 
-    if (!user) {
-      sessionID = uuid()
-      ctx.session.uuid = sessionID
+    if (!user || !mixinToken) {
+      randomUid = ctx.session.uuid = uuid()
+    }
+
+    let codeChallenge: string
+
+    if (!mixinToken) {
+      codeChallenge = sha256(randomUid)
     }
 
     ctx.body = {
-      user: user || {
-        uuid: sessionID,
-      },
+      user,
+      codeChallenge,
+      randomUid,
       envs: ENV_KEYS.reduce((envs, key) => {
         let value: string | string[] = process.env[key]
 

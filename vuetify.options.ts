@@ -1,6 +1,6 @@
-import { VuetifyPreset } from 'vuetify/types/presets'
+import { GlobalVuetifyPreset } from 'vuetify/types/services/presets'
 
-const vuetifyOptions: VuetifyPreset = {
+const vuetifyOptions: GlobalVuetifyPreset = {
   icons: {
     iconfont: 'mdiSvg',
   },

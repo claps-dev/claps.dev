@@ -40,11 +40,21 @@
         </p>
       </v-card-text>
       <v-card-actions class="justify-center">
+        <n-link
+          is="v-btn"
+          v-if="user"
+          to="profile"
+          rounded
+          block
+          color="primary"
+        >
+          View My Profile
+        </n-link>
         <a
           is="v-btn"
-          v-if="user.uuid"
+          v-else
           :href="
-            `https://github.com/login/oauth/authorize?client_id=${envs.GITHUB_CLIENT_ID}&state=${user.uuid}&redirect_uri=${envs.GITHUB_OAUTH_CALLBACK}?path=${$route.fullPath}`
+            `https://github.com/login/oauth/authorize?client_id=${envs.GITHUB_CLIENT_ID}&state=${randomUid}&redirect_uri=${envs.GITHUB_OAUTH_CALLBACK}?path=${$route.fullPath}`
           "
           rounded
           block
@@ -52,22 +62,17 @@
         >
           Sign in with Github
         </a>
-        <n-link is="v-btn" v-else to="profile" rounded block color="primary">
-          View My Profile
-        </n-link>
       </v-card-actions>
     </v-card>
   </v-container>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-
 import { BasicInfo } from '@/types'
 
-export default Vue.extend({
+export default {
   async asyncData({ app }) {
     const { data } = await app.http.get<BasicInfo>('/fetchInfo')
     return data
   },
-})
+}
 </script>

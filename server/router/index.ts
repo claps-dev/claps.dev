@@ -1,13 +1,15 @@
 import { injectAllRoutes } from '@rxts/koa-router-decorators'
 import consola from 'consola'
-import Koa, { DefaultState } from 'koa'
+import Koa, { DefaultState, Middleware } from 'koa'
 import bodyParser from 'koa-bodyparser'
 import compose from 'koa-compose'
 import Router from 'koa-router'
+import proxy from 'koa-better-http-proxy'
 
 import '../controllers'
 import { session } from '../session'
 import { serverHost, serverPort } from '../../build/config'
+import { MIXIN_API_HOST } from '../utils'
 
 const router = new Router<DefaultState, Koa.Context>({
   prefix: '/api',
@@ -18,7 +20,14 @@ injectAllRoutes(router)
 export const startRouter = (app?: Koa) => {
   const provided = !!app
 
-  const middlewares = [bodyParser(), router.routes(), router.allowedMethods()]
+  const middlewares: Middleware[] = [
+    bodyParser(),
+    router.routes(),
+    router.allowedMethods(),
+    proxy(MIXIN_API_HOST, {
+      https: true,
+    }),
+  ]
 
   if (!app) {
     app = new Koa()
