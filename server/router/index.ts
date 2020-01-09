@@ -1,10 +1,10 @@
+import { proxy } from '@rxts/koa-proxy'
 import { injectAllRoutes } from '@rxts/koa-router-decorators'
 import consola from 'consola'
 import Koa, { DefaultState, Middleware } from 'koa'
 import bodyParser from 'koa-bodyparser'
 import compose from 'koa-compose'
 import Router from 'koa-router'
-import proxy from 'koa-better-http-proxy'
 
 import '../controllers'
 import { session } from '../session'
@@ -24,8 +24,10 @@ export const startRouter = (app?: Koa) => {
     bodyParser(),
     router.routes(),
     router.allowedMethods(),
-    proxy(MIXIN_API_HOST, {
-      https: true,
+    proxy({
+      changeOrigin: true,
+      target: MIXIN_API_HOST,
+      secure: true,
     }),
   ]
 

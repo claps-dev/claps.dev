@@ -9,6 +9,7 @@
     "GITHUB_CLIENT_ID": "@github_client_id",
     "GITHUB_CLIENT_SECRET": "@github_client_secret",
     "GITHUB_OAUTH_CALLBACK": "@github_oauth_callback",
+    "MIXIN_CLIENT_ID": "@mixin_client_id",
     "NODE_ENV": "production"
   }
 }

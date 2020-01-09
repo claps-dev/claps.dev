@@ -1,8 +1,9 @@
+import { randomBytes } from 'crypto'
+
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
-import uuid from 'uuid'
 
-import { sha256 } from '../utils'
+import { sha256, base64 } from '../utils'
 
 const STR_ENV_KEYS = [
   'GITHUB_CLIENT_ID',
@@ -18,18 +19,18 @@ const ENV_KEYS = [...STR_ENV_KEYS, ...STR_ARR_ENV_KEYS]
 export class CommonController {
   @RequestMapping('/fetchInfo')
   fetchInfo(ctx: Context) {
-    const { user, mixinToken } = ctx.session
+    const { user = null, mixinToken } = ctx.session
 
     let randomUid: string
 
     if (!user || !mixinToken) {
-      randomUid = ctx.session.uuid = uuid()
+      randomUid = ctx.session.uid = base64(randomBytes(32), true)
     }
 
-    let codeChallenge: string
+    let codeChallenge: string = null
 
     if (!mixinToken) {
-      codeChallenge = sha256(randomUid)
+      codeChallenge = base64(sha256(randomUid), true)
     }
 
     ctx.body = {

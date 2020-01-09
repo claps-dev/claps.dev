@@ -11,7 +11,8 @@ export class GitHubController {
   async oauth(ctx: Context) {
     const { code, path, state } = ctx.query
 
-    if (!state || state !== ctx.session.uuid) {
+    if (!state || state !== ctx.session.uid) {
+      ctx.session.user = null
       return ctx.throw('invalid oauth redirect')
     }
 

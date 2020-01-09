@@ -58,18 +58,6 @@ const config: Configuration = {
           __SERVER__: isServer,
           __VUETIFY_VERSION__: JSON.stringify(__VUETIFY_VERSION__),
           SERVER_PREFIX: JSON.stringify(isServer ? innerServer : '/'),
-          ...['GITHUB_CLIENT_ID', 'GITHUB_OAUTH_CALLBACK'].reduce(
-            (acc, envName) =>
-              Object.assign(
-                acc,
-                typeof process.env[envName] === 'string' && {
-                  [`process.env.${envName}`]: JSON.stringify(
-                    process.env[envName],
-                  ),
-                },
-              ),
-            {},
-          ),
         }),
       )
     },

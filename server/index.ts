@@ -47,7 +47,7 @@ async function start() {
     )
     await new Builder(nuxt).build()
   } else {
-    middlewares.splice(1, 0, compress(), sessionMiddleware, ...startRouter(app))
+    middlewares.splice(2, 0, compress(), sessionMiddleware, ...startRouter(app))
     await nuxt.ready()
   }
 

@@ -15,6 +15,7 @@
         block
         color="primary"
         rounded
+        @click="$utils.setCookie('redirectPath', $route.fullPath)"
       >
         Connect with Mixin
       </a>
@@ -69,7 +70,7 @@ export default {
     mixinOauthUrl() {
       return this.$utils.normalizeUrl('https://mixin.one/oauth/authorize', {
         client_id: this.envs.MIXIN_CLIENT_ID,
-        scope: 'PHONE:READ+PROFILE:READ+ASSETS:READ',
+        scope: 'PHONE:READ PROFILE:READ ASSETS:READ',
         code_challenge: this.codeChallenge,
         state: this.randomUid,
       })

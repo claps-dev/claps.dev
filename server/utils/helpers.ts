@@ -1,7 +1,25 @@
 import crypto, { BinaryLike } from 'crypto'
 
-export const sha256 = (buffer: BinaryLike) =>
+export const base64 = (data: string | Buffer, uriEncode?: boolean) => {
+  let result = (typeof data === 'string' ? Buffer.from(data) : data).toString(
+    'base64',
+  )
+  if (uriEncode) {
+    result = result
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '')
+  }
+  return result
+}
+
+export type HexBase64Latin1Encoding = 'latin1' | 'hex' | 'base64'
+
+export const sha256 = (
+  buffer: BinaryLike,
+  encoding?: HexBase64Latin1Encoding,
+): string | Buffer =>
   crypto
     .createHash('sha256')
     .update(buffer)
-    .digest('base64')
+    .digest(encoding)

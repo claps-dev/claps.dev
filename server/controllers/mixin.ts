@@ -6,10 +6,15 @@ import { Context } from 'koa'
 export class MixinController {
   @RequestMapping('/oauth')
   oauth(ctx: Context) {
-    const { state } = ctx.query
+    const { code, state } = ctx.query
 
-    if (!state || state !== ctx.session.uuid) {
+    if (!state || state !== ctx.session.uid) {
+      ctx.session.mixinToken = null
       return ctx.throw('invalid oauth redirect')
     }
+
+    ctx.session.mixinToken = code
+
+    ctx.redirect(decodeURIComponent(ctx.cookies.get('redirectPath')) || '/')
   }
 }
