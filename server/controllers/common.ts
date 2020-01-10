@@ -9,6 +9,7 @@ const STR_ENV_KEYS = [
   'GITHUB_CLIENT_ID',
   'GITHUB_OAUTH_CALLBACK',
   'MIXIN_CLIENT_ID',
+  'FOXONE_CLIENT_ID',
 ]
 
 const STR_ARR_ENV_KEYS: string[] = []

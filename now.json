@@ -10,6 +10,9 @@
     "GITHUB_CLIENT_SECRET": "@github_client_secret",
     "GITHUB_OAUTH_CALLBACK": "@github_oauth_callback",
     "MIXIN_CLIENT_ID": "@mixin_client_id",
+    "MIXIN_CLIENT_SECRET": "@mixin_client_secret",
+    "FOXONE_CLIENT_ID": "@foxone_client_id",
+    "FOXONE_CLIENT_SECRET": "@mixin_client_secret",
     "NODE_ENV": "production"
   }
 }
