@@ -5,6 +5,9 @@
     "claps.now.sh",
     "claps-dev.now.sh"
   ],
+  "github": {
+    "silent": true
+  },
   "env": {
     "GITHUB_CLIENT_ID": "@github_client_id",
     "GITHUB_CLIENT_SECRET": "@github_client_secret",
