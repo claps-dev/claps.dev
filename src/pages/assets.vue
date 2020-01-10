@@ -3,7 +3,7 @@
     <c-back-title>Assets</c-back-title>
     <div class="headline">≈0.00783823 BTC</div>
     <div class="subtitle-1">≈$53.30</div>
-    <template v-if="codeChallenge">
+    <template v-if="mixinAuth">
       <tips>
         Because we store assets in Mixin Network, you must connect to Mixin or
         Fox.ONE App to withdraw your assets.
@@ -71,7 +71,6 @@ export default {
       return this.$utils.normalizeUrl('https://mixin.one/oauth/authorize', {
         client_id: this.envs.MIXIN_CLIENT_ID,
         scope: 'PHONE:READ PROFILE:READ ASSETS:READ',
-        code_challenge: this.codeChallenge,
         state: this.randomUid,
       })
     },

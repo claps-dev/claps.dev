@@ -28,6 +28,12 @@ export const startRouter = (app?: Koa) => {
       changeOrigin: true,
       target: MIXIN_API_HOST,
       secure: true,
+      override: ctx =>
+        ctx.session.mixinToken && {
+          headers: {
+            Authorization: `Bearer ${ctx.session.mixinToken}`,
+          },
+        },
     }),
   ]
 

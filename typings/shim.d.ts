@@ -4,10 +4,10 @@ declare module '@1stg/postcss-config' {
 }
 
 declare module 'http' {
-  import { Context } from 'koa'
+  import Koa from 'koa'
 
   interface IncomingMessage {
-    ctx?: Context
+    ctx?: Koa.ParameterizedContext<Koa.DefaultState, Koa.DefaultContext>
   }
 }
 
