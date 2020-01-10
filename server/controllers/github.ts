@@ -12,12 +12,15 @@ export class GitHubController {
     const { code, path, state } = ctx.query
 
     if (!state || state !== ctx.session.uid) {
-      ctx.session.user = null
+      Object.assign(ctx.session, {
+        gitHubToken: null,
+        user: null,
+      })
       return ctx.throw('invalid oauth redirect')
     }
 
     const {
-      data: { access_token: token, error, error_description },
+      data: { access_token: gitHubToken, error, error_description },
     } = await axios.post<{
       access_token?: string
       error?: string
@@ -43,12 +46,12 @@ export class GitHubController {
 
     const { data: user } = await octokit.users.getAuthenticated({
       headers: {
-        authorization: `bearer ${token}`,
+        authorization: `bearer ${gitHubToken}`,
       },
     })
 
     Object.assign(ctx.session, {
-      token,
+      gitHubToken,
       user,
     })
 
