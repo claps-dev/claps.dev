@@ -15,7 +15,7 @@
     "MIXIN_CLIENT_ID": "@mixin_client_id",
     "MIXIN_CLIENT_SECRET": "@mixin_client_secret",
     "FOXONE_CLIENT_ID": "@foxone_client_id",
-    "FOXONE_CLIENT_SECRET": "@mixin_client_secret",
+    "FOXONE_CLIENT_SECRET": "@foxone_client_secret",
     "NODE_ENV": "production"
   }
 }

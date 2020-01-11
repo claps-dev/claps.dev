@@ -1,4 +1,6 @@
-import { INFINITY_DATE } from './constants'
+import { AxiosInstance } from 'axios'
+
+import { INFINITY_DATE, SET_COOKIE, KOA_SESS_SIG } from './constants'
 
 import { SetCookie } from '@/types'
 
@@ -76,3 +78,28 @@ export const parseSetCookies = (setCookies: string | string[]) => {
     return acc
   }, [])
 }
+
+export const setCookieInterceptor = (
+  http: AxiosInstance,
+  ctx: import('koa').Context,
+) =>
+  http.interceptors.response.use(
+    response => {
+      parseSetCookies(response.headers[SET_COOKIE]).forEach(
+        ({ name, expires, httponly: httpOnly, path, value }) => {
+          if (name !== KOA_SESS_SIG) {
+            ctx.cookies.set(name, value, {
+              expires: expires && new Date(expires),
+              httpOnly,
+              path,
+            })
+          }
+        },
+      )
+      return response
+    },
+    ({ response }) => {
+      ctx.set(response.headers)
+      ctx.throw(response)
+    },
+  )

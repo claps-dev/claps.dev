@@ -3,7 +3,18 @@
     <c-back-title>Assets</c-back-title>
     <div class="headline">≈0.00783823 BTC</div>
     <div class="subtitle-1">≈$53.30</div>
-    <template v-if="mixinAuth">
+    <n-link
+      is="v-btn"
+      v-if="mixinAuth"
+      to="withdraw"
+      class="mt-5"
+      block
+      color="primary"
+      rounded
+    >
+      Withdraw to Fox.ONE
+    </n-link>
+    <template v-else>
       <tips>
         Because we store assets in Mixin Network, you must connect to Mixin or
         Fox.ONE App to withdraw your assets.
@@ -19,21 +30,10 @@
       >
         Connect with Mixin
       </a>
-      <a is="v-btn" block color="primary" rounded>
+      <a is="v-btn" :href="foxoneOauthUrl" block color="primary" rounded>
         Connect with Fox.ONE
       </a>
     </template>
-    <n-link
-      is="v-btn"
-      v-else
-      to="withdraw"
-      class="mt-5"
-      block
-      color="primary"
-      rounded
-    >
-      Withdraw to Fox.ONE
-    </n-link>
     <v-list class="mt-2 mx--4 transparent">
       <v-list-item v-for="item of 3" :key="item">
         <v-list-item-avatar size="42" color="grey" class="mr-3 rounded">
@@ -70,6 +70,15 @@ export default {
     mixinOauthUrl() {
       return this.$utils.normalizeUrl('https://mixin.one/oauth/authorize', {
         client_id: this.envs.MIXIN_CLIENT_ID,
+        scope: 'PHONE:READ PROFILE:READ ASSETS:READ SNAPSHOTS:READ',
+        state: this.randomUid,
+      })
+    },
+    foxoneOauthUrl() {
+      return this.$utils.normalizeUrl('https://oauth2.kumiclub.com', {
+        client_id: this.envs.FOXONE_CLIENT_ID,
+        code_challenge: '',
+        response_type: 'code',
         scope: 'PHONE:READ PROFILE:READ ASSETS:READ',
         state: this.randomUid,
       })

@@ -1,5 +1,5 @@
 import consola from 'consola'
-import Koa from 'koa'
+import Koa, { Context } from 'koa'
 import proxy from 'koa-better-http-proxy'
 import compose from 'koa-compose'
 import compress from 'koa-compress'
@@ -28,7 +28,7 @@ const middlewares: Koa.Middleware[] = [
 
     ctx.status = 200
     ctx.respond = false
-    ctx.req.ctx = ctx
+    ctx.req.ctx = ctx as Context
     nuxt.render(ctx.req, ctx.res)
   },
 ]
