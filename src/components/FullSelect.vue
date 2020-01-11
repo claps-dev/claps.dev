@@ -87,7 +87,7 @@ export default createComponent({
   },
   computed: {
     activeItem(): SelectItem {
-      if (!this.items.length) {
+      if (this.items.length === 0) {
         return {}
       }
       return this.items.find(item => item.value === this.value) || this.items[0]
@@ -97,7 +97,7 @@ export default createComponent({
     items: {
       immediate: true,
       handler(items: SelectItem[]) {
-        if ((!items || !items.length) && this.activeItem) {
+        if ((!items || items.length === 0) && this.activeItem) {
           return this.$emit('change', null)
         }
         const activeItem = items.find(item => item.value === this.value)

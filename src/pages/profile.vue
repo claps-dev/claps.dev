@@ -7,7 +7,7 @@
           <v-img />
         </v-avatar>
         <div class="flex-grow-1">
-          <v-card-title class="subtitle-2">Project Name A</v-card-title>
+          <v-card-title class="subtitle-2">Full Name</v-card-title>
           <v-card-subtitle class="caption">bio from github</v-card-subtitle>
         </div>
       </div>
