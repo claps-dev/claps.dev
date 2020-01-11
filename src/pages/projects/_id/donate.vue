@@ -8,7 +8,7 @@
         <v-card-subtitle>
           You will give
           <strong class="primary--text">1.52105</strong>
-          <strong>{{ coinType.title }}</strong>
+          <strong>{{ asset.symbol }}</strong>
           to
           <strong class="primary--text">Project Name</strong>
           Follow one of those approaches to donate:
@@ -57,7 +57,7 @@
         </div>
         <div class="px-4" :class="$style.step">
           <div class="mb-4 subtitle font-weight-bold">
-            Use {{ coinType.title }} Network
+            Use {{ asset.symbol }} Network
           </div>
           <div class="mb-4 pa-3" :class="$style.token">
             1PqcopKzdg8ZM22f6cAoCpJ8WS7xvsFJ3n
@@ -68,19 +68,21 @@
         </div>
         <v-card-text class="pt-0">
           <tips>
-            Use the address to donate in {{ coinType.description }} network. It
-            may take 30 mins to be confirmed.
+            Use the address to donate in {{ asset.name }} network. It may take
+            30 mins to be confirmed.
           </tips>
         </v-card-text>
       </template>
       <template v-else>
         <v-card-subtitle>Choose a asset you want to donate</v-card-subtitle>
         <v-card-text>
-          <full-select v-model="coin" :items="COINS">Choose Coin</full-select>
+          <full-select v-model="assetId" :items="items">
+            Choose Coin
+          </full-select>
         </v-card-text>
         <v-card-subtitle class="py-0">
           How much
-          <strong>{{ coinType.title }}</strong>
+          <strong>{{ asset.symbol }}</strong>
           you offer
         </v-card-subtitle>
         <v-card-text>
@@ -119,7 +121,7 @@
               <v-list-item-title class="subtitle-2 mb-0">
                 Charlie Wu
                 <span class="float-right">
-                  0.91 {{ coinType.title }} (59.82%)
+                  0.91 {{ asset.symbol }} (59.82%)
                 </span>
               </v-list-item-title>
             </v-list-item-content>
@@ -130,37 +132,56 @@
   </v-container>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
 import Qrcode from 'vue-qrcode'
+import { multiply } from 'mathjs'
 
 import { FullSelect, Tips } from '@/components'
-import { Coin, DonationDistribution } from '@/types'
-import { COINS, DONATION_DISTRIBUTIONS } from '@/utils'
+import { DonationDistribution } from '@/types'
+import { DONATION_DISTRIBUTIONS } from '@/utils'
 
-export default createComponent({
+export default {
   components: {
     FullSelect,
     Tips,
     Qrcode,
   },
+  async asyncData({ app }) {
+    const { data } = await app.http.get<Array<import('mixin-node-sdk').Asset>>(
+      '/mixin/assets',
+    )
+    return {
+      assets: data,
+      items: data.map(({ symbol, name, icon_url, asset_id }) => ({
+        title: symbol,
+        description: name,
+        avatar: icon_url,
+        value: asset_id,
+      })),
+    }
+  },
+  data() {
+    return {
+      assetId: null,
+      DONATION_DISTRIBUTIONS,
+      donationDistribution: DonationDistribution.PersperAlgorithm,
+      donating: false,
+    }
+  },
   computed: {
-    coinType() {
-      return COINS.find(coin => coin.value === this.coin)
+    asset() {
+      if (!this.assetId || !this.assets) {
+        return {}
+      }
+      return this.assets.find(asset => asset.asset_id === this.assetId) || {}
+    },
+    usdt() {
+      return multiply(this.asset.price_usd || 0, this.mount)
     },
     donatingEvent() {
       return this.donating ? 'click' : null
     },
   },
-  setup() {
-    return {
-      COINS,
-      DONATION_DISTRIBUTIONS,
-      coin: Coin.BTC,
-      donationDistribution: DonationDistribution.PersperAlgorithm,
-      donating: false,
-    }
-  },
-})
+}
 </script>
 <style lang="scss" module>
 .input {

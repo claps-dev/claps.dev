@@ -3,13 +3,13 @@
     <c-back-title>Withdraw BTC</c-back-title>
     <v-card>
       <v-card-text>
-        <full-select :items="COINS" />
+        <full-select v-model="assetId" :items="items" />
         <v-text-field
-          hint="≈$0.67"
+          v-model="mount"
+          :hint="'≈$' + usdt"
           persistent-hint
-          suffix="BTC"
+          :suffix="asset.symbol"
           type="number"
-          value="0.0001"
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
@@ -19,19 +19,44 @@
   </v-container>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { multiply } from 'mathjs'
 
 import { FullSelect } from '@/components'
-import { COINS } from '@/utils'
 
-export default createComponent({
+export default {
   components: {
     FullSelect,
   },
-  setup() {
+  async asyncData({ app }) {
+    const { data } = await app.http.get<Array<import('mixin-node-sdk').Asset>>(
+      '/mixin/assets',
+    )
     return {
-      COINS,
+      assets: data,
+      items: data.map(({ symbol, name, icon_url, asset_id }) => ({
+        title: symbol,
+        description: name,
+        avatar: icon_url,
+        value: asset_id,
+      })),
     }
   },
-})
+  data() {
+    return {
+      assetId: null,
+      mount: 0.0001,
+    }
+  },
+  computed: {
+    asset() {
+      if (!this.assetId || !this.assets) {
+        return {}
+      }
+      return this.assets.find(asset => asset.asset_id === this.assetId) || {}
+    },
+    usdt() {
+      return multiply(this.asset.price_usd || 0, this.mount)
+    },
+  },
+}
 </script>

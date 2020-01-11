@@ -1,6 +1,7 @@
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import axios from 'axios'
 import { Context } from 'koa'
+import { Mixin } from 'mixin-node-sdk'
 
 export interface MixinOauth {
   data?: {
@@ -13,6 +14,12 @@ export interface MixinOauth {
     description: string
   }
 }
+
+const mixin = new Mixin(
+  Object.assign(JSON.parse(process.env.MIXIN_CLIENT_CONFIG), {
+    client_secret: process.env.MIXIN_CLIENT_SECRET,
+  }),
+)
 
 @Controller
 @RequestMapping('/mixin')
@@ -44,5 +51,10 @@ export class MixinController {
     })
 
     ctx.redirect(decodeURIComponent(ctx.cookies.get('redirectPath')) || '/')
+  }
+
+  @RequestMapping('/assets')
+  async assets(ctx: Context) {
+    ctx.body = await mixin.query_assets({})
   }
 }

@@ -79,7 +79,7 @@ export default createComponent({
     concise: Boolean,
     items: {
       type: Array,
-      default: [],
+      default: () => [],
     },
     value: {
       type: [String, Number, Symbol],
@@ -88,10 +88,24 @@ export default createComponent({
   computed: {
     activeItem(): SelectItem {
       if (!this.items.length) {
-        return
+        return {}
       }
-
       return this.items.find(item => item.value === this.value) || this.items[0]
+    },
+  },
+  watch: {
+    items: {
+      immediate: true,
+      handler(items: SelectItem[]) {
+        if ((!items || !items.length) && this.activeItem) {
+          return this.$emit('change', null)
+        }
+        const activeItem = items.find(item => item.value === this.value)
+        if (activeItem) {
+          return
+        }
+        this.$emit('change', items[0].value)
+      },
     },
   },
   setup() {

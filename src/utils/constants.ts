@@ -1,18 +1,10 @@
-import { Coin, SelectItem, DonationDistribution } from '@/types'
+import { SelectItem, DonationDistribution } from '@/types'
 
 export const INFINITY_DATE = 'Fri, 31 Dec 9999 23:59:59 GMT'
 
 export const SET_COOKIE = 'set-cookie'
 
 export const KOA_SESS_SIG = 'koa:sess.sig'
-
-export const COINS: SelectItem[] = Object.entries(Coin).map(([key, value]) => ({
-  title: key,
-  description: value,
-  value,
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  avatar: require(`@/assets/${key.toLowerCase()}.svg`),
-}))
 
 export const DONATION_DISTRIBUTIONS: SelectItem[] = [
   {
