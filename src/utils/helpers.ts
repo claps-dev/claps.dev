@@ -1,5 +1,6 @@
+import { differenceInMonths } from 'date-fns'
 import { stringify, IStringifyOptions } from 'qs'
-import { flatMap } from 'lodash'
+import { flatMap, memoize } from 'lodash'
 
 import { DEFAULT_AUTH_SCOPES } from './constants'
 
@@ -20,3 +21,9 @@ export const authScopes = (scopes = DEFAULT_AUTH_SCOPES, writable?: boolean) =>
   flatMap(scopes, scope =>
     [genScope(scope)].concat(writable ? genScope(scope, true) : []),
   )
+
+export const perMonth = memoize(
+  (total: number, createdAt: string) =>
+    (total / differenceInMonths(Date.now(), new Date(createdAt))).toFixed(2),
+  (total: number, createdAt: string) => [total, createdAt].join('$'),
+)

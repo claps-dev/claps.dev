@@ -5,7 +5,7 @@
       <v-card-text>
         <full-select v-model="assetId" :items="items" />
         <v-text-field
-          v-model="mount"
+          v-model="amount"
           :hint="'≈$' + usdt"
           persistent-hint
           :suffix="asset.symbol"
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       assetId: null,
-      mount: 0.0001,
+      amount: 0.0001,
     }
   },
   computed: {
@@ -57,7 +57,7 @@ export default {
       )
     },
     usdt() {
-      return multiply(this.asset.price_usd || 0, this.mount)
+      return multiply(this.asset.price_usd || 0, this.amount)
     },
   },
 }
