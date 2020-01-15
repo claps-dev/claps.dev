@@ -49,10 +49,12 @@ export default {
   },
   computed: {
     asset() {
-      if (!this.assetId || !this.assets) {
-        return {}
-      }
-      return this.assets.find(asset => asset.asset_id === this.assetId) || {}
+      return (
+        (this.assets &&
+          this.assetId &&
+          this.assets.find(asset => asset.asset_id === this.assetId)) ||
+        {}
+      )
     },
     usdt() {
       return multiply(this.asset.price_usd || 0, this.mount)

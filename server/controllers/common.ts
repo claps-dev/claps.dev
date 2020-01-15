@@ -16,8 +16,8 @@ const ENV_KEYS = [...STR_ENV_KEYS, ...STR_ARR_ENV_KEYS]
 
 @Controller
 export class CommonController {
-  @RequestMapping('/fetchInfo')
-  fetchInfo(ctx: Context) {
+  @RequestMapping('/authInfo')
+  authInfo(ctx: Context) {
     const { user = null, mixinToken } = ctx.session
 
     let randomUid: string = null

@@ -4,11 +4,14 @@
     <v-card>
       <div class="d-flex flex-no-wrap justify-space-between">
         <v-avatar class="ma-4 mr-0" color="grey" size="32">
-          <v-img />
+          <v-img :src="user.avatar_url" />
         </v-avatar>
         <div class="flex-grow-1">
-          <v-card-title class="subtitle-2">Full Name</v-card-title>
-          <v-card-subtitle class="caption">bio from github</v-card-subtitle>
+          <v-card-title class="subtitle-2">
+            {{ user.name }}
+            <small v-if="user.name !== user.login">({{ user.login }})</small>
+          </v-card-title>
+          <v-card-subtitle class="caption">{{ user.bio }}</v-card-subtitle>
         </div>
       </div>
       <ul class="list-unstyled body-2 pl-4 pr-4" :class="$style.emails">
@@ -94,17 +97,23 @@
 </template>
 <script lang="ts">
 import { mdiCheckCircle, mdiChevronDoubleRight, mdiChevronRight } from '@mdi/js'
-import { createComponent } from '@vue/composition-api'
+import { mapState } from 'vuex'
 
-export default createComponent({
-  setup() {
+export default {
+  meta: {
+    auth: true,
+  },
+  data() {
     return {
       checkCircle: mdiCheckCircle,
       doubleRight: mdiChevronDoubleRight,
       right: mdiChevronRight,
     }
   },
-})
+  computed: {
+    ...mapState(['user']),
+  },
+}
 </script>
 <style lang="scss" module>
 .container {

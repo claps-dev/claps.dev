@@ -54,32 +54,33 @@
   </v-container>
 </template>
 <script lang="ts">
-import { Context } from '@nuxt/types'
+import { mapState } from 'vuex'
 
 import { Tips } from '@/components'
+import { FOXONE_OAUTH_URL, MIXIN_OAUTH_URL, authScopes } from '@/utils'
 
 export default {
+  meta: {
+    auth: true,
+  },
   components: {
     Tips,
   },
-  async asyncData({ app }: Context) {
-    const { data } = await app.http.get<BasicInfo>('/fetchInfo')
-    return data
-  },
   computed: {
+    ...mapState(['envs', 'mixinAuth']),
     mixinOauthUrl() {
-      return this.$utils.normalizeUrl('https://mixin.one/oauth/authorize', {
+      return this.$utils.normalizeUrl(MIXIN_OAUTH_URL, {
         client_id: this.envs.MIXIN_CLIENT_ID,
-        scope: 'PHONE:READ PROFILE:READ ASSETS:READ SNAPSHOTS:READ',
+        scope: authScopes(),
         state: this.randomUid,
       })
     },
     foxoneOauthUrl() {
-      return this.$utils.normalizeUrl('https://oauth2.kumiclub.com', {
+      return this.$utils.normalizeUrl(FOXONE_OAUTH_URL, {
         client_id: this.envs.FOXONE_CLIENT_ID,
         code_challenge: '',
         response_type: 'code',
-        scope: 'PHONE:READ PROFILE:READ ASSETS:READ',
+        scope: authScopes(),
         state: this.randomUid,
       })
     },

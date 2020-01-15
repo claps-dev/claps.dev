@@ -53,9 +53,7 @@
         <a
           is="v-btn"
           v-else
-          :href="
-            `https://github.com/login/oauth/authorize?client_id=${envs.GITHUB_CLIENT_ID}&state=${randomUid}&redirect_uri=${envs.GITHUB_OAUTH_CALLBACK}?path=${$route.fullPath}`
-          "
+          :href="githubOauthUrl"
           rounded
           block
           color="primary"
@@ -67,12 +65,20 @@
   </v-container>
 </template>
 <script lang="ts">
-import { BasicInfo } from '@/types'
+import { mapState } from 'vuex'
+
+import { GITHUB_OAUTH_URL, normalizeUrl } from '@/utils'
 
 export default {
-  async asyncData({ app }) {
-    const { data } = await app.http.get<BasicInfo>('/fetchInfo')
-    return data
+  computed: {
+    ...mapState(['envs', 'user', 'randomUid']),
+    githubOauthUrl() {
+      return normalizeUrl(GITHUB_OAUTH_URL, {
+        client_id: this.envs.GITHUB_CLIENT_ID,
+        state: this.randomUid,
+        redirect_uri: `${this.envs.GITHUB_OAUTH_CALLBACK}?path=/profile`,
+      })
+    },
   },
 }
 </script>

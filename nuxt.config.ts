@@ -79,6 +79,9 @@ const config: Configuration = {
     ],
   ],
   css: ['styles/global.scss'],
+  features: {
+    store: false,
+  },
   head: {
     titleTemplate(chunk) {
       let pkgName = process.env.npm_package_name
@@ -112,6 +115,7 @@ const config: Configuration = {
   },
   mode: __DEV__ ? 'spa' : undefined,
   plugins: [
+    '@store',
     '@plugins/components',
     '@plugins/composition-api',
     '@plugins/http',
