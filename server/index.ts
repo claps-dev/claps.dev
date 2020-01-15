@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import consola from 'consola'
 import Koa, { Context } from 'koa'
 import proxy from 'koa-better-http-proxy'
@@ -48,7 +49,7 @@ async function start() {
     await new Builder(nuxt).build()
   } else {
     middlewares.splice(1, 0, compress(), sessionMiddleware)
-    middlewares.push(...startRouter(app))
+    middlewares.push(...(await startRouter(app)))
     await nuxt.ready()
   }
 

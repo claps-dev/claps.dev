@@ -2,6 +2,7 @@
   "extends": "@1stg/tsconfig/app",
   "compilerOptions": {
     "baseUrl": ".",
+    "emitDecoratorMetadata": true,
     "jsx": "preserve",
     "paths": {
       "@/*": ["src/*"],

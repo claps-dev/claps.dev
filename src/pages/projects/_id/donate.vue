@@ -87,10 +87,10 @@
         </v-card-subtitle>
         <v-card-text>
           <v-text-field
+            v-model="amount"
             :class="$style.input"
             type="number"
             height="80"
-            value="1.52105"
           ></v-text-field>
           <v-btn block color="primary" rounded @click="donating = true">
             Donate
@@ -165,14 +165,17 @@ export default {
       DONATION_DISTRIBUTIONS,
       donationDistribution: DonationDistribution.PersperAlgorithm,
       donating: false,
+      amount: 1.52105,
     }
   },
   computed: {
     asset() {
-      if (!this.assetId || !this.assets) {
-        return {}
-      }
-      return this.assets.find(asset => asset.asset_id === this.assetId) || {}
+      return (
+        (this.assets &&
+          this.assetId &&
+          this.assets.find(asset => asset.asset_id === this.assetId)) ||
+        {}
+      )
     },
     usdt() {
       return multiply(this.asset.price_usd || 0, this.mount)
