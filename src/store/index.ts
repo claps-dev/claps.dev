@@ -1,12 +1,14 @@
 import { Plugin } from '@nuxt/types'
 import Vue from 'vue'
 import Vuex, { MutationTree, ActionTree } from 'vuex'
+import { Asset } from 'mixin-node-sdk'
 
 import { AuthInfo, RootState } from '@/types'
 
 Vue.use(Vuex)
 
 const state = (): RootState => ({
+  assets: [],
   envs: {},
 })
 
@@ -17,6 +19,13 @@ const actions: ActionTree<RootState, RootState> = {
     }
     const { data } = await rootState.http.get<AuthInfo>('/authInfo')
     commit('SET_AUTH_INFO', data)
+  },
+  async fetchAssets({ commit, rootState }) {
+    if (rootState.assets.length > 0) {
+      return
+    }
+    const { data } = await rootState.http.get<Asset[]>('/mixin/assets')
+    commit('SET_ASSETS', data)
   },
 }
 
@@ -29,6 +38,9 @@ const mutations: MutationTree<RootState> = {
   },
   SET_LOADING(state, loading) {
     state.loading = loading
+  },
+  SET_ASSETS(state, assets) {
+    state.assets = assets
   },
 }
 

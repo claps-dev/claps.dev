@@ -113,13 +113,13 @@
           </tips>
         </v-card-text>
         <v-list class="pt-0">
-          <v-list-item v-for="item of 3" :key="item">
+          <v-list-item v-for="{ __user__: user } of members" :key="user.id">
             <v-list-item-avatar size="32" color="grey" class="mr-3">
-              <v-img />
+              <v-img :src="user.avatarUrl" />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="subtitle-2 mb-0">
-                Charlie Wu
+                {{ user.name }}
                 <span class="float-right">
                   0.91 {{ asset.symbol }} (59.82%)
                 </span>
@@ -134,6 +134,7 @@
 <script lang="ts">
 import Qrcode from 'vue-qrcode'
 import { multiply } from 'mathjs'
+import { mapState } from 'vuex'
 
 import { FullSelect, Tips } from '@/components'
 import { DonationDistribution } from '@/types'
@@ -145,18 +146,15 @@ export default {
     Tips,
     Qrcode,
   },
-  async asyncData({ app }) {
-    const { data } = await app.http.get<Array<import('mixin-node-sdk').Asset>>(
-      '/mixin/assets',
+  fetch({ app }) {
+    return app.store.dispatch('fetchAssets')
+  },
+  async asyncData({ app, route }) {
+    const { data } = await app.http.get(
+      `/projects/${route.params.name}/members`,
     )
     return {
-      assets: data,
-      items: data.map(({ symbol, name, icon_url, asset_id }) => ({
-        title: symbol,
-        description: name,
-        avatar: icon_url,
-        value: asset_id,
-      })),
+      members: data,
     }
   },
   data() {
@@ -169,10 +167,18 @@ export default {
     }
   },
   computed: {
+    ...mapState(['assets']),
+    items() {
+      return this.assets.map(({ symbol, name, icon_url, asset_id }) => ({
+        title: symbol,
+        description: name,
+        avatar: icon_url,
+        value: asset_id,
+      }))
+    },
     asset() {
       return (
-        (this.assets &&
-          this.assetId &&
+        (this.assetId &&
           this.assets.find(asset => asset.asset_id === this.assetId)) ||
         {}
       )
