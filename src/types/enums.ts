@@ -4,3 +4,10 @@ export enum DonationDistribution {
   ChangedLines,
   IdenticalAmount,
 }
+
+export enum RepositoryType {
+  GITHUB = 'GitHub',
+  BITBUCKET = 'BitBucket',
+  GITLAB = 'GitLab',
+  GIT = 'Git',
+}

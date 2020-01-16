@@ -9,9 +9,9 @@ import { createConnection } from 'typeorm'
 
 import { serverHost, serverPort } from '../../build/config'
 import '../controllers'
-import { Project } from '../entities'
+import { Project, Repository, User, Member } from '../entities'
 import { session } from '../session'
-import { MIXIN_API_HOST } from '../utils'
+import { MIXIN_API_HOST, octokit } from '../utils'
 
 const router = new Router<DefaultState, Koa.Context>({
   prefix: '/api',
@@ -25,12 +25,19 @@ export const startRouter = async (app?: Koa) => {
   const conn = await createConnection({
     type: 'mysql',
     ...JSON.parse(process.env.DATABASE_CONFIG),
-    entities: [Project],
+    entities: [Member, Project, Repository, User],
   })
 
   const middlewares: Middleware[] = [
     (ctx, next) => {
       ctx.conn = conn
+      const { gitHubToken } = ctx.session
+      if (gitHubToken) {
+        octokit.authenticate({
+          type: 'oauth',
+          token: gitHubToken,
+        })
+      }
       return next()
     },
     bodyParser(),

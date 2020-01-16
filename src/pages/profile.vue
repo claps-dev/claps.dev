@@ -9,7 +9,9 @@
         <div class="flex-grow-1">
           <v-card-title class="subtitle-2">
             {{ user.name }}
-            <small v-if="user.name !== user.login">({{ user.login }})</small>
+            <small v-if="user.name !== user.login" class="gray--text">
+              ({{ user.login }})
+            </small>
           </v-card-title>
           <v-card-subtitle class="caption">{{ user.bio }}</v-card-subtitle>
         </div>

@@ -1,33 +1,35 @@
 <template>
   <v-container>
-    <c-back-title>Project Name</c-back-title>
+    <c-back-title>Project Detail</c-back-title>
     <v-card>
       <div class="d-flex flex-no-wrap justify-space-between">
         <v-avatar class="ma-4 mr-0" color="grey" size="48">
-          <v-img />
+          <v-img :src="avatarUrl" />
         </v-avatar>
         <div class="flex-grow-1">
-          <v-card-title class="subtitle-2">Project Name A</v-card-title>
+          <v-card-title class="subtitle-2">
+            {{ $route.params.name }}
+          </v-card-title>
           <v-card-subtitle class="caption">
-            PN is an operating system aiming to simplify as much as possible the
-            administration of a server. This repository corresponds to the core
-            code.
+            {{ description }}
           </v-card-subtitle>
         </div>
       </div>
       <v-divider class="ml-4 mr-4" />
       <div class="body-2 pa-4">
         <div class="mb-4">
-          Project Name A receives
-          <strong class="primary--text">$53.30</strong>
+          {{ $route.params.name }} receives
+          <strong class="primary--text">
+            ${{ perMonth(total, createdAt) }}
+          </strong>
           per month from
-          <strong class="primary--text">166</strong>
+          <strong class="primary--text">{{ patrons }}</strong>
           patrons.
         </div>
         <div class="d-flex flex-no-wrap justify-space-between">
           <n-link
             is="v-btn"
-            :to="`/projects/${$route.params.id}/donate`"
+            :to="`/projects/${$route.params.name}/donate`"
             rounded
             color="primary"
             class="flex-grow-1 font-weight-bold"
@@ -36,7 +38,7 @@
           </n-link>
           <n-link
             is="v-btn"
-            :to="`/projects/${$route.params.id}/donations`"
+            :to="`/projects/${$route.params.name}/donations`"
             rounded
             outlined
             color="primary"
@@ -49,17 +51,17 @@
       <v-divider class="ma-4 mt-0 mb-3" />
       <v-list subheader>
         <v-subheader class="black--text font-weight-bold">Members</v-subheader>
-        <template v-for="item of 3">
-          <v-list-item :key="item">
+        <template v-for="{ __user__: user } of members">
+          <v-list-item :key="user.id">
             <v-list-item-avatar size="32" color="grey" class="mr-3">
-              <v-img />
+              <v-img :src="user.avatarUrl" />
             </v-list-item-avatar>
             <v-list-item-content class="pa-1">
               <v-list-item-title class="subtitle-2 mb-0">
-                Charlie Wu
+                <c-display-name v-bind="user" />
               </v-list-item-title>
               <v-list-item-subtitle class="caption">
-                abc@123.com
+                {{ user.email }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -69,15 +71,22 @@
         <v-subheader class="black--text font-weight-bold">
           Repositories
         </v-subheader>
-        <template v-for="item of 2">
-          <v-list-item :key="item">
+        <template v-for="item of repositories">
+          <v-list-item :key="item.id">
             <v-list-item-content class="pa-1">
               <v-list-item-title class="subtitle-2 mb-0">
-                <a>super.mixin.one</a>
-                @ GitHub
+                <c-link
+                  :href="
+                    GIT_CLIENT_PREFIXES[RepositoryType[item.type]] + item.slug
+                  "
+                >
+                  {{ item.name }}
+                </c-link>
+                @ {{ RepositoryType[item.type] }}
               </v-list-item-title>
               <v-list-item-subtitle class="caption">
-                412 stars, updated 2 weeks ago
+                {{ item.stars }} stars, updated
+                {{ formatDistanceToNow(item.updatedAt) }} ago
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -86,3 +95,22 @@
     </v-card>
   </v-container>
 </template>
+<script lang="ts">
+import { RepositoryType } from '@/types'
+import { GIT_CLIENT_PREFIXES, formatDistanceToNow, perMonth } from '@/utils'
+
+export default {
+  async asyncData({ app, route }) {
+    const { data } = await app.http.get(`/projects/${route.params.name}`)
+    return data
+  },
+  created() {
+    this.GIT_CLIENT_PREFIXES = GIT_CLIENT_PREFIXES
+    this.RepositoryType = RepositoryType
+  },
+  methods: {
+    perMonth,
+    formatDistanceToNow,
+  },
+}
+</script>

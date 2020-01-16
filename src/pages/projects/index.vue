@@ -15,6 +15,7 @@
       v-for="item of items"
       :key="item.id"
       :to="`projects/${item.name}`"
+      class="mt-4"
     >
       <div class="d-flex flex-no-wrap justify-space-between">
         <v-avatar class="ma-4 mr-0" color="grey" size="48">
@@ -84,7 +85,15 @@ export default {
 </script>
 <style lang="scss" module>
 .search :global {
+  .v-text-field__details {
+    display: none;
+  }
+
   .v-input {
+    &__slot {
+      margin-bottom: 0;
+    }
+
     &__control input {
       text-align: center;
     }

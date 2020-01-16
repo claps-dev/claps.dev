@@ -1,4 +1,13 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm'
+
+import { Repository } from './repository'
+import { Member } from './member'
 
 @Entity()
 export class Project {
@@ -26,9 +35,26 @@ export class Project {
   })
   createdAt: Date
 
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
+  updatedAt: Date
+
   @Column()
   total: number
 
   @Column()
   patrons: number
+
+  @OneToMany(
+    () => Repository,
+    repository => repository.project,
+  )
+  repositories?: Repository[]
+
+  @OneToMany(
+    () => Member,
+    member => member.project,
+  )
+  members: Member[]
 }

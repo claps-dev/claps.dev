@@ -1,4 +1,4 @@
-import { SelectItem, DonationDistribution } from '@/types'
+import { DonationDistribution, RepositoryType, SelectItem } from '@/types'
 
 export const INFINITY_DATE = 'Fri, 31 Dec 9999 23:59:59 GMT'
 
@@ -37,3 +37,12 @@ export const DONATION_DISTRIBUTIONS: SelectItem[] = [
     value: DonationDistribution.IdenticalAmount,
   },
 ]
+
+export const GIT_CLIENT_PREFIXES: Omit<
+  Record<RepositoryType, string>,
+  RepositoryType.GIT
+> = {
+  [RepositoryType.GITHUB]: 'https://github.com/',
+  [RepositoryType.BITBUCKET]: 'https://bitbucket.org/',
+  [RepositoryType.GITLAB]: 'https://gitlab.com/',
+}
