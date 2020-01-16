@@ -2,7 +2,7 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 import { Like } from 'typeorm'
 
-import { Project } from '../entities'
+import { Project, Member } from '../entities'
 import { octokit } from '../utils'
 
 @Controller
@@ -51,5 +51,17 @@ export class ProjectController {
     )
 
     ctx.body = project
+  }
+
+  @RequestMapping('/:name/members')
+  async members(ctx: Context) {
+    const project = await ctx.conn
+      .getRepository(Project)
+      .findOne({ name: ctx.params.name })
+    const members = await ctx.conn
+      .getRepository(Member)
+      .find({ where: { projectId: project.id } })
+    await Promise.all(members.map(member => member.user))
+    ctx.body = members
   }
 }
