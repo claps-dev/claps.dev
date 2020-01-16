@@ -14,15 +14,14 @@
   </div>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
 import { mdiArrowLeft } from '@mdi/js'
 
-export default createComponent({
-  name: 'c-back-title',
-  setup() {
+export default {
+  name: 'CBackTitle',
+  data() {
     return {
       svgPath: mdiArrowLeft,
     }
   },
-})
+}
 </script>

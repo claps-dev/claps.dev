@@ -1662,13 +1662,13 @@
     ts-loader "^6.2.1"
     typescript "~3.7"
 
-"@nuxt/typescript-runtime@^0.3.7":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@nuxt/typescript-runtime/-/typescript-runtime-0.3.7.tgz#36cc47f525305201a0866d3d4a27b3ac977e720c"
-  integrity sha512-RWP9M82ya66GzuiC0JMhjI+c0CJlx8NtpbwJlkRYtrt97OYnCf72blbAeEYK0Q25FJ3N5NIufl/c/b3Ct6W8aQ==
+"@nuxt/typescript-runtime@^0.3.8":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@nuxt/typescript-runtime/-/typescript-runtime-0.3.8.tgz#828005478d1876376fd10a512326d0ec307959eb"
+  integrity sha512-JLdZky+lXPnKW7UaVcHnygyEdY9QasCTviozWj9XkbIJdCZ+HmNC88Mp7dV7acoP1E96bMHjlzzci85Od0kcjQ==
   dependencies:
     "@nuxt/types" "0.6.1"
-    ts-node "^8.6.1"
+    ts-node "^8.6.2"
     typescript "~3.7"
 
 "@nuxt/utils@2.11.0":
@@ -2487,10 +2487,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@>= 8", "@types/node@^12.0.2", "@types/node@^12.12.24", "@types/node@^13.1.6":
-  version "13.1.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.6.tgz#076028d0b0400be8105b89a0a55550c86684ffec"
-  integrity sha512-Jg1F+bmxcpENHP23sVKkNuU3uaxPnsBMW0cLjleiikFKomJQbsn0Cqk2yDvQArqzZN6ABfBkZ0To7pQ8sLdWDg==
+"@types/node@*", "@types/node@>= 8", "@types/node@^12.0.2", "@types/node@^12.12.24", "@types/node@^13.1.7":
+  version "13.1.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.7.tgz#db51d28b8dfacfe4fb2d0da88f5eb0a2eca00675"
+  integrity sha512-HU0q9GXazqiKwviVxg9SI/+t/nAsGkvLDkIdxz+ObejG2nX6Si00TeLqHMoS+a/1tjH7a8YpKVQwtgHuMQsldg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2633,6 +2633,11 @@
     "@types/memory-fs" "*"
     "@types/webpack" "*"
     loglevel "^1.6.2"
+
+"@types/webpack-env@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.15.0.tgz#bd9956d5044b1fb43e869a9ba9148862ff98d9fd"
+  integrity sha512-TfcyNecCz8Z9/s90gBOBniyzZrTru8u2Vp0VZODq4KEBaQu8bfXvu7o/KUOecMpzjbFPUA7aqgSq628Iue5BQg==
 
 "@types/webpack-hot-middleware@^2.25.0":
   version "2.25.0"
@@ -15060,7 +15065,7 @@ ts-node-dev@^1.0.0-pre.44:
     ts-node "*"
     tsconfig "^7.0.0"
 
-ts-node@*, ts-node@^8.6.1:
+ts-node@*, ts-node@^8.6.2:
   version "8.6.2"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.6.2.tgz#7419a01391a818fbafa6f826a33c1a13e9464e35"
   integrity sha512-4mZEbofxGqLL2RImpe3zMJukvEvcO1XP8bj8ozBPySdCUXEcU5cIRwR0aM3R+VoZq7iXc8N86NC0FspGRqP4gg==
@@ -15681,10 +15686,10 @@ vue-qrcode@^0.2.2:
   resolved "https://registry.yarnpkg.com/vue-qrcode/-/vue-qrcode-0.2.2.tgz#3ff2528b719a8cedd7895e53b45e8ccb9f7c5832"
   integrity sha512-bO1jlLyhIsatP3vaEa+UjqwZQYU56nZj1ea9s/6T8f/i1CrPhNqvA7LfC+pkAUBX0zs6q5QWQqqOUWm0TIfeZw==
 
-vue-router@^3.1.3, vue-router@^3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.1.4.tgz#98a6a4dd38fca0db3b9f3c04bfbd008a3b6d958d"
-  integrity sha512-pX2BGvZg5/MOXbJoYsRppoZM+0B4LSszvIXQvLPZ7govbgbBorYQ4JHx99lDTjzEBkbTyKfRG+ru1VCnMuVcUg==
+vue-router@^3.1.3, vue-router@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.1.5.tgz#ff29b8a1e1306c526b52d4dc0532109f16c41231"
+  integrity sha512-BszkPvhl7I9h334GjckCh7sVFyjTPMMJFJ4Bsrem/Ik+B/9gt5tgrk8k4gGLO4ZpdvciVdg7O41gW4DisQWurg==
 
 vue-server-renderer@^2.6.11:
   version "2.6.11"

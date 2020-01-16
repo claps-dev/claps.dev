@@ -3,6 +3,7 @@ import { Context } from 'koa'
 import { Like } from 'typeorm'
 
 import { Project } from '../entities'
+import { octokit } from '../utils'
 
 @Controller
 @RequestMapping('/projects')
@@ -10,7 +11,6 @@ export class ProjectController {
   @RequestMapping()
   async projects(ctx: Context) {
     const { keyword } = ctx.query
-    console.log(keyword)
     ctx.body = {
       items: await ctx.conn.getRepository(Project).find({
         where: keyword && {
@@ -22,10 +22,34 @@ export class ProjectController {
 
   @RequestMapping('/:name')
   async project(ctx: Context) {
-    ctx.body = await ctx.conn.getRepository(Project).findOne({
+    const project = await ctx.conn.getRepository(Project).findOne({
+      relations: ['repositories', 'members'],
       where: {
         name: ctx.params.name,
       },
     })
+
+    if (!project) {
+      return ctx.throw(404)
+    }
+
+    await Promise.all(
+      project.repositories
+        .map(async repository => {
+          const [owner, repo] = repository.slug.split('/')
+          const { data } = await octokit.repos.get({
+            owner,
+            repo,
+          })
+          Object.assign(repository, {
+            stars: data.stargazers_count,
+            updatedAt: data.updated_at,
+          })
+        })
+        // @ts-ignore
+        .concat(project.members.map(member => member.user)),
+    )
+
+    ctx.body = project
   }
 }

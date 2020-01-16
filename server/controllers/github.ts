@@ -1,9 +1,8 @@
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
-import Octokit from '@octokit/rest'
 import axios from 'axios'
 import { Context } from 'koa'
 
-const octokit = new Octokit()
+import { octokit } from '../utils'
 
 @Controller
 export class GitHubController {

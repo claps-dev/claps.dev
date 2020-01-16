@@ -1,4 +1,7 @@
-import { differenceInMonths } from 'date-fns'
+import {
+  differenceInMonths,
+  formatDistanceToNow as _formatDistanceToNow,
+} from 'date-fns'
 import { stringify, IStringifyOptions } from 'qs'
 import { flatMap, memoize } from 'lodash'
 
@@ -27,3 +30,6 @@ export const perMonth = memoize(
     (total / differenceInMonths(Date.now(), new Date(createdAt))).toFixed(2),
   (total: number, createdAt: string) => [total, createdAt].join('$'),
 )
+
+export const formatDistanceToNow = (date: string | Date | number) =>
+  _formatDistanceToNow(typeof date === 'string' ? new Date(date) : date)
