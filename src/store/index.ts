@@ -12,6 +12,8 @@ const state = (): RootState => ({
   envs: {},
 })
 
+const ASSETS = ['BTC', 'BCH', 'ETH', 'EOS', 'XRP', 'XMR']
+
 const actions: ActionTree<RootState, RootState> = {
   async fetchAuthInfo({ commit, rootState }) {
     if (rootState.user) {
@@ -25,7 +27,12 @@ const actions: ActionTree<RootState, RootState> = {
       return
     }
     const { data } = await rootState.http.get<Asset[]>('/mixin/assets')
-    commit('SET_ASSETS', data)
+    commit(
+      'SET_ASSETS',
+      ASSETS.map(asset => data.find(({ symbol }) => symbol === asset)).filter(
+        Boolean,
+      ),
+    )
   },
 }
 

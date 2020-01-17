@@ -40,6 +40,10 @@ a {
     }
   }
 
+  .v-input input::placeholder {
+    opacity: 0.2;
+  }
+
   .v-subheader {
     height: 28px;
   }

@@ -7,10 +7,10 @@
       <template v-if="donating">
         <v-card-subtitle>
           You will give
-          <strong class="primary--text">1.52105</strong>
+          <strong class="primary--text">{{ amount }}</strong>
           <strong>{{ asset.symbol }}</strong>
           to
-          <strong class="primary--text">Project Name</strong>
+          <strong class="primary--text">{{ $route.params.name }}</strong>
           Follow one of those approaches to donate:
         </v-card-subtitle>
         <div class="px-4" :class="$style.step">
@@ -60,11 +60,26 @@
             Use {{ asset.symbol }} Network
           </div>
           <div class="mb-4 pa-3" :class="$style.token">
-            1PqcopKzdg8ZM22f6cAoCpJ8WS7xvsFJ3n
+            {{ token }}
           </div>
-          <v-btn class="font-weight-bold" color="primary" outlined rounded>
+          <v-btn
+            v-clipboard="token"
+            class="font-weight-bold"
+            color="primary"
+            outlined
+            rounded
+            @clipboard-success="copied = true"
+          >
             Copy
           </v-btn>
+          <v-snackbar
+            v-model="copied"
+            :class="$style.copied"
+            color="success"
+            top
+          >
+            Copied Successfully!
+          </v-snackbar>
         </div>
         <v-card-text class="pt-0">
           <tips>
@@ -91,8 +106,16 @@
             :class="$style.input"
             type="number"
             height="80"
+            placeholder="Amount"
+            min="0"
           ></v-text-field>
-          <v-btn block color="primary" rounded @click="donating = true">
+          <v-btn
+            block
+            :disabled="amount <= 0"
+            color="primary"
+            rounded
+            @click="donating = true"
+          >
             Donate
           </v-btn>
         </v-card-text>
@@ -101,15 +124,14 @@
         </v-card-subtitle>
         <v-card-text>
           <full-select
-            v-model="donationDistribution"
+            v-model="donationDistributionValue"
             :items="DONATION_DISTRIBUTIONS"
             concise
           >
             Choose Distribution
           </full-select>
           <tips class="mb-0">
-            The algorithm of Persper use code analytics to calculate each
-            developer’s contribution.
+            {{ donationDistribution.description }}
           </tips>
         </v-card-text>
         <v-list class="pt-0">
@@ -121,7 +143,12 @@
               <v-list-item-title class="subtitle-2 mb-0">
                 {{ user.name }}
                 <span class="float-right">
-                  0.91 {{ asset.symbol }} (59.82%)
+                  <local-scope
+                    v-slot="{ distributed: [x, y] }"
+                    :distributed="distributeDonation(user)"
+                  >
+                    {{ x }} {{ asset.symbol }} ({{ y }}%)
+                  </local-scope>
                 </span>
               </v-list-item-title>
             </v-list-item-content>
@@ -136,13 +163,14 @@ import Qrcode from 'vue-qrcode'
 import { multiply } from 'mathjs'
 import { mapState } from 'vuex'
 
-import { FullSelect, Tips } from '@/components'
+import { FullSelect, LocalScope, Tips } from '@/components'
 import { DonationDistribution } from '@/types'
 import { DONATION_DISTRIBUTIONS } from '@/utils'
 
 export default {
   components: {
     FullSelect,
+    LocalScope,
     Tips,
     Qrcode,
   },
@@ -161,9 +189,11 @@ export default {
     return {
       assetId: null,
       DONATION_DISTRIBUTIONS,
-      donationDistribution: DonationDistribution.PersperAlgorithm,
+      donationDistributionValue: DONATION_DISTRIBUTIONS[0].value,
       donating: false,
-      amount: 1.52105,
+      amount: null,
+      token: '1PqcopKzdg8ZM22f6cAoCpJ8WS7xvsFJ3n',
+      copied: false,
     }
   },
   computed: {
@@ -189,6 +219,23 @@ export default {
     donatingEvent() {
       return this.donating ? 'click' : null
     },
+    donationDistribution() {
+      return this.DONATION_DISTRIBUTIONS.find(
+        distribution => distribution.value === this.donationDistributionValue,
+      )
+    },
+  },
+  methods: {
+    distributeDonation() {
+      const membersNum = this.members.length
+      // eslint-disable-next-line sonarjs/no-small-switch
+      switch (this.donationDistributionValue) {
+        case DonationDistribution.IdenticalAmount: {
+          return [this.amount / membersNum, 100 / membersNum]
+        }
+      }
+      return []
+    },
   },
 }
 </script>
@@ -198,6 +245,10 @@ export default {
 
   &:global(.v-input) input {
     max-height: unset;
+
+    &::-webkit-inner-spin-button {
+      display: none;
+    }
   }
 }
 
@@ -222,5 +273,9 @@ export default {
   + :global(.v-btn) {
     border-width: 2px;
   }
+}
+
+.copied :global(.v-snack__content) {
+  justify-content: center;
 }
 </style>
