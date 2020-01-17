@@ -11,7 +11,7 @@ import { serverHost, serverPort } from '../../build/config'
 import '../controllers'
 import { Project, Repository, User, Member } from '../entities'
 import { session } from '../session'
-import { MIXIN_API_HOST, octokit } from '../utils'
+import { MIXIN_API_HOST } from '../utils'
 
 const router = new Router<DefaultState, Koa.Context>({
   prefix: '/api',
@@ -33,10 +33,7 @@ export const startRouter = async (app?: Koa) => {
       ctx.conn = conn
       const { gitHubToken } = ctx.session
       if (gitHubToken) {
-        octokit.authenticate({
-          type: 'oauth',
-          token: gitHubToken,
-        })
+        process.env.GITHUB_CLIENT_TOKEN = gitHubToken
       }
       return next()
     },

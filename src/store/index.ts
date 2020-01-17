@@ -29,9 +29,13 @@ const actions: ActionTree<RootState, RootState> = {
     const { data } = await rootState.http.get<Asset[]>('/mixin/assets')
     commit(
       'SET_ASSETS',
-      ASSETS.map(asset => data.find(({ symbol }) => symbol === asset)).filter(
-        Boolean,
-      ),
+      data.reduce<Asset[]>((acc, asset) => {
+        const index = ASSETS.indexOf(asset.symbol)
+        if (index !== -1) {
+          acc[index] = asset
+        }
+        return acc
+      }, []),
     )
   },
 }
