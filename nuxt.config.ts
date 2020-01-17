@@ -116,6 +116,7 @@ const config: Configuration = {
   mode: __DEV__ ? 'spa' : undefined,
   plugins: [
     '@store',
+    '@plugins/clipboard',
     '@plugins/components',
     '@plugins/composition-api',
     '@plugins/http',

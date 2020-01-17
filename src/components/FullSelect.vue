@@ -122,6 +122,7 @@ export default createComponent({
   padding: 5px;
   background-color: rgba(51, 51, 51, 0.1);
   border-radius: 22px;
+  cursor: pointer;
 }
 
 .description {
