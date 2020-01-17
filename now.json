@@ -17,6 +17,7 @@
     "MIXIN_CLIENT_CONFIG": "@mixin_client_config",
     "FOXONE_CLIENT_ID": "@foxone_client_id",
     "FOXONE_CLIENT_SECRET": "@foxone_client_secret",
+    "DATABASE_CONFIG": "@database_config",
     "NODE_ENV": "production"
   }
 }

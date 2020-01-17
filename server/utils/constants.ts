@@ -9,5 +9,5 @@ export const FOX_ONE_API_HOST = 'https://api1.kumiclub.com/api/v2/'
 export const FOX_OAUTH_HOST = 'https://oauth2.kumiclub.com/'
 
 export const octokit = new Octokit({
-  auth: process.env.GITHUB_CLIENT_TOKEN,
+  auth: () => process.env.GITHUB_CLIENT_TOKEN,
 })
