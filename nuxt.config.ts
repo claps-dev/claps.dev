@@ -114,6 +114,19 @@ const config: Configuration = {
     ],
   },
   mode: __DEV__ ? 'spa' : undefined,
+  router: {
+    extendRoutes(routes) {
+      if (__DEV__) {
+        routes.push({
+          path: '/admin',
+          components: {
+            // @ts-ignore
+            default: resolve('src/dev/admin.vue'),
+          },
+        })
+      }
+    },
+  },
   plugins: [
     '@store',
     '@plugins/clipboard',

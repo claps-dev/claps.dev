@@ -18,10 +18,16 @@ export const random = (uriEncode?: boolean) =>
 
 export type HexBase64Latin1Encoding = 'latin1' | 'hex' | 'base64'
 
-export const sha256 = (
+export function sha256(buffer: BinaryLike): Buffer
+export function sha256(
+  buffer: BinaryLike,
+  encoding: HexBase64Latin1Encoding,
+): string
+export function sha256(
   buffer: BinaryLike,
   encoding?: HexBase64Latin1Encoding,
-): string | Buffer =>
-  createHash('sha256')
+): Buffer | string {
+  return createHash('sha256')
     .update(buffer)
     .digest(encoding)
+}

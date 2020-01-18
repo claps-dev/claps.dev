@@ -1,25 +1,9 @@
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import axios from 'axios'
 import { Context } from 'koa'
-import { Mixin } from 'mixin-node-sdk'
+import { MixinResponse } from 'mixin-node-sdk'
 
-export interface MixinOauth {
-  data?: {
-    access_token: string
-    scope: string
-  }
-  error?: {
-    status: number
-    code: number
-    description: string
-  }
-}
-
-const mixin = new Mixin(
-  Object.assign(JSON.parse(process.env.MIXIN_CLIENT_CONFIG), {
-    client_secret: process.env.MIXIN_CLIENT_SECRET,
-  }),
-)
+import { mixin } from '../utils'
 
 @Controller
 @RequestMapping('/mixin')
@@ -35,7 +19,12 @@ export class MixinController {
 
     const {
       data: { data, error },
-    } = await axios.post<MixinOauth>('https://api.mixin.one/oauth/token', {
+    } = await axios.post<
+      MixinResponse<{
+        access_token: string
+        scope: string
+      }>
+    >('https://api.mixin.one/oauth/token', {
       client_id: process.env.MIXIN_CLIENT_ID,
       client_secret: process.env.MIXIN_CLIENT_SECRET,
       code,
