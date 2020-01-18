@@ -1,4 +1,5 @@
 import Octokit from '@octokit/rest'
+import { Mixin } from 'mixin-node-sdk'
 
 export const MIXIN_API_HOST = 'https://mixin-api.zeromesh.net/'
 
@@ -11,3 +12,9 @@ export const FOX_OAUTH_HOST = 'https://oauth2.kumiclub.com/'
 export const octokit = new Octokit({
   auth: () => process.env.GITHUB_CLIENT_TOKEN,
 })
+
+export const mixin = new Mixin(
+  Object.assign(JSON.parse(process.env.MIXIN_CLIENT_CONFIG), {
+    client_secret: process.env.MIXIN_CLIENT_SECRET,
+  }),
+)

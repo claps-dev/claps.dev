@@ -23,7 +23,7 @@ const genScope = (scope: string, writable?: boolean) =>
 export const authScopes = (scopes = DEFAULT_AUTH_SCOPES, writable?: boolean) =>
   flatMap(scopes, scope =>
     [genScope(scope)].concat(writable ? genScope(scope, true) : []),
-  )
+  ).join(' ')
 
 export const perMonth = memoize(
   (total: number, createdAt: string) =>

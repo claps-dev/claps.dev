@@ -67,7 +67,7 @@ export default {
     Tips,
   },
   computed: {
-    ...mapState(['envs', 'mixinAuth']),
+    ...mapState(['envs', 'mixinAuth', 'randomUid']),
     mixinOauthUrl() {
       return this.$utils.normalizeUrl(MIXIN_OAUTH_URL, {
         client_id: this.envs.MIXIN_CLIENT_ID,

@@ -3,6 +3,7 @@ import { exec } from 'child_process'
 import consola from 'consola'
 
 import { serverPort } from '../../build/config'
+import '../controllers/admin'
 
 import { startRouter } from '.'
 
