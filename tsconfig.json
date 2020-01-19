@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "jsx": "preserve",
     "paths": {
       "@/*": ["src/*"],
