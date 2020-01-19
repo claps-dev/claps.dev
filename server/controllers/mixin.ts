@@ -14,7 +14,7 @@ export class MixinController {
 
     if (!state || state !== ctx.session.uid) {
       ctx.session.mixinToken = null
-      return ctx.throw('invalid oauth redirect')
+      return ctx.throw(400, 'invalid oauth redirect')
     }
 
     const {
@@ -31,7 +31,7 @@ export class MixinController {
     })
 
     if (error) {
-      return ctx.throw(error.description, error.code, error.status)
+      return ctx.throw(error.status, error.description, error.code)
     }
 
     Object.assign(ctx.session, {

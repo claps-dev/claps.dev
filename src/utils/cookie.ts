@@ -98,8 +98,8 @@ export const setCookieInterceptor = (
       )
       return response
     },
-    ({ response }) => {
+    ({ response, status }) => {
       ctx.set(response.headers)
-      ctx.throw(response)
+      ctx.throw(status || response.status, response.data)
     },
   )
