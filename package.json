@@ -19,7 +19,7 @@
     "lint:es": "env-cmd eslint . --cache --ext md,ts,tsx,vue",
     "lint:style": "stylelint --cache 'src/**/*.{scss,vue}'",
     "lint:tsc": "tsc --noEmit",
-    "postinstall": "yarn-deduplicate || exit 0",
+    "postinstall": "cpy env.js . --rename=.env.js && yarn-deduplicate || exit 0",
     "start": "cross-env NODE_ENV=production env-cmd node dist/cjs.min"
   },
   "dependencies": {
@@ -79,6 +79,7 @@
     "@types/webpack-env": "^1.15.0",
     "babel-preset-vca-jsx": "^0.3.4",
     "consola": "^2.11.3",
+    "cpy-cli": "^3.0.0",
     "dotenv": "^8.2.0",
     "env-cmd": "^10.0.1",
     "eslint-config-vuetify": "^0.4.1",

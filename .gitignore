@@ -1,4 +1,5 @@
 .*cache
 .env.local
+.env.js
 dist
 node_modules
