@@ -15,7 +15,7 @@ export class GitHubController {
         gitHubToken: null,
         user: null,
       })
-      return ctx.throw('invalid oauth redirect')
+      return ctx.throw(400, 'invalid oauth redirect')
     }
 
     const {
@@ -40,7 +40,7 @@ export class GitHubController {
     )
 
     if (error) {
-      return ctx.throw(error, error_description)
+      return ctx.throw(400, error_description, error)
     }
 
     const { data: user } = await octokit.users.getAuthenticated({

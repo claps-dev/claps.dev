@@ -22,16 +22,12 @@ export class ProjectController {
 
   @RequestMapping('/:name')
   async project(ctx: Context) {
-    const project = await ctx.conn.getRepository(Project).findOne({
+    const project = await ctx.conn.getRepository(Project).findOneOrFail({
       relations: ['repositories', 'members'],
       where: {
         name: ctx.params.name,
       },
     })
-
-    if (!project) {
-      return ctx.throw(404)
-    }
 
     await Promise.all(
       project.repositories
