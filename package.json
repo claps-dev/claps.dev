@@ -11,7 +11,7 @@
   "scripts": {
     "build": "run-p build:*",
     "build:app": "env-cmd nuxt-ts build",
-    "build:server": "cross-env NODE_ENV=production r -i server/index -f cjs -x '*' -o dist",
+    "build:server": "r -i server/index -f cjs -x '*' -o dist -p",
     "dev": "env-cmd run-p dev:*",
     "dev:router": "tsnd -O '{\"module\":\"commonjs\"}' -T server/router/dev",
     "dev:server": "tsnd -O '{\"module\":\"commonjs\"}' -T server",
@@ -20,7 +20,7 @@
     "lint:style": "stylelint --cache 'src/**/*.{scss,vue}'",
     "lint:tsc": "tsc --noEmit",
     "postinstall": "cpy env.js . --rename=.env.js && yarn-deduplicate || exit 0",
-    "start": "cross-env NODE_ENV=production env-cmd node dist/cjs.min"
+    "start": "cross-env NODE_ENV=production env-cmd node dist/cjs"
   },
   "dependencies": {
     "@mdi/js": "^4.8.95",
@@ -63,7 +63,7 @@
     "@nuxt/typescript-build": "^0.5.6",
     "@nuxt/typescript-runtime": "^0.3.8",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
-    "@pkgr/rollup": "^0.8.10",
+    "@pkgr/rollup": "^0.9.0",
     "@types/clipboard": "^2.0.1",
     "@types/http-proxy": "^1.17.3",
     "@types/koa": "^2.11.0",
