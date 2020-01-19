@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
 declare module 'mixin-node-sdk' {
-  export interface MixinResponse<Data> {
-    data?: Data
-    error?: {
-      status: number
-      code: number
-      description: string
-    }
+  export interface MixinError {
+    status: number
+    code: number
+    description: string
+  }
+
+  export interface MixinResponse<T> {
+    data?: T
+    error?: MixinError
   }
 
   export interface ClientConfig {
@@ -86,13 +88,13 @@ declare module 'mixin-node-sdk' {
 
     query_my_addresses_by_assetid(params: {
       asset_id: string
-    }): Promise<Mixin<Address[]>>
+    }): Promise<Address[]>
 
-    query_address(params: { address_id: string }): Promise<Mixin<Address>>
+    query_address(params: { address_id: string }): Promise<Address>
 
     create_user(params: {
       full_name: string
       session_secret: string
-    }): Promise<Mixin<User>>
+    }): Promise<User>
   }
 }
