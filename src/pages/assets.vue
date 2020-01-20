@@ -57,7 +57,6 @@
 import { mapState } from 'vuex'
 
 import { Tips } from '@/components'
-import { FOXONE_OAUTH_URL, MIXIN_OAUTH_URL, authScopes } from '@/utils'
 
 export default {
   meta: {
@@ -69,18 +68,18 @@ export default {
   computed: {
     ...mapState(['envs', 'mixinAuth', 'randomUid']),
     mixinOauthUrl() {
-      return this.$utils.normalizeUrl(MIXIN_OAUTH_URL, {
+      return this.$utils.normalizeUrl(this.$utils.MIXIN_OAUTH_URL, {
         client_id: this.envs.MIXIN_CLIENT_ID,
-        scope: authScopes(),
+        scope: this.$utils.authScopes(),
         state: this.randomUid,
       })
     },
     foxoneOauthUrl() {
-      return this.$utils.normalizeUrl(FOXONE_OAUTH_URL, {
+      return this.$utils.normalizeUrl(this.$utils.FOXONE_OAUTH_URL, {
         client_id: this.envs.FOXONE_CLIENT_ID,
         code_challenge: '',
         response_type: 'code',
-        scope: authScopes(),
+        scope: this.$utils.authScopes(),
         state: this.randomUid,
       })
     },

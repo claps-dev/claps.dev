@@ -125,7 +125,7 @@
         <v-card-text>
           <full-select
             v-model="donationDistributionValue"
-            :items="DONATION_DISTRIBUTIONS"
+            :items="$utils.DONATION_DISTRIBUTIONS"
             concise
           >
             Choose Distribution
@@ -164,8 +164,6 @@ import { multiply } from 'mathjs'
 import { mapState } from 'vuex'
 
 import { FullSelect, LocalScope, Tips } from '@/components'
-import { DonationDistribution } from '@/types'
-import { DONATION_DISTRIBUTIONS } from '@/utils'
 
 export default {
   components: {
@@ -188,8 +186,7 @@ export default {
   data() {
     return {
       assetId: null,
-      DONATION_DISTRIBUTIONS,
-      donationDistributionValue: DONATION_DISTRIBUTIONS[0].value,
+      donationDistributionValue: this.$utils.DONATION_DISTRIBUTIONS[0].value,
       donating: false,
       amount: null,
       token: '1PqcopKzdg8ZM22f6cAoCpJ8WS7xvsFJ3n',
@@ -220,13 +217,14 @@ export default {
       return this.donating ? 'click' : null
     },
     donationDistribution() {
-      return this.DONATION_DISTRIBUTIONS.find(
+      return this.$utils.DONATION_DISTRIBUTIONS.find(
         distribution => distribution.value === this.donationDistributionValue,
       )
     },
   },
   methods: {
     distributeDonation() {
+      const { DonationDistribution } = this.$utils
       const membersNum = this.members.length
       // eslint-disable-next-line sonarjs/no-small-switch
       switch (this.donationDistributionValue) {

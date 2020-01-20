@@ -20,7 +20,7 @@
         <div class="mb-4">
           {{ $route.params.name }} receives
           <strong class="primary--text">
-            ${{ perMonth(total, createdAt) }}
+            ${{ $utils.perMonth(total, createdAt) }}
           </strong>
           per month from
           <strong class="primary--text">{{ patrons }}</strong>
@@ -77,16 +77,18 @@
               <v-list-item-title class="subtitle-2 mb-0">
                 <c-link
                   :href="
-                    GIT_CLIENT_PREFIXES[RepositoryType[item.type]] + item.slug
+                    $utils.GIT_CLIENT_PREFIXES[
+                      $utils.RepositoryType[item.type]
+                    ] + item.slug
                   "
                 >
                   {{ item.name }}
                 </c-link>
-                @ {{ RepositoryType[item.type] }}
+                @ {{ $utils.RepositoryType[item.type] }}
               </v-list-item-title>
               <v-list-item-subtitle class="caption">
                 {{ item.stars }} stars, updated
-                {{ formatDistanceToNow(item.updatedAt) }} ago
+                {{ $utils.formatDistanceToNow(item.updatedAt) }} ago
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -96,21 +98,10 @@
   </v-container>
 </template>
 <script lang="ts">
-import { RepositoryType } from '@/types'
-import { GIT_CLIENT_PREFIXES, formatDistanceToNow, perMonth } from '@/utils'
-
 export default {
   async asyncData({ app, route }) {
     const { data } = await app.http.get(`/projects/${route.params.name}`)
     return data
-  },
-  created() {
-    this.GIT_CLIENT_PREFIXES = GIT_CLIENT_PREFIXES
-    this.RepositoryType = RepositoryType
-  },
-  methods: {
-    perMonth,
-    formatDistanceToNow,
   },
 }
 </script>

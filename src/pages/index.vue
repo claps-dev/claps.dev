@@ -67,13 +67,11 @@
 <script lang="ts">
 import { mapState } from 'vuex'
 
-import { GITHUB_OAUTH_URL, normalizeUrl } from '@/utils'
-
 export default {
   computed: {
     ...mapState(['envs', 'user', 'randomUid']),
     githubOauthUrl() {
-      return normalizeUrl(GITHUB_OAUTH_URL, {
+      return this.$utils.normalizeUrl(this.$utils.GITHUB_OAUTH_URL, {
         client_id: this.envs.GITHUB_CLIENT_ID,
         state: this.randomUid,
         redirect_uri: `${this.envs.GITHUB_OAUTH_CALLBACK}?path=/profile`,

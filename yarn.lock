@@ -2027,10 +2027,10 @@
   dependencies:
     http-proxy ">=1.0.0"
 
-"@rxts/koa-router-decorators@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@rxts/koa-router-decorators/-/koa-router-decorators-0.1.5.tgz#21c7135191b18034426a756bc3bed5fc2a0d0b21"
-  integrity sha512-dliBmEDOx2fkYF2DB2Yoe5X40xTxWteynTnoHU8PgMzzfzteWXB9aeAWFY6fqY3o8Y577p2pVAIGW8icizQejw==
+"@rxts/koa-router-decorators@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@rxts/koa-router-decorators/-/koa-router-decorators-0.2.0.tgz#3abfdad59605cd9865a4f1b45d57fa380bab5eea"
+  integrity sha512-v7KHeEC62lirFCnpguGCFjOQYRWV9dA6cHzwaxy6FACO94rwDHxNMW/gT/+dMRb0Bh3qr0wBSsJC0tVYGhy12Q==
 
 "@rxts/rollup-plugin-alias@^0.1.1":
   version "0.1.1"

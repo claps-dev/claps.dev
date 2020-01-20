@@ -11,7 +11,7 @@
   "scripts": {
     "build": "run-p build:*",
     "build:app": "env-cmd nuxt-ts build",
-    "build:server": "r -i server/index -f cjs -x '*' -o dist -p",
+    "build:server": "cross-env NODE_ENV=production r -i server/index -f cjs -x '*' -o dist --terser '{keep_fnames:true}'",
     "dev": "env-cmd run-p dev:*",
     "dev:router": "tsnd -O '{\"module\":\"commonjs\"}' -T server/router/dev",
     "dev:server": "tsnd -O '{\"module\":\"commonjs\"}' -T server",
@@ -20,13 +20,13 @@
     "lint:style": "stylelint --cache 'src/**/*.{scss,vue}'",
     "lint:tsc": "tsc --noEmit",
     "postinstall": "cpy env.js . --rename=.env.js && yarn-deduplicate || exit 0",
-    "start": "cross-env NODE_ENV=production env-cmd node dist/cjs"
+    "start": "cross-env NODE_ENV=production env-cmd node dist/cjs.min"
   },
   "dependencies": {
     "@mdi/js": "^4.8.95",
     "@octokit/rest": "^16.37.0",
     "@rxts/koa-proxy": "^0.2.0",
-    "@rxts/koa-router-decorators": "^0.1.5",
+    "@rxts/koa-router-decorators": "^0.2.0",
     "@vue/composition-api": "^0.3.4",
     "axios": "^0.19.1",
     "clipboard": "^2.0.4",

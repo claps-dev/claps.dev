@@ -32,7 +32,7 @@
       <v-card-actions class="d-flex justify-space-between px-4 py-3 body-2">
         <div>
           <strong class="primary--text">
-            ${{ perMonth(item.total, item.createdAt) }}
+            ${{ $utils.perMonth(item.total, item.createdAt) }}
           </strong>
           / Mon
         </div>
@@ -46,8 +46,6 @@
 </template>
 <script lang="ts">
 import { throttle } from 'lodash'
-
-import { normalizeUrl, perMonth } from '@/utils'
 
 export default {
   async asyncData({ app }) {
@@ -64,7 +62,7 @@ export default {
   watch: {
     keyword: throttle(async function(keyword: string) {
       this.$router.replace(
-        normalizeUrl(this.$route.path, {
+        this.$utils.normalizeUrl(this.$route.path, {
           keyword,
         }),
       )
@@ -77,9 +75,6 @@ export default {
 
       Object.assign(this, data)
     }, 500),
-  },
-  methods: {
-    perMonth,
   },
 }
 </script>

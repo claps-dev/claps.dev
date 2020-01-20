@@ -8,7 +8,9 @@
       {{ svgPath }}
     </v-icon>
     <n-link v-else class="d-inline-flex mr-3" :to="$prevRoutePath">
-      <v-icon class="black--text" @click="$router.back()">{{ svgPath }}</v-icon>
+      <v-icon class="black--text" @click.prevent="$router.back()">
+        {{ svgPath }}
+      </v-icon>
     </n-link>
     <slot />
   </div>
