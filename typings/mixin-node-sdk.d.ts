@@ -83,8 +83,8 @@ declare module 'mixin-node-sdk' {
   export class Mixin {
     constructor(options: ClientConfig)
 
-    query_assets(params: {}): Promise<Asset[]>
     query_assets(params: { asset_id: string }): Promise<Asset>
+    query_assets(params: {}): Promise<Asset[]>
 
     query_my_addresses_by_assetid(params: {
       asset_id: string
@@ -96,5 +96,7 @@ declare module 'mixin-node-sdk' {
       full_name: string
       session_secret: string
     }): Promise<User>
+
+    pin_update(params: { old_pin: string; pin: string }): Promise<User>
   }
 }

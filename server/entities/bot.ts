@@ -1,4 +1,6 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm'
+import { Entity, PrimaryColumn, Column, JoinColumn, OneToOne } from 'typeorm'
+
+import { Project } from './project'
 
 @Entity()
 export class Bot {
@@ -15,6 +17,9 @@ export class Bot {
   })
   sessionId: string
 
+  @Column()
+  pin: string
+
   @Column({
     name: 'pin_token',
   })
@@ -24,4 +29,13 @@ export class Bot {
     name: 'private_key',
   })
   privateKey: string
+
+  @OneToOne(
+    () => Project,
+    project => project.id,
+  )
+  @JoinColumn({
+    name: 'project_id',
+  })
+  project: Project
 }

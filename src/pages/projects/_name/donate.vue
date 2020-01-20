@@ -18,37 +18,23 @@
             Use Mixin Messenger or Fox.ONE
           </div>
           <div class="d-flex">
-            <qrcode
-              :class="$style.qrcode"
-              value="https://1stG.me"
-              :width="118"
-            />
+            <qrcode :class="$style.qrcode" :value="qrcode" :width="118" />
             <div
               class="d-flex flex-column flex-grow-1 justify-space-around ml-5"
               :class="$style.downloads"
             >
-              <v-btn
-                class="flex-grow-0"
-                block
-                color="primary"
-                outlined
-                rounded
-                large
-              >
-                <div class="overline">DOWNLOAD</div>
-                <strong>Mixin Messenger</strong>
-              </v-btn>
-              <v-btn
-                class="flex-grow-0"
-                block
-                color="primary"
-                outlined
-                rounded
-                large
-              >
-                <div class="overline">DOWNLOAD</div>
-                <strong>Fox.ONE App</strong>
-              </v-btn>
+              <c-link class="flex-grow-0" href="https://mixin.one/messenger">
+                <v-btn block color="primary" outlined rounded large>
+                  <div class="overline">DOWNLOAD</div>
+                  <strong>Mixin Messenger</strong>
+                </v-btn>
+              </c-link>
+              <c-link class="flex-grow-0" href="https://fox.one">
+                <v-btn block color="primary" outlined rounded large>
+                  <div class="overline">DOWNLOAD</div>
+                  <strong>Fox.ONE App</strong>
+                </v-btn>
+              </c-link>
             </div>
           </div>
           <v-card-subtitle class="mx--4">
@@ -59,11 +45,11 @@
           <div class="mb-4 subtitle font-weight-bold">
             Use {{ asset.symbol }} Network
           </div>
-          <div class="mb-4 pa-3" :class="$style.token">
-            {{ token }}
+          <div class="mb-4 pa-3" :class="$style.destination">
+            {{ activeAsset.destination || 'Loading...' }}
           </div>
           <v-btn
-            v-clipboard="token"
+            v-clipboard="activeAsset.destination"
             class="font-weight-bold"
             color="primary"
             outlined
@@ -114,7 +100,7 @@
             :disabled="amount <= 0"
             color="primary"
             rounded
-            @click="donating = true"
+            @click="donate"
           >
             Donate
           </v-btn>
@@ -161,6 +147,7 @@
 <script lang="ts">
 import Qrcode from 'vue-qrcode'
 import { multiply } from 'mathjs'
+import uuid from 'uuid'
 import { mapState } from 'vuex'
 
 import { FullSelect, LocalScope, Tips } from '@/components'
@@ -189,8 +176,8 @@ export default {
       donationDistributionValue: this.$utils.DONATION_DISTRIBUTIONS[0].value,
       donating: false,
       amount: null,
-      token: '1PqcopKzdg8ZM22f6cAoCpJ8WS7xvsFJ3n',
       copied: false,
+      assetsMap: {},
     }
   },
   computed: {
@@ -209,6 +196,18 @@ export default {
           this.assets.find(asset => asset.asset_id === this.assetId)) ||
         {}
       )
+    },
+    activeAsset() {
+      return (this.assetId && this.assetsMap[this.assetId]) || {}
+    },
+    qrcode() {
+      return this.$utils.normalizeUrl('mixin://pay', {
+        recipient: this.activeAsset.user_id,
+        asset: this.assetId,
+        amount: this.amount,
+        trace: uuid(),
+        memo: 'Donate',
+      })
     },
     usdt() {
       return multiply(this.asset.price_usd || 0, this.mount)
@@ -233,6 +232,16 @@ export default {
         }
       }
       return []
+    },
+    async donate() {
+      this.donating = true
+      if (this.assetsMap[this.assetId]) {
+        return
+      }
+      const { data } = await this.$http.get(
+        `/projects/${this.$route.params.name}/assets/${this.assetId}`,
+      )
+      this.$set(this.assetsMap, this.assetId, data)
     },
   },
 }
@@ -262,11 +271,12 @@ export default {
   }
 }
 
-.token {
+.destination {
   background: rgba(0, 0, 0, 0.03);
   color: rgba(51, 51, 51, 0.6);
   border-radius: 7px;
   font-family: DIN Alternate, serif;
+  white-space: nowrap;
 
   + :global(.v-btn) {
     border-width: 2px;

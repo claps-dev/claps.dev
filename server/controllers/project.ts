@@ -2,8 +2,8 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 import { Like } from 'typeorm'
 
-import { Project, Member } from '../entities'
-import { octokit } from '../utils'
+import { Project } from '../entities'
+import { octokit, mixinBot } from '../utils'
 
 @Controller
 @RequestMapping('/projects')
@@ -51,13 +51,26 @@ export class ProjectController {
 
   @RequestMapping('/:name/members')
   async members(ctx: Context) {
-    const project = await ctx.conn
-      .getRepository(Project)
-      .findOne({ name: ctx.params.name })
-    const members = await ctx.conn
-      .getRepository(Member)
-      .find({ where: { projectId: project.id } })
+    const { members } = await ctx.conn.getRepository(Project).findOne({
+      relations: ['members'],
+      where: { name: ctx.params.name },
+    })
     await Promise.all(members.map(member => member.user))
     ctx.body = members
+  }
+
+  @RequestMapping('/:name/assets/:assetId')
+  async asset(ctx: Context) {
+    const { assetId, name } = ctx.params
+    const project = await ctx.conn.getRepository(Project).findOne({ name })
+    const bot = await project.bot
+    ctx.body = Object.assign(
+      await mixinBot(bot).query_assets({
+        asset_id: assetId,
+      }),
+      {
+        user_id: bot.id,
+      },
+    )
   }
 }

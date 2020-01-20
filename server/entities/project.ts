@@ -4,10 +4,12 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm'
 
 import { Repository } from './repository'
 import { Member } from './member'
+import { Bot } from './bot'
 
 @Entity()
 export class Project {
@@ -57,4 +59,10 @@ export class Project {
     member => member.project,
   )
   members: Member[]
+
+  @OneToOne(
+    () => Bot,
+    bot => bot.project,
+  )
+  bot?: Promise<Bot>
 }

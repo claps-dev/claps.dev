@@ -31,3 +31,11 @@ export function sha256(
     .update(buffer)
     .digest(encoding)
 }
+
+export const randomPin = (length = 6) => {
+  let pin = ''
+  for (let i = 0; i < length; i++) {
+    pin += Math.floor(Math.random() * 10)
+  }
+  return pin
+}

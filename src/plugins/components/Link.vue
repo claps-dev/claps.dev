@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     isExternal() {
-      return /^(https?:)\/\//.test(this.href)
+      return /^(https?:)?\/\//.test(this.href)
     },
   },
 }

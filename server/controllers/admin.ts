@@ -4,8 +4,9 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 import { pki } from 'node-forge'
 
-import { mixin, random } from '../utils'
-import { Bot } from '../entities'
+import { mixin, mixinBot, randomPin } from '../utils'
+import { Bot, Project } from '../entities'
+import { unionDisplayName } from '../../src/utils'
 
 const generateKeyPair = promisify(pki.rsa.generateKeyPair)
 
@@ -21,14 +22,15 @@ export class AdminController {
 
     const botRepo = ctx.conn.getRepository(Bot)
 
-    const bot = await botRepo.findOne({
+    const existBot = await botRepo.findOne({
+      relations: ['project'],
       where: {
-        project_id: projectId,
+        projectId,
       },
     })
 
-    if (bot) {
-      ctx.body = bot
+    if (existBot) {
+      ctx.body = existBot
       return
     }
 
@@ -46,18 +48,28 @@ export class AdminController {
       .slice(1, -1)
       .join('')
 
-    const botUser = await mixin.create_user({
-      full_name: ctx.query.fullName || random(true),
+    let botUser = await mixin.create_user({
+      full_name:
+        ctx.query.fullName ||
+        unionDisplayName(await ctx.conn.getRepository(Project).findOne()),
       session_secret: sessionSecret,
     })
 
-    await botRepo.save({
+    const bot = {
       id: botUser.user_id,
+      pin: '',
       pinToken: botUser.pin_token,
       privateKey: privateKeyPem,
       projectId,
       sessionId: botUser.session_id,
+    } as Bot
+    const pin = randomPin()
+    botUser = await mixinBot(bot).pin_update({
+      old_pin: bot.pin,
+      pin,
     })
+    bot.pin = pin
+    await botRepo.save(bot)
 
     ctx.body = botUser
   }
