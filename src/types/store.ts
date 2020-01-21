@@ -3,8 +3,11 @@ import { Asset } from 'mixin-node-sdk'
 
 import { AuthInfo } from './info'
 
+import { Project } from '@@/server/entities'
+
 export interface RootState extends AuthInfo {
   assets: Asset[]
   http?: AxiosInstance
-  loading?: boolean
+  loading: boolean
+  projects: Record<string, Project>
 }

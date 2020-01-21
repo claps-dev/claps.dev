@@ -34,10 +34,18 @@ export const perMonth = memoize(
 export const formatDistanceToNow = (date: string | Date | number) =>
   _formatDistanceToNow(typeof date === 'string' ? new Date(date) : date)
 
-export const unionDisplayName = ({
-  name,
-  displayName,
-}: {
-  name: string
-  displayName?: string
-}) => (displayName ? `${name} (${displayName})` : name)
+export const unionDisplayName = (
+  {
+    name,
+    displayName,
+  }: {
+    name: string
+    displayName?: string
+  },
+  preferDisplayName = true,
+) =>
+  displayName
+    ? preferDisplayName || displayName === name
+      ? displayName
+      : `${name} (${displayName})`
+    : name

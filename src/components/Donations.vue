@@ -4,14 +4,16 @@
     <v-card>
       <div class="d-flex flex-no-wrap justify-space-between">
         <v-avatar class="ma-4 mr-0" color="grey" size="48">
-          <v-img />
+          <v-img :src="avatarUrl" />
         </v-avatar>
         <div class="flex-grow-1">
           <v-card-subtitle class="caption grey--text text--darken-4">
-            {{ $props.projectName || 'You' }} will receive
-            <strong class="primary--text">$13.84</strong>
+            {{ $utils.unionDisplayName($attrs) || 'You' }} will receive
+            <strong class="primary--text">
+              ${{ $utils.perMonth(total, createdAt) }}
+            </strong>
             per month from
-            <strong class="primary--text">49</strong>
+            <strong class="primary--text">{{ patrons }}</strong>
             patrons.
           </v-card-subtitle>
         </div>
@@ -21,18 +23,20 @@
         <div>
           <div class="caption grey--text text--darken-1">Total</div>
           <strong class="subtitle-2 font-weight-bold primary--text">
-            $270.84
+            ${{ total }}
           </strong>
         </div>
         <div class="text-center">
           <div class="caption grey--text text--darken-1">Per Month</div>
           <strong class="subtitle-2 font-weight-bold primary--text">
-            $2708.4
+            ${{ $utils.perMonth(total, createdAt) }}
           </strong>
         </div>
         <div class="text-right">
           <div class="caption grey--text text--darken-1">Patrons</div>
-          <strong class="subtitle-2 font-weight-bold primary--text">49</strong>
+          <strong class="subtitle-2 font-weight-bold primary--text">
+            {{ patrons }}
+          </strong>
         </div>
       </v-card-actions>
     </v-card>
@@ -73,16 +77,30 @@
 </template>
 <script lang="ts">
 import { mdiChevronRight } from '@mdi/js'
-import { createComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default {
   props: {
-    projectName: String,
+    avatarUrl: {
+      type: String,
+      required: true,
+    },
+    total: {
+      type: Number,
+      required: true,
+    },
+    patrons: {
+      type: Number,
+      required: true,
+    },
+    createdAt: {
+      type: String,
+      required: true,
+    },
   },
-  setup() {
+  data() {
     return {
       right: mdiChevronRight,
     }
   },
-})
+}
 </script>

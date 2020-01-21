@@ -8,7 +8,7 @@
         </v-avatar>
         <div class="flex-grow-1">
           <v-card-title class="subtitle-2">
-            {{ $route.params.name }}
+            {{ $utils.unionDisplayName(_self) }}
           </v-card-title>
           <v-card-subtitle class="caption">
             {{ description }}
@@ -18,7 +18,7 @@
       <v-divider class="ml-4 mr-4" />
       <div class="body-2 pa-4">
         <div class="mb-4">
-          {{ $route.params.name }} receives
+          {{ $utils.unionDisplayName(_self) }} receives
           <strong class="primary--text">
             ${{ $utils.perMonth(total, createdAt) }}
           </strong>
@@ -99,9 +99,8 @@
 </template>
 <script lang="ts">
 export default {
-  async asyncData({ app, route }) {
-    const { data } = await app.http.get(`/projects/${route.params.name}`)
-    return data
+  asyncData({ app, route }) {
+    return app.store.dispatch('getProject', route.params.name)
   },
 }
 </script>

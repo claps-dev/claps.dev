@@ -52,6 +52,7 @@ export default {
     const { data } = await app.http.get('/projects', {
       params: app.router.currentRoute.query,
     })
+    app.store.commit('SET_PROJECTS', data)
     return data
   },
   data() {

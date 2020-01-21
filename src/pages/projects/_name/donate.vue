@@ -10,7 +10,9 @@
           <strong class="primary--text">{{ amount }}</strong>
           <strong>{{ asset.symbol }}</strong>
           to
-          <strong class="primary--text">{{ $route.params.name }}</strong>
+          <strong class="primary--text">
+            {{ $utils.unionDisplayName(project) }}
+          </strong>
           Follow one of those approaches to donate:
         </v-card-subtitle>
         <div class="px-4" :class="$style.step">
@@ -54,6 +56,7 @@
             color="primary"
             outlined
             rounded
+            :disabled="!activeAsset.destination"
             @clipboard-success="copied = true"
           >
             Copy
@@ -159,15 +162,16 @@ export default {
     Tips,
     Qrcode,
   },
-  fetch({ app }) {
-    return app.store.dispatch('fetchAssets')
-  },
   async asyncData({ app, route }) {
-    const { data } = await app.http.get(
-      `/projects/${route.params.name}/members`,
-    )
+    const { name } = route.params
+    const [project, { data }] = await Promise.all([
+      app.store.dispatch('getProject', name),
+      app.http.get(`/projects/${name}/members`),
+      app.store.dispatch('fetchAssets'),
+    ])
     return {
       members: data,
+      project,
     }
   },
   data() {

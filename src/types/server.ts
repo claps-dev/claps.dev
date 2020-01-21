@@ -5,3 +5,5 @@ export interface SetCookie {
   expires?: string
   httponly?: boolean
 }
+
+export type Project = import('@@/server/entities').Project
