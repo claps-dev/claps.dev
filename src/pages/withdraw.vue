@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <c-back-title>Withdraw BTC</c-back-title>
+    <c-back-title>Withdraw {{ asset.symbol }}</c-back-title>
     <v-card>
       <v-card-text>
         <full-select v-model="assetId" :items="items" />
@@ -20,6 +20,7 @@
 </template>
 <script lang="ts">
 import { multiply } from 'mathjs'
+import { mapState } from 'vuex'
 
 import { FullSelect } from '@/components'
 
@@ -27,19 +28,8 @@ export default {
   components: {
     FullSelect,
   },
-  async asyncData({ app }) {
-    const { data } = await app.http.get<Array<import('mixin-node-sdk').Asset>>(
-      '/mixin/assets',
-    )
-    return {
-      assets: data,
-      items: data.map(({ symbol, name, icon_url, asset_id }) => ({
-        title: symbol,
-        description: name,
-        avatar: icon_url,
-        value: asset_id,
-      })),
-    }
+  asyncData({ app }) {
+    return app.store.dispatch('fetchAssets')
   },
   data() {
     return {
@@ -48,10 +38,18 @@ export default {
     }
   },
   computed: {
+    ...mapState(['assets']),
+    items() {
+      return this.assets.map(({ symbol, name, icon_url, asset_id }) => ({
+        title: symbol,
+        description: name,
+        avatar: icon_url,
+        value: asset_id,
+      }))
+    },
     asset() {
       return (
-        (this.assets &&
-          this.assetId &&
+        (this.assetId &&
           this.assets.find(asset => asset.asset_id === this.assetId)) ||
         {}
       )

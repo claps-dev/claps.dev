@@ -16,7 +16,7 @@
           <v-card-subtitle class="caption">{{ user.bio }}</v-card-subtitle>
         </div>
       </div>
-      <ul class="list-unstyled body-2 pl-4 pr-4" :class="$style.emails">
+      <ul class="list-unstyled body-2 px-4 mb-4" :class="$style.emails">
         <li
           v-for="{ email, verified } of emails"
           :key="email"
@@ -27,10 +27,6 @@
           Email: {{ email }}
         </li>
       </ul>
-      <a class="d-flex align-center subtitle-2 pa-4 pt-2">
-        Claim an Email Address
-        <v-icon class="primary--text">{{ doubleRight }}</v-icon>
-      </a>
       <v-divider />
       <div class="body-2 pa-4">
         <div class="mb-4">
@@ -93,7 +89,7 @@
   </v-container>
 </template>
 <script lang="ts">
-import { mdiCheckCircle, mdiChevronDoubleRight, mdiChevronRight } from '@mdi/js'
+import { mdiCheckCircle, mdiChevronRight } from '@mdi/js'
 import { mapState } from 'vuex'
 
 export default {
@@ -107,7 +103,6 @@ export default {
   data() {
     return {
       checkCircle: mdiCheckCircle,
-      doubleRight: mdiChevronDoubleRight,
       right: mdiChevronRight,
     }
   },
@@ -129,20 +124,18 @@ export default {
 }
 </script>
 <style lang="scss" module>
-.container {
-  :global {
-    .subtitle-2 {
-      line-height: 20px;
-    }
+.container :global .v-card {
+  .subtitle-2 {
+    line-height: 20px;
+  }
 
-    .caption {
-      line-height: 12px;
-    }
+  .caption {
+    line-height: 12px;
+  }
 
-    .v-icon {
-      height: $top-spacing;
-      width: $top-spacing;
-    }
+  .v-icon {
+    height: $top-spacing;
+    width: $top-spacing;
   }
 }
 

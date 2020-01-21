@@ -6,4 +6,6 @@ export interface SetCookie {
   httponly?: boolean
 }
 
+export type Asset = import('mixin-node-sdk').Asset
+
 export type Project = import('@@/server/entities').Project
