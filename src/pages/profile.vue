@@ -17,13 +17,14 @@
         </div>
       </div>
       <ul class="list-unstyled body-2 pl-4 pr-4" :class="$style.emails">
-        <li class="d-flex align-center">
+        <li
+          v-for="{ email, verified } of emails"
+          :key="email"
+          class="d-flex align-center"
+          :class="{ [$style.verified]: verified }"
+        >
           <v-icon class="mr-2">{{ checkCircle }}</v-icon>
-          Email: xxx@gmail.com
-        </li>
-        <li class="d-flex align-center">
-          <v-icon class="mr-2">{{ checkCircle }}</v-icon>
-          Email: abc@xyz.com
+          Email: {{ email }}
         </li>
       </ul>
       <a class="d-flex align-center subtitle-2 pa-4 pt-2">
@@ -105,6 +106,10 @@ export default {
   meta: {
     auth: true,
   },
+  async asyncData({ app }) {
+    const { data } = await app.http.get('/user/profile')
+    return data
+  },
   data() {
     return {
       checkCircle: mdiCheckCircle,
@@ -149,7 +154,7 @@ export default {
   }
 }
 
-.emails :global(.v-icon) {
+.emails .verified :global(.v-icon) {
   color: #27ae60;
 }
 </style>
