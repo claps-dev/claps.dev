@@ -34,10 +34,10 @@
       <v-divider />
       <div class="body-2 pa-4">
         <div class="mb-4">
-          You receives
-          <strong class="primary--text">$53.30</strong>
+          You received
+          <strong class="primary--text">${{ donations.total }}</strong>
           from
-          <strong class="primary--text">166</strong>
+          <strong class="primary--text">{{ donations.patrons }}</strong>
           patrons.
         </div>
         <div class="d-flex flex-no-wrap justify-space-between mb-4">
@@ -61,29 +61,23 @@
             Details
           </n-link>
         </div>
-        <div class="d-flex flex-no-wrap justify-space-between align-center">
-          <div class="secondary--text caption">
-            Transfer donation to Fox.ONE App
-          </div>
-          <v-switch class="mt-0 pt-0" :class="$style.switch"></v-switch>
-        </div>
       </div>
       <v-divider />
       <v-list subheader class="mt-3">
         <v-subheader class="black--text font-weight-bold">Projects</v-subheader>
-        <template v-for="(item, index) of 3">
-          <v-divider v-if="index" :key="'_' + item" class="ml-4 mr-4" />
-          <n-link :key="item" :to="'projects/' + item">
+        <template v-for="(project, index) of projects">
+          <v-divider v-if="index" :key="'_' + project.id" class="ml-4 mr-4" />
+          <n-link :key="project.id" :to="'projects/' + project.name">
             <v-list-item>
               <v-list-item-avatar size="32" color="grey" class="mr-3">
-                <v-img />
+                <v-img :src="project.avatarUrl" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="subtitle-2 mb-0">
-                  Project Name
+                  {{ $utils.unionDisplayName(project) }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="caption">
-                  412 stars, updated 2 weeks ago
+                  {{ project.description }}
                 </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-icon class="mt-5 mb-5">
@@ -119,6 +113,18 @@ export default {
   },
   computed: {
     ...mapState(['user']),
+    donations() {
+      let total = 0
+      let patrons = 0
+      this.projects.forEach(p => {
+        total += p.total
+        patrons += p.patrons
+      })
+      return {
+        total,
+        patrons,
+      }
+    },
   },
 }
 </script>
@@ -136,20 +142,6 @@ export default {
     .v-icon {
       height: $top-spacing;
       width: $top-spacing;
-    }
-  }
-}
-
-.switch {
-  :global {
-    .v-input__control > {
-      .v-input__slot {
-        margin-bottom: 0;
-      }
-
-      .v-messages {
-        display: none;
-      }
     }
   }
 }

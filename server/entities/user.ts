@@ -1,6 +1,7 @@
 import { Entity, PrimaryColumn, Column, JoinColumn, OneToOne } from 'typeorm'
 
 import { Member } from './member'
+import { Project } from './project'
 
 @Entity()
 export class User {
@@ -31,4 +32,6 @@ export class User {
     name: 'id',
   })
   member: Member
+
+  projects: Project[]
 }

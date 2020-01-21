@@ -22,7 +22,7 @@ export class Member {
   @JoinColumn({
     name: 'project_id',
   })
-  project: Promise<Project>
+  project: Project
 
   @OneToOne(
     () => User,

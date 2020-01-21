@@ -4,6 +4,7 @@ import { Context } from 'koa'
 
 import { LoginRequired } from '../decorators'
 import { octokit } from '../utils'
+import { Project, Member } from '../entities'
 
 @Controller
 @RequestMapping('/user')
@@ -27,6 +28,14 @@ export class UserController {
     }
     ctx.body = {
       emails,
+      projects: await ctx.conn.getRepository(Project).findByIds(
+        (
+          await ctx.conn.getRepository(Member).find({
+            select: ['projectId'],
+            where: { userId: ctx.session.user.id },
+          })
+        ).map(({ projectId }) => projectId),
+      ),
     }
   }
 }
