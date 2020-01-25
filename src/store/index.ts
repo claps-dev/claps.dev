@@ -1,4 +1,5 @@
 import { Plugin } from '@nuxt/types'
+import { AxiosInstance } from 'axios'
 import { Asset } from 'mixin-node-sdk'
 import Vue from 'vue'
 import Vuex, { ActionTree, MutationTree } from 'vuex'
@@ -46,10 +47,10 @@ const actions: ActionTree<RootState, RootState> = {
 }
 
 const mutations: MutationTree<RootState> = {
-  SET_HTTP(state, http) {
+  SET_HTTP(state, http: AxiosInstance) {
     state.http = http
   },
-  SET_AUTH_INFO(state, authInfo) {
+  SET_AUTH_INFO(state, authInfo: AuthInfo) {
     Object.assign(state, authInfo)
   },
   SET_LOADING(state, loading: boolean) {

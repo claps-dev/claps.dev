@@ -32,7 +32,7 @@ export const startRouter = async (app?: Koa) => {
     (ctx, next) => {
       ctx.conn = conn
       const { gitHubToken } = ctx.session
-      if (gitHubToken) {
+      if (typeof gitHubToken === 'string') {
         process.env.GITHUB_CLIENT_TOKEN = gitHubToken
       }
       return next()

@@ -8,7 +8,7 @@ export interface ClipboardVm extends Vue {
 
 const bind: DirectiveFunction = (
   el,
-  { value },
+  { value }: { value?: string },
   { context, componentInstance },
   _oldVNode,
 ) => {
@@ -41,7 +41,7 @@ const destroy = (vnode: VNode) => {
 
 export const VueClipboard: DirectiveOptions = {
   inserted: bind,
-  update(_el, { value }, { context }) {
+  update(_el, { value }: { value?: string }, { context }) {
     Object.assign(context, {
       $$clipboardValue: value,
     })
