@@ -3,7 +3,7 @@ import { Context } from 'koa'
 import { Like } from 'typeorm'
 
 import { Project } from '../entities'
-import { octokit, mixinBot } from '../utils'
+import { mixinBot, octokit } from '../utils'
 
 @Controller
 @RequestMapping('/projects')

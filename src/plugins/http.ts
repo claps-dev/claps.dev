@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from 'axios'
 import { Plugin } from '@nuxt/types'
+import axios, { AxiosInstance } from 'axios'
 
 import { setCookieInterceptor } from '@/utils'
 

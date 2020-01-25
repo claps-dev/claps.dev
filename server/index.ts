@@ -1,17 +1,17 @@
-import 'reflect-metadata'
 import consola from 'consola'
 import Koa, { Context } from 'koa'
 import proxy from 'koa-better-http-proxy'
 import compose from 'koa-compose'
 import compress from 'koa-compress'
 import logger from 'koa-logger'
-import { Nuxt, Builder } from 'nuxt'
+import { Builder, Nuxt } from 'nuxt'
+import 'reflect-metadata'
 
-import config from '../nuxt.config'
 import { __DEV__, serverHost, serverPort } from '../build/config'
+import config from '../nuxt.config'
 
-import { session } from './session'
 import { startRouter } from './router'
+import { session } from './session'
 
 config.dev = __DEV__
 

@@ -1,7 +1,7 @@
 import { Plugin } from '@nuxt/types'
-import Vue from 'vue'
-import Vuex, { MutationTree, ActionTree } from 'vuex'
 import { Asset } from 'mixin-node-sdk'
+import Vue from 'vue'
+import Vuex, { ActionTree, MutationTree } from 'vuex'
 
 import { AuthInfo, Project, RootState } from '@/types'
 

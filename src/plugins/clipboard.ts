@@ -1,5 +1,5 @@
 import Clipboard from 'clipboard'
-import Vue, { DirectiveOptions, DirectiveFunction, VNode } from 'vue'
+import Vue, { DirectiveFunction, DirectiveOptions, VNode } from 'vue'
 
 export interface ClipboardVm extends Vue {
   $$clipboard?: Clipboard

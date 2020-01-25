@@ -1,4 +1,4 @@
-import { VNode, FunctionalComponentOptions } from 'vue'
+import { FunctionalComponentOptions, VNode } from 'vue'
 
 export const LocalScope: FunctionalComponentOptions = {
   functional: true,

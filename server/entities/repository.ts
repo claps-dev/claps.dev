@@ -1,10 +1,10 @@
 import {
   Column,
   Entity,
-  PrimaryColumn,
-  UpdateDateColumn,
   JoinColumn,
   ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm'
 
 import { Project } from './project'

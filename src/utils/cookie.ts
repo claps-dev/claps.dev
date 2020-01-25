@@ -1,8 +1,8 @@
 import { AxiosInstance } from 'axios'
 
-import { INFINITY_DATE, SET_COOKIE, KOA_SESS_SIG } from './constants'
-
 import { SetCookie } from '@/types'
+
+import { INFINITY_DATE, KOA_SESS_SIG, SET_COOKIE } from './constants'
 
 export const getCookie = (name: string) =>
   decodeURIComponent(
@@ -22,7 +22,7 @@ export const setCookie = (
   end?: number | string | Date,
   path?: string,
   domain?: string,
-  secure?: boolean,
+  secure = false,
 ) => {
   if (!name || /^(?:expires|max-age|path|domain|secure)$/i.test(name)) {
     return false

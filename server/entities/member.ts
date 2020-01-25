@@ -1,7 +1,7 @@
-import { Entity, PrimaryColumn, JoinColumn, OneToOne, ManyToOne } from 'typeorm'
+import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from 'typeorm'
 
-import { User } from './user'
 import { Project } from './project'
+import { User } from './user'
 
 @Entity()
 export class Member {
@@ -33,5 +33,6 @@ export class Member {
   })
   user: Promise<User>
 
+  // tslint:disable-next-line: variable-name
   __user__: User
 }

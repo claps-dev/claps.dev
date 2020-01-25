@@ -4,9 +4,9 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 import { pki } from 'node-forge'
 
-import { mixin, mixinBot, randomPin } from '../utils'
-import { Bot, Project } from '../entities'
 import { unionDisplayName } from '../../src/utils'
+import { Bot, Project } from '../entities'
+import { mixin, mixinBot, randomPin } from '../utils'
 
 const generateKeyPair = promisify(pki.rsa.generateKeyPair)
 

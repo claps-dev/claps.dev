@@ -1,15 +1,15 @@
 import {
   Column,
   Entity,
-  PrimaryColumn,
-  UpdateDateColumn,
   OneToMany,
   OneToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm'
 
-import { Repository } from './repository'
-import { Member } from './member'
 import { Bot } from './bot'
+import { Member } from './member'
+import { Repository } from './repository'
 
 @Entity()
 export class Project {

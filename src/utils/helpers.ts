@@ -2,8 +2,8 @@ import {
   differenceInMonths,
   formatDistanceToNow as _formatDistanceToNow,
 } from 'date-fns'
-import { stringify, IStringifyOptions } from 'qs'
 import { flatMap, memoize } from 'lodash'
+import { IStringifyOptions, stringify } from 'qs'
 
 import { DEFAULT_AUTH_SCOPES } from './constants'
 
@@ -17,10 +17,10 @@ export const normalizeUrl = (
   url +
   (query ? (url.includes('?') ? '&' : '?') + stringify(query, options) : '')
 
-const genScope = (scope: string, writable?: boolean) =>
+const genScope = (scope: string, writable = false) =>
   [scope, writable ? 'WRITE' : 'READ'].join(':')
 
-export const authScopes = (scopes = DEFAULT_AUTH_SCOPES, writable?: boolean) =>
+export const authScopes = (scopes = DEFAULT_AUTH_SCOPES, writable = false) =>
   flatMap(scopes, scope =>
     [genScope(scope)].concat(writable ? genScope(scope, true) : []),
   ).join(' ')

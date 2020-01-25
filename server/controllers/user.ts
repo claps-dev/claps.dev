@@ -3,8 +3,8 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 
 import { LoginRequired } from '../decorators'
+import { Member, Project } from '../entities'
 import { octokit } from '../utils'
-import { Project, Member } from '../entities'
 
 @Controller
 @RequestMapping('/user')

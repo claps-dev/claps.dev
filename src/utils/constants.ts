@@ -1,6 +1,6 @@
-import { DonationDistribution, RepositoryType } from './enums'
-
 import { SelectItem } from '@/types'
+
+import { DonationDistribution, RepositoryType } from './enums'
 
 export const INFINITY_DATE = 'Fri, 31 Dec 9999 23:59:59 GMT'
 

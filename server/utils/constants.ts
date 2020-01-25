@@ -1,3 +1,4 @@
+import { createTokenAuth } from '@octokit/auth-token'
 import Octokit from '@octokit/rest'
 import { Mixin } from 'mixin-node-sdk'
 
@@ -10,7 +11,7 @@ export const FOX_ONE_API_HOST = 'https://api1.kumiclub.com/api/v2/'
 export const FOX_OAUTH_HOST = 'https://oauth2.kumiclub.com/'
 
 export const octokit = new Octokit({
-  auth: () => process.env.GITHUB_CLIENT_TOKEN,
+  authStrategy: () => createTokenAuth(process.env.GITHUB_CLIENT_TOKEN),
 })
 
 export const mixin = new Mixin(

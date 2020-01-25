@@ -2,8 +2,8 @@ import { resolve } from 'path'
 
 import postcssConfig from '@1stg/postcss-config'
 import { Configuration } from '@nuxt/types'
-import webpack, { RuleSetUseItem } from 'webpack'
 import { version as __VUETIFY_VERSION__ } from 'vuetify/package.json'
+import webpack, { RuleSetUseItem } from 'webpack'
 
 import { __DEV__, __PROD__, innerServer } from './build/config'
 

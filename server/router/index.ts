@@ -1,15 +1,15 @@
+import Router from '@koa/router'
 import { proxy } from '@rxts/koa-proxy'
 import { injectAllRoutes } from '@rxts/koa-router-decorators'
 import consola from 'consola'
 import Koa, { DefaultState, Middleware } from 'koa'
 import bodyParser from 'koa-bodyparser'
 import compose from 'koa-compose'
-import Router from 'koa-router'
 import { createConnection } from 'typeorm'
 
 import { serverHost, serverPort } from '../../build/config'
 import '../controllers'
-import { Project, Repository, User, Member, Bot } from '../entities'
+import { Bot, Member, Project, Repository, User } from '../entities'
 import { session } from '../session'
 import { MIXIN_API_HOST } from '../utils'
 

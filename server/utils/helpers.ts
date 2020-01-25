@@ -1,6 +1,6 @@
 import { BinaryLike, createHash, randomBytes } from 'crypto'
 
-export const base64 = (data: string | Buffer, uriEncode?: boolean) => {
+export const base64 = (data: string | Buffer, uriEncode = false) => {
   let result = (typeof data === 'string' ? Buffer.from(data) : data).toString(
     'base64',
   )
@@ -13,8 +13,7 @@ export const base64 = (data: string | Buffer, uriEncode?: boolean) => {
   return result
 }
 
-export const random = (uriEncode?: boolean) =>
-  base64(randomBytes(32), uriEncode)
+export const random = (uriEncode = false) => base64(randomBytes(32), uriEncode)
 
 export type HexBase64Latin1Encoding = 'latin1' | 'hex' | 'base64'
 

@@ -3,7 +3,7 @@ import { flatMap, get } from 'lodash'
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import { normalizeUrl, GITHUB_OAUTH_URL } from '@/utils'
+import { GITHUB_OAUTH_URL, normalizeUrl } from '@/utils'
 
 Object.defineProperty(Vue.prototype, '$prevRoutePath', {
   configurable: __DEV__,
