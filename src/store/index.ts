@@ -35,7 +35,7 @@ const actions: ActionTree<RootState, RootState> = {
     commit('SET_PROJECT', data)
     return data
   },
-  async fetchAssets({ commit, rootState }) {
+  async getAssets({ commit, rootState }) {
     if (rootState.assets.length > 0) {
       return
     }

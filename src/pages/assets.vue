@@ -35,17 +35,20 @@
       </a>
     </template>
     <v-list class="mt-2 mx--4 transparent">
-      <v-list-item v-for="item of 3" :key="item">
+      <v-list-item
+        v-for="{ asset_id, icon_url, name, symbol } of assets"
+        :key="asset_id"
+      >
         <v-list-item-avatar size="42" color="grey" class="mr-3 rounded">
-          <v-img />
+          <v-img :src="icon_url" />
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="subtitle-2 mb-0">
-            BTC
+            {{ symbol }}
             <span class="float-right">0.00783</span>
           </v-list-item-title>
           <v-list-item-subtitle class="caption">
-            Bitcoin
+            {{ name }}
             <span class="float-right">$5147.85</span>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -66,7 +69,7 @@ export default {
     Tips,
   },
   computed: {
-    ...mapState(['envs', 'mixinAuth', 'randomUid']),
+    ...mapState(['assets', 'envs', 'mixinAuth', 'randomUid']),
     mixinOauthUrl() {
       return this.$utils.normalizeUrl(this.$utils.MIXIN_OAUTH_URL, {
         client_id: this.envs.MIXIN_CLIENT_ID,

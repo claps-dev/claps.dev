@@ -167,7 +167,7 @@ export default {
     const [project, { data }] = await Promise.all([
       app.store.dispatch('getProject', name),
       app.http.get(`/projects/${name}/members`),
-      app.store.dispatch('fetchAssets'),
+      app.store.dispatch('getAssets'),
     ])
     return {
       members: data,

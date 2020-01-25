@@ -29,7 +29,7 @@ export default {
     FullSelect,
   },
   asyncData({ app }) {
-    return app.store.dispatch('fetchAssets')
+    return app.store.dispatch('getAssets')
   },
   data() {
     return {
