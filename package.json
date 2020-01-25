@@ -108,7 +108,7 @@
   "renovate": {
     "extends": "@1stg"
   },
-  "type-coverage": {
+  "typeCoverage": {
     "atLeast": 93
   }
 }

@@ -2,6 +2,7 @@
 
 [![GitHub Actions](https://github.com/JounQin/Claps.dev/workflows/Node%20CI/badge.svg)](https://github.com/JounQin/Claps.dev/actions?query=workflow%3A%22Node+CI%22)
 [![Codacy Grade](https://img.shields.io/codacy/grade/69305f19103744fea0de2395afa2271e)](https://www.codacy.com/app/JounQin/Claps.dev)
+[![type-coverage](https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2FJounQin%2FClaps.dev%2Fmaster%2Fpackage.json)](https://github.com/plantain-00/type-coverage)
 [![David](https://img.shields.io/david/JounQin/Claps.dev.svg)](https://david-dm.org/JounQin/Claps.dev)
 [![David Dev](https://img.shields.io/david/dev/JounQin/Claps.dev.svg)](https://david-dm.org/JounQin/Claps.dev?type=dev)
 

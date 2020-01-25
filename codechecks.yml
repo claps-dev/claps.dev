@@ -6,6 +6,7 @@ checks:
         - path: 'node_modules/.nuxt/dist/**/*.*'
   - name: type-coverage-watcher
     options:
+      atLeast: 93
       ignoreCatch: true
       ignoreFiles:
         - '**/*.d.ts'
