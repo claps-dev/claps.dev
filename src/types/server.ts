@@ -8,4 +8,6 @@ export interface SetCookie {
 
 export type Asset = import('mixin-node-sdk').Asset
 
+export type Transaction = import('mixin-node-sdk').Transaction
+
 export type Project = import('@@/server/entities').Project

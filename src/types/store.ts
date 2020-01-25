@@ -5,6 +5,7 @@ import { Asset } from 'mixin-node-sdk'
 import { AuthInfo } from './info'
 
 export interface RootState extends AuthInfo {
+  allAssets: Asset[]
   assets: Asset[]
   http?: AxiosInstance
   loading: boolean

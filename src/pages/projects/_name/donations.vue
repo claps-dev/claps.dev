@@ -1,7 +1,13 @@
 <template>
-  <donations v-bind="project" />
+  <donations
+    v-bind="project"
+    :assets="allAssets"
+    :transactions="transactions"
+  />
 </template>
 <script lang="ts">
+import { mapState } from 'vuex'
+
 import { Donations } from '@/components'
 
 export default {
@@ -9,9 +15,21 @@ export default {
     Donations,
   },
   async asyncData({ app, route }) {
+    const [
+      {
+        data: { data: transactions },
+      },
+      project,
+    ] = await Promise.all([
+      app.http.get<{ data: Transaction[] }>('/external/transactions'),
+      app.store.dispatch('getProject', route.params.name),
+      app.store.dispatch('getAssets'),
+    ])
     return {
-      project: await app.store.dispatch('getProject', route.params.name),
+      project,
+      transactions,
     }
   },
+  computed: mapState(['allAssets']),
 }
 </script>

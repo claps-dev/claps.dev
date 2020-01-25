@@ -80,6 +80,24 @@ declare module 'mixin-node-sdk' {
     transfer_notification_threshold: number
   }
 
+  export interface Transaction {
+    type: 'transaction'
+    transaction_id: string
+    transaction_hash: string
+    sender: string
+    chain_id: string
+    asset_id: string
+    amount: string
+    destination: string
+    tag: string
+    confirmations: number
+    threshold: number
+    created_at: string
+    public_key: string
+    account_name: string
+    account_tag: string
+  }
+
   export class Mixin {
     constructor(options: ClientConfig)
 

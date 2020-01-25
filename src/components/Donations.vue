@@ -44,24 +44,34 @@
       <v-subheader class="black--text font-weight-bold">
         Transactions
       </v-subheader>
-      <template v-for="(item, index) of 3">
+      <template
+        v-for="({ amount, asset_id, sender, transaction_id },
+        index) of transactions"
+      >
         <v-divider
           v-if="index"
-          :key="'_' + item"
+          :key="'_' + transaction_id"
           class="mr-4"
           style="margin-left:60px"
         />
-        <n-link :key="item" :to="'/transactions/' + item">
-          <v-list-item>
+        <n-link
+          is="v-list-item"
+          :key="transaction_id"
+          :to="'/transactions/' + transaction_id"
+        >
+          <local-scope
+            v-slot="{ icon_url, symbol }"
+            v-bind="getAsset(asset_id)"
+          >
             <v-list-item-avatar size="32" color="grey" class="mr-3">
-              <v-img />
+              <v-img :src="icon_url" />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="subtitle-2 mb-0">
-                0.001 EOS
+                {{ amount }} {{ symbol }}
               </v-list-item-title>
               <v-list-item-subtitle class="caption">
-                from anonymous
+                from {{ sender || 'anonymous' }}
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-icon class="mt-5 mb-5">
@@ -69,7 +79,7 @@
                 {{ right }}
               </v-icon>
             </v-list-item-icon>
-          </v-list-item>
+          </local-scope>
         </n-link>
       </template>
     </v-list>
@@ -78,7 +88,12 @@
 <script lang="ts">
 import { mdiChevronRight } from '@mdi/js'
 
+import { LocalScope } from './LocalScope'
+
 export default {
+  components: {
+    LocalScope,
+  },
   props: {
     avatarUrl: {
       type: String,
@@ -96,11 +111,24 @@ export default {
       type: String,
       required: true,
     },
+    assets: {
+      type: Array,
+      required: true,
+    },
+    transactions: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
       right: mdiChevronRight,
     }
+  },
+  methods: {
+    getAsset(assetId: string) {
+      return this.assets.find(_ => _.asset_id === assetId)
+    },
   },
 }
 </script>

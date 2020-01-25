@@ -8,6 +8,7 @@ import { AuthInfo, Project, RootState } from '@/types'
 Vue.use(Vuex)
 
 const state = (): RootState => ({
+  allAssets: [],
   assets: [],
   envs: {},
   loading: false,
@@ -40,16 +41,7 @@ const actions: ActionTree<RootState, RootState> = {
       return
     }
     const { data } = await rootState.http.get<Asset[]>('/mixin/assets')
-    commit(
-      'SET_ASSETS',
-      data.reduce<Asset[]>((acc, asset) => {
-        const index = ASSETS.indexOf(asset.symbol)
-        if (index !== -1) {
-          acc[index] = asset
-        }
-        return acc
-      }, []),
-    )
+    commit('SET_ALL_ASSETS', data)
   },
 }
 
@@ -78,8 +70,15 @@ const mutations: MutationTree<RootState> = {
       }),
     )
   },
-  SET_ASSETS(state, assets: Asset[]) {
-    state.assets = assets
+  SET_ALL_ASSETS(state, allAssets: Asset[]) {
+    state.allAssets = allAssets
+    state.assets = allAssets.reduce<Asset[]>((acc, asset) => {
+      const index = ASSETS.indexOf(asset.symbol)
+      if (index !== -1) {
+        acc[index] = asset
+      }
+      return acc
+    }, [])
   },
 }
 
