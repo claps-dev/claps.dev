@@ -29,22 +29,24 @@ export class ProjectController {
       },
     })
 
-    await Promise.all(
-      project.repositories
-        .map(async repository => {
-          const [owner, repo] = repository.slug.split('/')
-          const { data } = await octokit.repos.get({
-            owner,
-            repo,
-          })
-          Object.assign(repository, {
-            stars: data.stargazers_count,
-            updatedAt: data.updated_at,
-          })
+    // @ts-ignore
+    const [assets] = await Promise.all([
+      project.bot.then(bot => mixinBot(bot).query_assets({})),
+      ...project.repositories.map(async repository => {
+        const [owner, repo] = repository.slug.split('/')
+        const { data } = await octokit.repos.get({
+          owner,
+          repo,
         })
-        // @ts-ignore
-        .concat(project.members.map(member => member.user)),
-    )
+        Object.assign(repository, {
+          stars: data.stargazers_count,
+          updatedAt: data.updated_at,
+        })
+      }),
+      ...project.members.map(member => member.user),
+    ])
+
+    project.assets = assets
 
     ctx.body = project
   }

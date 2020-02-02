@@ -20,13 +20,18 @@ declare module 'mixin-node-sdk' {
     private_key: string
   }
 
-  export interface Asset {
+  export interface AssetCore {
     type: 'asset'
     asset_id: string
+    asset_key: string
     chain_id: string
-    symbol: string
-    name: string
     icon_url: string
+    name: string
+    symbol: string
+  }
+
+  export interface Asset extends AssetCore {
+    type: 'asset'
     balance: string
     destination: string
     tag: string
@@ -34,7 +39,6 @@ declare module 'mixin-node-sdk' {
     price_usd: string
     change_btc: string
     change_usd: string
-    asset_key: string
     mixin_id: string
     confirmations: number
     capitalization: number
@@ -98,11 +102,22 @@ declare module 'mixin-node-sdk' {
     account_tag: string
   }
 
+  export interface Snapshot {
+    type: 'snapshot'
+    asset: AssetCore
+    created_at: string
+    snapshot_id: string
+    source: 'TRANSFER_INITIALIZED'
+  }
+
   export class Mixin {
     constructor(options: ClientConfig)
 
     query_assets(params: { asset_id: string }): Promise<Asset>
     query_assets(params: {}): Promise<Asset[]>
+
+    query_network_snapshots(params: { snapshot_id: string }): Promise<Snapshot>
+    query_network_snapshots(params: {}): Promise<Snapshot[]>
 
     query_my_addresses_by_assetid(params: {
       asset_id: string

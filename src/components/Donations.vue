@@ -44,42 +44,29 @@
       <v-subheader class="black--text font-weight-bold">
         Transactions
       </v-subheader>
-      <template
-        v-for="({ amount, asset_id, sender, transaction_id },
-        index) of transactions"
-      >
-        <v-divider
-          v-if="index"
-          :key="'_' + transaction_id"
-          class="mr-4"
-          style="margin-left:60px"
-        />
+      <template v-for="({ asset_id, icon_url, name, symbol }, index) of assets">
+        <v-divider v-if="index" :key="'_' + asset_id" class="mx-4" />
         <n-link
           is="v-list-item"
-          :key="transaction_id"
-          :to="'/transactions/' + transaction_id"
+          :key="asset_id"
+          :to="'/transactions/' + asset_id"
         >
-          <local-scope
-            v-slot="{ icon_url, symbol }"
-            v-bind="getAsset(asset_id)"
-          >
-            <v-list-item-avatar size="32" color="grey" class="mr-3">
-              <v-img :src="icon_url" />
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title class="subtitle-2 mb-0">
-                {{ amount }} {{ symbol }}
-              </v-list-item-title>
-              <v-list-item-subtitle class="caption">
-                from {{ sender || 'anonymous' }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-icon class="mt-5 mb-5">
-              <v-icon color="grey">
-                {{ right }}
-              </v-icon>
-            </v-list-item-icon>
-          </local-scope>
+          <v-list-item-avatar size="32" color="grey" class="mr-3 rounded">
+            <v-img :src="icon_url" />
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title class="subtitle-2 mb-0">
+              {{ symbol }}
+            </v-list-item-title>
+            <v-list-item-subtitle class="caption">
+              {{ name }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-icon class="mt-5 mb-5">
+            <v-icon color="grey">
+              {{ right }}
+            </v-icon>
+          </v-list-item-icon>
         </n-link>
       </template>
     </v-list>
@@ -88,12 +75,7 @@
 <script lang="ts">
 import { mdiChevronRight } from '@mdi/js'
 
-import { LocalScope } from './LocalScope'
-
 export default {
-  components: {
-    LocalScope,
-  },
   props: {
     avatarUrl: {
       type: String,
@@ -115,20 +97,11 @@ export default {
       type: Array,
       required: true,
     },
-    transactions: {
-      type: Array,
-      required: true,
-    },
   },
   data() {
     return {
       right: mdiChevronRight,
     }
-  },
-  methods: {
-    getAsset(assetId: string) {
-      return this.assets.find(_ => _.asset_id === assetId)
-    },
   },
 }
 </script>

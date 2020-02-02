@@ -1,35 +1,27 @@
 <template>
-  <donations
-    v-bind="donations"
-    :assets="allAssets"
-    :transactions="transactions"
-  />
+  <donations v-bind="donations" :assets="userAssets" />
 </template>
 <script lang="ts">
 import { mapState } from 'vuex'
 
 import { Donations } from '@/components'
-import { Transaction } from '@/types'
 
 export default {
+  meta: {
+    auth: true,
+  },
   components: {
     Donations,
   },
   async asyncData({ app }) {
-    const [
-      {
-        data: { data: transactions },
-      },
-      { data },
-    ] = await Promise.all([
-      app.http.get<{ data: Transaction[] }>('/external/transactions'),
+    const [{ data }] = await Promise.all([
       app.http.get('/user/profile'),
-      app.store.dispatch('getAssets'),
+      app.store.dispatch('getUserAssets'),
     ])
-    return Object.assign(data, { transactions })
+    return data
   },
   computed: {
-    ...mapState(['allAssets', 'user']),
+    ...mapState(['userAssets', 'user']),
     donations() {
       let total = 0
       let patrons = 0

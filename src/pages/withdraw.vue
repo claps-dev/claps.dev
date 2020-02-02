@@ -25,6 +25,9 @@ import { mapState } from 'vuex'
 import { FullSelect } from '@/components'
 
 export default {
+  meta: {
+    auth: true,
+  },
   components: {
     FullSelect,
   },

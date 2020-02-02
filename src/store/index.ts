@@ -4,19 +4,30 @@ import { Asset } from 'mixin-node-sdk'
 import Vue from 'vue'
 import Vuex, { ActionTree, MutationTree } from 'vuex'
 
-import { AuthInfo, Project, RootState } from '@/types'
+import { AuthInfo, MixinResponse, Project, RootState } from '@/types'
 
 Vue.use(Vuex)
 
 const state = (): RootState => ({
   allAssets: [],
   assets: [],
+  allUserAssets: [],
+  userAssets: [],
   envs: {},
   loading: false,
   projects: {},
 })
 
 const ASSETS = ['BTC', 'BCH', 'ETH', 'EOS', 'XRP', 'XMR']
+
+const filterAssets = (assets: Asset[]) =>
+  assets.reduce<Asset[]>((acc, asset) => {
+    const index = ASSETS.indexOf(asset.symbol)
+    if (index !== -1) {
+      acc[index] = asset
+    }
+    return acc
+  }, [])
 
 const actions: ActionTree<RootState, RootState> = {
   async fetchAuthInfo({ commit, rootState }) {
@@ -43,6 +54,15 @@ const actions: ActionTree<RootState, RootState> = {
     }
     const { data } = await rootState.http.get<Asset[]>('/mixin/assets')
     commit('SET_ALL_ASSETS', data)
+  },
+  async getUserAssets({ commit, rootState }) {
+    if (rootState.userAssets.length > 0) {
+      return
+    }
+    const {
+      data: { data },
+    } = await rootState.http.get<MixinResponse<Asset[]>>('/assets')
+    commit('SET_ALL_USER_ASSETS', data)
   },
 }
 
@@ -73,13 +93,11 @@ const mutations: MutationTree<RootState> = {
   },
   SET_ALL_ASSETS(state, allAssets: Asset[]) {
     state.allAssets = allAssets
-    state.assets = allAssets.reduce<Asset[]>((acc, asset) => {
-      const index = ASSETS.indexOf(asset.symbol)
-      if (index !== -1) {
-        acc[index] = asset
-      }
-      return acc
-    }, [])
+    state.assets = filterAssets(allAssets)
+  },
+  SET_ALL_USER_ASSETS(state, allUserAssets: Asset[]) {
+    state.allUserAssets = allUserAssets
+    state.userAssets = filterAssets(allUserAssets)
   },
 }
 

@@ -1,3 +1,4 @@
+import { Asset } from 'mixin-node-sdk'
 import {
   Column,
   Entity,
@@ -65,4 +66,6 @@ export class Project {
     bot => bot.project,
   )
   bot?: Promise<Bot>
+
+  assets?: Asset[]
 }

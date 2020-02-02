@@ -7,6 +7,8 @@ import { AuthInfo } from './info'
 export interface RootState extends AuthInfo {
   allAssets: Asset[]
   assets: Asset[]
+  allUserAssets: Asset[]
+  userAssets: Asset[]
   http?: AxiosInstance
   loading: boolean
   projects: Record<string, Project>
