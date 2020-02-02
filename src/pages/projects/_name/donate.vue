@@ -48,15 +48,15 @@
             Use {{ asset.symbol }} Network
           </div>
           <div class="mb-4 pa-3" :class="$style.destination">
-            {{ activeAsset.destination || 'Loading...' }}
+            {{ asset.destination || 'Loading...' }}
           </div>
           <v-btn
-            v-clipboard="activeAsset.destination"
+            v-clipboard="asset.destination"
             class="font-weight-bold"
             color="primary"
             outlined
             rounded
-            :disabled="!activeAsset.destination"
+            :disabled="!asset.destination"
             @clipboard-success="copied = true"
           >
             Copy
@@ -100,10 +100,10 @@
           ></v-text-field>
           <v-btn
             block
-            :disabled="amount <= 0"
+            :disabled="!assetId || amount <= 0"
             color="primary"
             rounded
-            @click="donate"
+            @click="donating = true"
           >
             Donate
           </v-btn>
@@ -151,7 +151,6 @@
 import Qrcode from 'vue-qrcode'
 import { multiply } from 'mathjs'
 import uuid from 'uuid'
-import { mapState } from 'vuex'
 
 import { FullSelect, LocalScope, Tips } from '@/components'
 
@@ -167,7 +166,6 @@ export default {
     const [project, { data }] = await Promise.all([
       app.store.dispatch('getProject', name),
       app.http.get(`/projects/${name}/members`),
-      app.store.dispatch('getAssets'),
     ])
     return {
       members: data,
@@ -181,11 +179,15 @@ export default {
       donating: false,
       amount: null,
       copied: false,
-      assetsMap: {},
     }
   },
   computed: {
-    ...mapState(['assets']),
+    bot() {
+      return this.project.__bots__[this.donationDistributionValue]
+    },
+    assets() {
+      return this.bot.assets
+    },
     items() {
       return this.assets.map(({ symbol, name, icon_url, asset_id }) => ({
         title: symbol,
@@ -201,17 +203,17 @@ export default {
         {}
       )
     },
-    activeAsset() {
-      return (this.assetId && this.assetsMap[this.assetId]) || {}
-    },
     qrcode() {
-      return this.$utils.normalizeUrl('mixin://pay', {
-        recipient: this.activeAsset.user_id,
-        asset: this.assetId,
-        amount: this.amount,
-        trace: uuid(),
-        memo: 'Donate',
-      })
+      return (
+        this.assetId &&
+        this.$utils.normalizeUrl('mixin://pay', {
+          recipient: this.bot.id,
+          asset: this.assetId,
+          amount: this.amount,
+          trace: uuid(),
+          memo: 'Donate',
+        })
+      )
     },
     usdt() {
       return multiply(this.asset.price_usd || 0, this.mount)
@@ -227,25 +229,8 @@ export default {
   },
   methods: {
     distributeDonation() {
-      const { DonationDistribution } = this.$utils
       const membersNum = this.members.length
-      // eslint-disable-next-line sonarjs/no-small-switch
-      switch (this.donationDistributionValue) {
-        case DonationDistribution.IdenticalAmount: {
-          return [this.amount / membersNum, 100 / membersNum]
-        }
-      }
-      return []
-    },
-    async donate() {
-      this.donating = true
-      if (this.assetsMap[this.assetId]) {
-        return
-      }
-      const { data } = await this.$http.get(
-        `/projects/${this.$route.params.name}/assets/${this.assetId}`,
-      )
-      this.$set(this.assetsMap, this.assetId, data)
+      return [this.amount / membersNum, 100 / membersNum]
     },
   },
 }

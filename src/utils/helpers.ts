@@ -49,3 +49,6 @@ export const unionDisplayName = (
       ? displayName
       : `${name} (${displayName})`
     : name
+
+export const delay = (milliseconds?: number) =>
+  new Promise<void>(resolve => setTimeout(resolve, milliseconds))

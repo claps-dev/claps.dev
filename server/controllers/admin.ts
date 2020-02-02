@@ -4,11 +4,16 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 import { pki } from 'node-forge'
 
-import { unionDisplayName } from '../../src/utils'
+import { DonationDistribution, unionDisplayName } from '@/utils'
+
 import { Bot, Project } from '../entities'
 import { mixin, mixinBot, randomPin } from '../utils'
 
 const generateKeyPair = promisify(pki.rsa.generateKeyPair)
+
+const DONATION_DISTRIBUTIONS = Object.values(DonationDistribution).filter(
+  _ => typeof _ === 'number',
+) as DonationDistribution[]
 
 @Controller
 @RequestMapping('/admin')
@@ -16,61 +21,77 @@ export class AdminController {
   @RequestMapping('/createBot')
   async createBot(ctx: Context) {
     const { projectId } = ctx.query
+
     if (!projectId) {
       return ctx.throw(400, 'projectId is required')
     }
 
     const botRepo = ctx.conn.getRepository(Bot)
 
-    const existBot = await botRepo.findOne({
+    const existBots = await botRepo.find({
       relations: ['project'],
       where: {
         projectId,
       },
     })
 
-    if (existBot) {
-      ctx.body = existBot
+    if (existBots.length > 0) {
+      ctx.body = existBots
       return
     }
 
-    const { publicKey, privateKey } = await generateKeyPair({
-      bits: 1024,
-      workers: 2,
-    })
+    const bots: Bot[] = []
 
-    const publicKeyPem = pki.publicKeyToPem(publicKey)
-    const privateKeyPem = pki.privateKeyToPem(privateKey)
+    let projectDisplayName: string
 
-    const sessionSecret = publicKeyPem
-      .trim()
-      .split(/\r?\n/)
-      .slice(1, -1)
-      .join('')
+    await Promise.all(
+      DONATION_DISTRIBUTIONS.map(async distribution => {
+        const { publicKey, privateKey } = await generateKeyPair({
+          bits: 1024,
+          workers: 2,
+        })
 
-    let botUser = await mixin.create_user({
-      full_name:
-        ctx.query.fullName ||
-        unionDisplayName(await ctx.conn.getRepository(Project).findOne()),
-      session_secret: sessionSecret,
-    })
+        const publicKeyPem = pki.publicKeyToPem(publicKey)
+        const privateKeyPem = pki.privateKeyToPem(privateKey)
 
-    const bot = {
-      id: botUser.user_id,
-      pin: '',
-      pinToken: botUser.pin_token,
-      privateKey: privateKeyPem,
-      projectId,
-      sessionId: botUser.session_id,
-    } as Bot
-    const pin = randomPin()
-    botUser = await mixinBot(bot).pin_update({
-      old_pin: bot.pin,
-      pin,
-    })
-    bot.pin = pin
-    await botRepo.save(bot)
+        const botUser = await mixin.create_user({
+          full_name:
+            ctx.query.fullName ||
+            [
+              projectDisplayName ||
+                (projectDisplayName = unionDisplayName(
+                  await ctx.conn
+                    .getRepository(Project)
+                    .findOne({ id: projectId }),
+                )),
+              distribution,
+            ].join('_'),
+          session_secret: publicKeyPem
+            .trim()
+            .split(/\r?\n/)
+            .slice(1, -1)
+            .join(''),
+        })
 
-    ctx.body = botUser
+        const bot = {
+          id: botUser.user_id,
+          distribution,
+          pin: '',
+          pinToken: botUser.pin_token,
+          privateKey: privateKeyPem,
+          projectId,
+          sessionId: botUser.session_id,
+        } as Bot
+        const pin = randomPin()
+        await mixinBot(bot).pin_update({
+          old_pin: bot.pin,
+          pin,
+        })
+        bot.pin = pin
+        bots.push(bot)
+      }),
+    )
+
+    ctx.body = await botRepo.save(bots)
   }
 }

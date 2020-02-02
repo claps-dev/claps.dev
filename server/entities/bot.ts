@@ -1,4 +1,7 @@
+import { Asset } from 'mixin-node-sdk'
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm'
+
+import { DonationDistribution } from '@/utils'
 
 import { Project } from './project'
 
@@ -11,6 +14,12 @@ export class Bot {
     name: 'project_id',
   })
   projectId: number
+
+  @Column({
+    type: 'enum',
+    enum: DonationDistribution,
+  })
+  distribution: DonationDistribution
 
   @Column({
     name: 'session_id',
@@ -38,4 +47,6 @@ export class Bot {
     name: 'project_id',
   })
   project: Project
+
+  assets?: Asset[]
 }

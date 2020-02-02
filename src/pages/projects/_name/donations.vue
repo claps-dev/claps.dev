@@ -1,5 +1,5 @@
 <template>
-  <donations v-bind="_data" />
+  <donations v-bind="_data" :assets="[]" />
 </template>
 <script lang="ts">
 import { Donations } from '@/components'

@@ -9,7 +9,7 @@ import { createConnection } from 'typeorm'
 
 import { serverHost, serverPort } from '../../build/config'
 import '../controllers'
-import { Bot, Member, Project, Repository, User } from '../entities'
+import * as entities from '../entities'
 import { session } from '../session'
 import { MIXIN_API_HOST } from '../utils'
 
@@ -25,7 +25,7 @@ export const startRouter = async (app?: Koa) => {
   const conn = await createConnection({
     type: 'mysql',
     ...JSON.parse(process.env.DATABASE_CONFIG),
-    entities: [Bot, Member, Project, Repository, User],
+    entities: Object.values(entities),
   })
 
   const middlewares: Middleware[] = [

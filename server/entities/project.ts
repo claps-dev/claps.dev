@@ -1,9 +1,7 @@
-import { Asset } from 'mixin-node-sdk'
 import {
   Column,
   Entity,
   OneToMany,
-  OneToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm'
@@ -61,11 +59,12 @@ export class Project {
   )
   members: Member[]
 
-  @OneToOne(
+  @OneToMany(
     () => Bot,
     bot => bot.project,
   )
-  bot?: Promise<Bot>
+  bots?: Promise<Bot[]>
 
-  assets?: Asset[]
+  // tslint:disable-next-line: variable-name
+  __bots__?: Bot[]
 }

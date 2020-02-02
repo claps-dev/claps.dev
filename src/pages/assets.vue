@@ -36,7 +36,7 @@
     </template>
     <v-list class="mt-2 mx--4 transparent">
       <v-list-item
-        v-for="{ asset_id, icon_url, name, symbol } of assets"
+        v-for="{ asset_id, icon_url, name, symbol } of userAssets"
         :key="asset_id"
       >
         <v-list-item-avatar size="42" color="grey" class="mr-3 rounded">
@@ -68,8 +68,11 @@ export default {
   components: {
     Tips,
   },
+  asyncData({ app }) {
+    return app.store.dispatch('getUserAssets')
+  },
   computed: {
-    ...mapState(['assets', 'envs', 'mixinAuth', 'randomUid']),
+    ...mapState(['userAssets', 'envs', 'mixinAuth', 'randomUid']),
     mixinOauthUrl() {
       return this.$utils.normalizeUrl(this.$utils.MIXIN_OAUTH_URL, {
         client_id: this.envs.MIXIN_CLIENT_ID,

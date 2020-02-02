@@ -29,9 +29,14 @@ export class ProjectController {
       },
     })
 
-    // @ts-ignore
-    const [assets] = await Promise.all([
-      project.bot.then(bot => mixinBot(bot).query_assets({})),
+    const bots = await project.bots
+
+    await Promise.all<unknown>([
+      ...bots.map(bot =>
+        mixinBot(bot)
+          .query_assets({})
+          .then(assets => (bot.assets = assets)),
+      ),
       ...project.repositories.map(async repository => {
         const [owner, repo] = repository.slug.split('/')
         const { data } = await octokit.repos.get({
@@ -46,8 +51,6 @@ export class ProjectController {
       ...project.members.map(member => member.user),
     ])
 
-    project.assets = assets
-
     ctx.body = project
   }
 
@@ -59,20 +62,5 @@ export class ProjectController {
     })
     await Promise.all(members.map(member => member.user))
     ctx.body = members
-  }
-
-  @RequestMapping('/:name/assets/:assetId')
-  async asset(ctx: Context) {
-    const { assetId, name } = ctx.params
-    const project = await ctx.conn.getRepository(Project).findOne({ name })
-    const bot = await project.bot
-    ctx.body = Object.assign(
-      await mixinBot(bot).query_assets({
-        asset_id: assetId,
-      }),
-      {
-        user_id: bot.id,
-      },
-    )
   }
 }
