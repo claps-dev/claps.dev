@@ -10185,7 +10185,7 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mixin-node-sdk@^0.1.9:
+mixin-node-sdk@^0.1.10:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/mixin-node-sdk/-/mixin-node-sdk-0.1.10.tgz#a4c63ce04487adfbfd243b4f9cef554e86eebd7f"
   integrity sha512-xvqKn4gWxMQjnVfYaVG2O7Al+N9v3RUI3oiAI+e/sCMkYtikHWBRbUFzrCuDPuwdaFfeZqDOwjOCC5QOl6thZw==
