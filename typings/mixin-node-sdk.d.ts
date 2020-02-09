@@ -103,11 +103,16 @@ declare module 'mixin-node-sdk' {
   }
 
   export interface Snapshot {
+    amount: string
     type: 'snapshot'
     asset: AssetCore
     created_at: string
     snapshot_id: string
-    source: 'TRANSFER_INITIALIZED'
+    source: string
+    user_id?: string
+    trace_id?: string
+    opponent_id?: string
+    data?: string
   }
 
   export class Mixin {
@@ -116,7 +121,13 @@ declare module 'mixin-node-sdk' {
     query_assets(params: { asset_id: string }): Promise<Asset>
     query_assets(params: {}): Promise<Asset[]>
 
-    query_network_snapshots(params: { snapshot_id: string }): Promise<Snapshot>
+    query_network_snapshots(params: {
+      snapshot_id: string
+      asset?: string
+      offset?: string
+      order?: 'ASC' | 'DESC'
+    }): Promise<Snapshot>
+
     query_network_snapshots(params: {}): Promise<Snapshot[]>
 
     query_my_addresses_by_assetid(params: {
