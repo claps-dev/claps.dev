@@ -1,5 +1,5 @@
 import { createTokenAuth } from '@octokit/auth-token'
-import Octokit from '@octokit/rest'
+import { Octokit } from '@octokit/rest'
 import { Mixin } from 'mixin-node-sdk'
 
 export const MIXIN_API_HOST = 'https://mixin-api.zeromesh.net/'

@@ -1,4 +1,4 @@
-import { UsersListEmailsResponse } from '@octokit/rest'
+import { Octokit } from '@octokit/rest'
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 
@@ -12,7 +12,7 @@ export class UserController {
   @LoginRequired
   @RequestMapping('/profile')
   async profile(ctx: Context) {
-    let emails: UsersListEmailsResponse
+    let emails: Octokit.UsersListEmailsResponse
     try {
       const { data } = await octokit.users.listEmails()
       emails = data
