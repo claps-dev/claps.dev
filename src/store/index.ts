@@ -56,12 +56,15 @@ const actions: ActionTree<RootState, RootState> = {
     commit('SET_ALL_ASSETS', data)
   },
   async getUserAssets({ commit, rootState }) {
-    if (rootState.userAssets.length > 0) {
+    if (rootState.userAssets.length > 0 || !rootState.mixinAuth) {
       return
     }
     const {
-      data: { data },
+      data: { data, error },
     } = await rootState.http.get<MixinResponse<Asset[]>>('/assets')
+    if (error) {
+      return
+    }
     commit('SET_ALL_USER_ASSETS', data)
   },
 }

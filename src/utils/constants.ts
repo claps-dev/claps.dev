@@ -14,7 +14,9 @@ export const SET_COOKIE = 'set-cookie'
 
 export const KOA_SESS_SIG = 'koa:sess.sig'
 
-export const DEFAULT_AUTH_SCOPES = ['PHONE', 'PROFILE', 'ASSETS', 'SNAPSHOTS']
+export const BASE_AUTH_SCOPES = ['PHONE', 'PROFILE', 'ASSETS']
+
+export const ALL_AUTH_SCOPES = BASE_AUTH_SCOPES.concat('SNAPSHOTS')
 
 export const DONATION_DISTRIBUTIONS: SelectItem[] = [
   {

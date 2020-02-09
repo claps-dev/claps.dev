@@ -1,13 +1,18 @@
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
-import consola from 'consola'
-import { Context, Next } from 'koa'
+import { Context } from 'koa'
 
 @Controller
 @RequestMapping('/foxone')
 export class FoxoneController {
   @RequestMapping('/oauth')
-  oauth(ctx: Context, next: Next) {
-    consola.log(ctx)
-    next()
+  oauth(ctx: Context) {
+    const { code, state } = ctx.query
+
+    if (!state || state !== ctx.session.uid) {
+      ctx.session.mixinToken = null
+      return ctx.throw(400, 'invalid oauth redirect')
+    }
+
+    ctx.body = code
   }
 }

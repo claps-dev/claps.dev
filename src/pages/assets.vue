@@ -76,7 +76,7 @@ export default {
     mixinOauthUrl() {
       return this.$utils.normalizeUrl(this.$utils.MIXIN_OAUTH_URL, {
         client_id: this.envs.MIXIN_CLIENT_ID,
-        scope: this.$utils.authScopes(),
+        scope: this.$utils.authScopes(this.$utils.ALL_AUTH_SCOPES, true),
         state: this.randomUid,
       })
     },

@@ -5,7 +5,7 @@ import {
 import { flatMap, memoize } from 'lodash'
 import { IStringifyOptions, stringify } from 'qs'
 
-import { DEFAULT_AUTH_SCOPES } from './constants'
+import { BASE_AUTH_SCOPES } from './constants'
 
 export const encodeUrl = encodeURIComponent
 
@@ -20,7 +20,7 @@ export const normalizeUrl = (
 const genScope = (scope: string, writable = false) =>
   [scope, writable ? 'WRITE' : 'READ'].join(':')
 
-export const authScopes = (scopes = DEFAULT_AUTH_SCOPES, writable = false) =>
+export const authScopes = (scopes = BASE_AUTH_SCOPES, writable = false) =>
   flatMap(scopes, scope =>
     [genScope(scope)].concat(writable ? genScope(scope, true) : []),
   ).join(' ')
