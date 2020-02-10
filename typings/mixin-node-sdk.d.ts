@@ -121,14 +121,12 @@ declare module 'mixin-node-sdk' {
     query_assets(params: { asset_id: string }): Promise<Asset>
     query_assets(params: {}): Promise<Asset[]>
 
+    query_network_snapshots(params: { snapshot_id: string }): Promise<Snapshot>
     query_network_snapshots(params: {
-      snapshot_id: string
       asset?: string
       offset?: string
       order?: 'ASC' | 'DESC'
-    }): Promise<Snapshot>
-
-    query_network_snapshots(params: {}): Promise<Snapshot[]>
+    }): Promise<Snapshot[]>
 
     query_my_addresses_by_assetid(params: {
       asset_id: string

@@ -4,10 +4,16 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 import { pki } from 'node-forge'
 
-import { DonationDistribution, filterAssets, unionDisplayName } from '@/utils'
+import { DonationDistribution, unionDisplayName } from '@/utils'
 
 import { Bot, Project, Wallet } from '../entities'
-import { mixin, mixinBot, randomPin, syncTransactions } from '../utils'
+import {
+  getAssets,
+  mixin,
+  mixinBot,
+  randomPin,
+  syncTransactions,
+} from '../utils'
 
 const generateKeyPair = promisify(pki.rsa.generateKeyPair)
 
@@ -40,9 +46,9 @@ export class AdminController {
       return
     }
 
-    const assets = filterAssets(await mixin.query_assets({}))
+    const assets = await getAssets()
     const bots: Bot[] = []
-    const wallets: Array<Pick<Wallet, 'botId' | 'assetId'>> = []
+    const wallets: Array<Pick<Wallet, 'botId' | 'assetId' | 'projectId'>> = []
 
     let projectDisplayName: string
 
@@ -94,6 +100,7 @@ export class AdminController {
         bots.push(bot)
         assets.forEach(asset =>
           wallets.push({
+            projectId: bot.projectId,
             botId: bot.id,
             assetId: asset.asset_id,
           }),

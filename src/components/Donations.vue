@@ -49,7 +49,7 @@
         <n-link
           is="v-list-item"
           :key="asset_id"
-          :to="'/transactions/' + asset_id"
+          :to="'transactions/' + asset_id"
         >
           <v-list-item-avatar size="32" color="grey" class="mr-3 rounded">
             <v-img :src="icon_url" />

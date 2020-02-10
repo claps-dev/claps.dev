@@ -14,7 +14,7 @@ const vuetifyOptions: GlobalVuetifyPreset = {
       customProperties: true,
       minifyTheme(css) {
         return process.env.NODE_ENV === 'production'
-          ? css.replace(/[\r|\n]/g, '')
+          ? css.replace(/[\n\r|]/g, '')
           : css
       },
     },

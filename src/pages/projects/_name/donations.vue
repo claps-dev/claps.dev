@@ -1,15 +1,22 @@
 <template>
-  <donations v-bind="_data" :assets="[]" />
+  <donations v-bind="_data" :assets="assets" />
 </template>
 <script lang="ts">
+import { mapState } from 'vuex'
+
 import { Donations } from '@/components'
 
 export default {
   components: {
     Donations,
   },
-  asyncData({ app, route }) {
-    return app.store.dispatch('getProject', route.params.name)
+  async asyncData({ app, route }) {
+    const [project] = await Promise.all([
+      app.store.dispatch('getProject', route.params.name),
+      app.store.dispatch('getAssets'),
+    ])
+    return project
   },
+  computed: mapState(['assets']),
 }
 </script>

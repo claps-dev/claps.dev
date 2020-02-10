@@ -2,9 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm'
+
+import { Project } from './project'
 
 @Entity()
 export class Wallet {
@@ -17,6 +21,11 @@ export class Wallet {
     name: 'asset_id',
   })
   assetId: string
+
+  @Column({
+    name: 'project_id',
+  })
+  projectId: number
 
   @Column()
   total: number
@@ -38,4 +47,13 @@ export class Wallet {
     name: 'synced_at',
   })
   syncedAt?: Date
+
+  @ManyToOne(
+    () => Project,
+    project => project.id,
+  )
+  @JoinColumn({
+    name: 'project_id',
+  })
+  project?: Project
 }

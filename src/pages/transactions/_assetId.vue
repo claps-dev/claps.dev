@@ -60,10 +60,10 @@ export default {
       snapshots: snapshots.filter(({ amount }) => amount > 0),
     }
   },
-  computed: mapState(['allUserAssets']),
+  computed: mapState(['allAssets']),
   methods: {
     getAsset(assetId: string) {
-      return this.allUserAssets.find(_ => _.asset_id === assetId)
+      return this.allAssets.find(_ => _.asset_id === assetId)
     },
   },
 }

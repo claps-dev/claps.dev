@@ -2,6 +2,7 @@ import { BinaryLike, createHash, randomBytes } from 'crypto'
 import { formatRFC3339 } from 'date-fns'
 import { last, uniqBy } from 'lodash'
 import { bignumber } from 'mathjs'
+import { Asset } from 'mixin-node-sdk'
 import { Connection, createConnection } from 'typeorm'
 
 import { filterAssets } from '@/utils'
@@ -51,7 +52,7 @@ export const randomPin = (length = 6) => {
   return pin
 }
 
-let conn: Connection | undefined
+let conn: Connection
 
 export const getConn = async () =>
   conn ||
@@ -61,9 +62,26 @@ export const getConn = async () =>
     entities: Object.values(entities),
   }))
 
+export const getAssets = (() => {
+  let assets: Asset[]
+  let timeoutId: NodeJS.Timeout
+
+  const startTimer = () => {
+    timeoutId = setTimeout(() => {
+      assets = null
+      clearTimeout(timeoutId)
+      startTimer()
+    }, 30 * 1000)
+  }
+
+  startTimer()
+
+  return async () =>
+    assets || (assets = filterAssets(await mixin.query_assets({})))
+})()
+
 export const syncTransactions = async (projectId?: string) => {
-  const conn = await getConn()
-  const assets = filterAssets(await mixin.query_assets({}))
+  const [conn, assets] = await Promise.all([getConn(), getAssets()])
   const bots = await conn.getRepository(Bot).find(
     projectId && {
       where: {

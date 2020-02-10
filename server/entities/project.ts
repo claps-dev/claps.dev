@@ -10,6 +10,7 @@ import {
 import { Bot } from './bot'
 import { Member } from './member'
 import { Repository } from './repository'
+import { Wallet } from './wallet'
 
 @Entity()
 export class Project {
@@ -42,12 +43,6 @@ export class Project {
   })
   updatedAt: Date
 
-  @Column()
-  total: number
-
-  @Column()
-  patrons: number
-
   @OneToMany(
     () => Repository,
     repository => repository.project,
@@ -58,7 +53,13 @@ export class Project {
     () => Member,
     member => member.project,
   )
-  members: Member[]
+  members?: Member[]
+
+  @OneToMany(
+    () => Wallet,
+    wallet => wallet.project,
+  )
+  wallets?: Wallet[]
 
   @OneToMany(
     () => Bot,
@@ -67,6 +68,10 @@ export class Project {
   bots?: Promise<Bot[]>
 
   botIds?: string[]
+
+  total = 0
+
+  patrons = 0
 
   // tslint:disable-next-line: variable-name
   __bots__?: Bot[]
