@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm'
 
 @Entity()
 export class Wallet {
@@ -12,24 +18,24 @@ export class Wallet {
   })
   assetId: string
 
-  @Column({
-    name: 'asset_symbol',
-  })
-  assetSymbol: string
-
   @Column()
   total: number
 
   @Column()
   balance: number
 
-  @Column({
-    name: 'synced_at',
+  @CreateDateColumn({
+    name: 'created_at',
   })
-  syncedAt: Date
+  createdAt: Date
 
-  @Column({
+  @UpdateDateColumn({
     name: 'updated_at',
   })
   updatedAt: Date
+
+  @Column({
+    name: 'synced_at',
+  })
+  syncedAt?: Date
 }

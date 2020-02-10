@@ -5,13 +5,11 @@ import consola from 'consola'
 import Koa, { DefaultState, Middleware } from 'koa'
 import bodyParser from 'koa-bodyparser'
 import compose from 'koa-compose'
-import { createConnection } from 'typeorm'
 
 import { serverHost, serverPort } from '../../build/config'
 import '../controllers'
-import * as entities from '../entities'
 import { session } from '../session'
-import { MIXIN_API_HOST } from '../utils'
+import { MIXIN_API_HOST, getConn } from '../utils'
 
 export const startRouter = async (app?: Koa) => {
   const router = new Router<DefaultState, Koa.Context>({
@@ -20,13 +18,8 @@ export const startRouter = async (app?: Koa) => {
 
   injectAllRoutes(router)
 
+  const conn = await getConn()
   const provided = !!app
-
-  const conn = await createConnection({
-    type: 'mysql',
-    ...JSON.parse(process.env.DATABASE_CONFIG),
-    entities: Object.values(entities),
-  })
 
   const middlewares: Middleware[] = [
     (ctx, next) => {

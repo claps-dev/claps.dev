@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryColumn,
@@ -31,7 +32,7 @@ export class Project {
   })
   avatarUrl?: string
 
-  @Column({
+  @CreateDateColumn({
     name: 'created_at',
   })
   createdAt: Date

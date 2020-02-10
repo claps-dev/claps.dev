@@ -14,6 +14,8 @@ export const SET_COOKIE = 'set-cookie'
 
 export const KOA_SESS_SIG = 'koa:sess.sig'
 
+export const ASSETS = ['BTC', 'BCH', 'ETH', 'EOS', 'XRP', 'XMR']
+
 export const BASE_AUTH_SCOPES = ['PHONE', 'PROFILE', 'ASSETS']
 
 export const ALL_AUTH_SCOPES = BASE_AUTH_SCOPES.concat('SNAPSHOTS')

@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -38,7 +39,7 @@ export class Repository {
   @Column()
   description?: string
 
-  @Column({
+  @CreateDateColumn({
     name: 'created_at',
   })
   createdAt: Date

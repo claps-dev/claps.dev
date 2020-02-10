@@ -5,7 +5,9 @@ import {
 import { flatMap, memoize } from 'lodash'
 import { IStringifyOptions, stringify } from 'qs'
 
-import { BASE_AUTH_SCOPES } from './constants'
+import { Asset } from '@/types'
+
+import { ASSETS, BASE_AUTH_SCOPES } from './constants'
 
 export const encodeUrl = encodeURIComponent
 
@@ -52,3 +54,12 @@ export const unionDisplayName = (
 
 export const delay = (milliseconds?: number) =>
   new Promise<void>(resolve => setTimeout(resolve, milliseconds))
+
+export const filterAssets = (assets: Asset[]) =>
+  assets.reduce<Asset[]>((acc, asset) => {
+    const index = ASSETS.indexOf(asset.symbol)
+    if (index !== -1) {
+      acc[index] = asset
+    }
+    return acc
+  }, [])

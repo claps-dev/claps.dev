@@ -5,18 +5,23 @@ export class Transaction {
   @PrimaryColumn()
   id: string
 
-  @Column()
-  amount: number
+  @Column({
+    name: 'project_id',
+  })
+  projectId: number
+
+  @Column({
+    name: 'bot_id',
+  })
+  botId: string
 
   @Column({
     name: 'asset_id',
   })
   assetId: string
 
-  @Column({
-    name: 'asset_symbol',
-  })
-  assetSymbol: string
+  @Column()
+  amount: number
 
   @Column({
     name: 'created_at',

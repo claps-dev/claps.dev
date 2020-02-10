@@ -5,6 +5,7 @@ import Vue from 'vue'
 import Vuex, { ActionTree, MutationTree } from 'vuex'
 
 import { AuthInfo, Project, RootState } from '@/types'
+import { filterAssets } from '@/utils'
 
 Vue.use(Vuex)
 
@@ -15,17 +16,6 @@ const state = (): RootState => ({
   loading: false,
   projects: {},
 })
-
-const ASSETS = ['BTC', 'BCH', 'ETH', 'EOS', 'XRP', 'XMR']
-
-const filterAssets = (assets: Asset[]) =>
-  assets.reduce<Asset[]>((acc, asset) => {
-    const index = ASSETS.indexOf(asset.symbol)
-    if (index !== -1) {
-      acc[index] = asset
-    }
-    return acc
-  }, [])
 
 const actions: ActionTree<RootState, RootState> = {
   async fetchAuthInfo({ commit, rootState }) {
