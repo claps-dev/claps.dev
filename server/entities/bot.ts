@@ -1,4 +1,3 @@
-import { Asset } from 'mixin-node-sdk'
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm'
 
 import { DonationDistribution } from '@/utils'
@@ -47,6 +46,4 @@ export class Bot {
     name: 'project_id',
   })
   project: Project
-
-  assets?: Asset[]
 }

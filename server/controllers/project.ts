@@ -3,7 +3,7 @@ import { Context } from 'koa'
 import { Like } from 'typeorm'
 
 import { Project } from '../entities'
-import { mixinBot, octokit } from '../utils'
+import { octokit } from '../utils'
 
 @Controller
 @RequestMapping('/projects')
@@ -29,14 +29,11 @@ export class ProjectController {
       },
     })
 
-    const bots = await project.bots
-
     await Promise.all<unknown>([
-      ...bots.map(bot =>
-        mixinBot(bot)
-          .query_assets({})
-          .then(assets => (bot.assets = assets)),
-      ),
+      project.bots.then(bots => {
+        delete project.__bots__
+        project.botIds = bots.map(({ id }) => id)
+      }),
       ...project.repositories.map(async repository => {
         const [owner, repo] = repository.slug.split('/')
         const { data } = await octokit.repos.get({

@@ -1,5 +1,5 @@
 <template>
-  <donations v-bind="donations" :assets="userAssets" />
+  <donations v-bind="donations" :assets="assets" />
 </template>
 <script lang="ts">
 import { mapState } from 'vuex'
@@ -16,12 +16,12 @@ export default {
   async asyncData({ app }) {
     const [{ data }] = await Promise.all([
       app.http.get('/user/profile'),
-      app.store.dispatch('getUserAssets'),
+      app.store.dispatch('getAssets'),
     ])
     return data
   },
   computed: {
-    ...mapState(['userAssets', 'user']),
+    ...mapState(['assets', 'user']),
     donations() {
       let total = 0
       let patrons = 0

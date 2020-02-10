@@ -1,3 +1,4 @@
+export * from './bot'
 export * from './common'
 export * from './foxone'
 export * from './github'

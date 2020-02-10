@@ -48,15 +48,15 @@
             Use {{ asset.symbol }} Network
           </div>
           <div class="mb-4 pa-3" :class="$style.destination">
-            {{ asset.destination || 'Loading...' }}
+            {{ destinations[assetId] || 'Loading...' }}
           </div>
           <v-btn
-            v-clipboard="asset.destination"
+            v-clipboard="destinations[assetId]"
             class="font-weight-bold"
             color="primary"
             outlined
             rounded
-            :disabled="!asset.destination"
+            :disabled="!destinations[assetId]"
             @clipboard-success="copied = true"
           >
             Copy
@@ -103,7 +103,7 @@
             :disabled="!assetId || amount <= 0"
             color="primary"
             rounded
-            @click="donating = true"
+            @click="donate"
           >
             Donate
           </v-btn>
@@ -148,8 +148,9 @@
   </v-container>
 </template>
 <script lang="ts">
-import Qrcode from 'vue-qrcode'
 import { multiply } from 'mathjs'
+import Qrcode from 'vue-qrcode'
+import { mapState } from 'vuex'
 import uuid from 'uuid'
 
 import { FullSelect, LocalScope, Tips } from '@/components'
@@ -166,6 +167,7 @@ export default {
     const [project, { data }] = await Promise.all([
       app.store.dispatch('getProject', name),
       app.http.get(`/projects/${name}/members`),
+      app.store.dispatch('getAssets'),
     ])
     return {
       members: data,
@@ -179,14 +181,13 @@ export default {
       donating: false,
       amount: null,
       copied: false,
+      destinations: {},
     }
   },
   computed: {
-    bot() {
-      return this.project.__bots__[this.donationDistributionValue]
-    },
-    assets() {
-      return this.bot.assets
+    ...mapState(['assets']),
+    botId() {
+      return this.project.botIds[this.donationDistributionValue]
     },
     items() {
       return this.assets.map(({ symbol, name, icon_url, asset_id }) => ({
@@ -207,7 +208,7 @@ export default {
       return (
         this.assetId &&
         this.$utils.normalizeUrl('mixin://pay', {
-          recipient: this.bot.id,
+          recipient: this.botId,
           asset: this.assetId,
           amount: this.amount,
           trace: uuid(),
@@ -231,6 +232,16 @@ export default {
     distributeDonation() {
       const membersNum = this.members.length
       return [this.amount / membersNum, 100 / membersNum]
+    },
+    async donate() {
+      this.donating = true
+      if (this.destinations[this.assetId]) {
+        return
+      }
+      const { data } = await this.$http.get(
+        `/bots/${this.botId}/assets/${this.assetId}`,
+      )
+      this.$set(this.destinations, this.assetId, data.destination)
     },
   },
 }

@@ -4,15 +4,13 @@ import { Asset } from 'mixin-node-sdk'
 import Vue from 'vue'
 import Vuex, { ActionTree, MutationTree } from 'vuex'
 
-import { AuthInfo, MixinResponse, Project, RootState } from '@/types'
+import { AuthInfo, Project, RootState } from '@/types'
 
 Vue.use(Vuex)
 
 const state = (): RootState => ({
   allAssets: [],
   assets: [],
-  allUserAssets: [],
-  userAssets: [],
   envs: {},
   loading: false,
   projects: {},
@@ -55,18 +53,6 @@ const actions: ActionTree<RootState, RootState> = {
     const { data } = await rootState.http.get<Asset[]>('/mixin/assets')
     commit('SET_ALL_ASSETS', data)
   },
-  async getUserAssets({ commit, rootState }) {
-    if (rootState.userAssets.length > 0 || !rootState.mixinAuth) {
-      return
-    }
-    const {
-      data: { data, error },
-    } = await rootState.http.get<MixinResponse<Asset[]>>('/assets')
-    if (error) {
-      return
-    }
-    commit('SET_ALL_USER_ASSETS', data)
-  },
 }
 
 const mutations: MutationTree<RootState> = {
@@ -97,10 +83,6 @@ const mutations: MutationTree<RootState> = {
   SET_ALL_ASSETS(state, allAssets: Asset[]) {
     state.allAssets = allAssets
     state.assets = filterAssets(allAssets)
-  },
-  SET_ALL_USER_ASSETS(state, allUserAssets: Asset[]) {
-    state.allUserAssets = allUserAssets
-    state.userAssets = filterAssets(allUserAssets)
   },
 }
 

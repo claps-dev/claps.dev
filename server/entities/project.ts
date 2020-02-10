@@ -65,6 +65,8 @@ export class Project {
   )
   bots?: Promise<Bot[]>
 
+  botIds?: string[]
+
   // tslint:disable-next-line: variable-name
   __bots__?: Bot[]
 }

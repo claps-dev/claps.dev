@@ -54,7 +54,7 @@ export default {
           asset: route.params.assetId,
         },
       }),
-      app.store.dispatch('getUserAssets'),
+      app.store.dispatch('getAssets'),
     ])
     return {
       snapshots: snapshots.filter(({ amount }) => amount > 0),
