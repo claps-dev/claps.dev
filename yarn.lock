@@ -10507,10 +10507,10 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mixin-node-sdk@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/mixin-node-sdk/-/mixin-node-sdk-0.1.10.tgz#a4c63ce04487adfbfd243b4f9cef554e86eebd7f"
-  integrity sha512-xvqKn4gWxMQjnVfYaVG2O7Al+N9v3RUI3oiAI+e/sCMkYtikHWBRbUFzrCuDPuwdaFfeZqDOwjOCC5QOl6thZw==
+mixin-node-sdk@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mixin-node-sdk/-/mixin-node-sdk-1.0.0.tgz#b021f7f74b7b72259a52796af38f50669eb77acd"
+  integrity sha512-JjarAHXgllGvZG77t7IKcFPyhVj/AKHw9ZsdXr5O7kR2hIOEoxd0EAH8gLiUKfIytTsWxZv1SFKIh9NaFUCPVQ==
   dependencies:
     axios "^0.19.0"
     int64-buffer "^0.99.1007"

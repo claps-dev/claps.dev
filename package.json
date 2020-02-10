@@ -46,7 +46,7 @@
     "koa-session": "^5.13.1",
     "lodash-es": "^4.17.15",
     "mathjs": "^6.6.0",
-    "mixin-node-sdk": "^0.1.10",
+    "mixin-node-sdk": "^1.0.0",
     "mysql": "^2.18.1",
     "nuxt": "^2.11.0",
     "qrcode": "^1.4.4",
