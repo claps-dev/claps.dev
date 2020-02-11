@@ -1,10 +1,9 @@
-import { Octokit } from '@octokit/rest'
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
 
 import { LoginRequired } from '../decorators'
-import { Member, Project } from '../entities'
-import { octokit } from '../utils'
+import { Member, MemberWallet, Project } from '../entities'
+import { octokitMap } from '../utils'
 
 @Controller
 @RequestMapping('/user')
@@ -12,30 +11,31 @@ export class UserController {
   @LoginRequired
   @RequestMapping('/profile')
   async profile(ctx: Context) {
-    let emails: Octokit.UsersListEmailsResponse
-    try {
-      const { data } = await octokit.users.listEmails()
-      emails = data
-    } catch {
-      emails = [
-        {
-          email: ctx.session.user.email,
-          primary: true,
-          verified: true,
-          visibility: '',
-        },
-      ]
-    }
+    const userId = ctx.session.user.id
+    const { data } = await octokitMap.get(userId).users.listEmails()
     ctx.body = {
-      emails,
+      emails: data,
       projects: await ctx.conn.getRepository(Project).findByIds(
         (
           await ctx.conn.getRepository(Member).find({
             select: ['projectId'],
-            where: { userId: ctx.session.user.id },
+            where: {
+              userId,
+            },
           })
         ).map(({ projectId }) => projectId),
       ),
     }
+  }
+
+  @LoginRequired
+  @RequestMapping('/assets')
+  async assets(ctx: Context) {
+    const userId = ctx.session.user.id
+    await ctx.conn.getRepository(MemberWallet).find({
+      where: {
+        userId,
+      },
+    })
   }
 }

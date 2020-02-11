@@ -1,3 +1,5 @@
+import { createTokenAuth } from '@octokit/auth-token'
+import { Octokit } from '@octokit/rest'
 import { BinaryLike, createHash, randomBytes } from 'crypto'
 import { formatRFC3339 } from 'date-fns'
 import { last, uniqBy } from 'lodash'
@@ -52,6 +54,11 @@ export const randomPin = (length = 6) => {
   return pin
 }
 
+export const createOctokit = (token = process.env.GITHUB_CLIENT_TOKEN) =>
+  new Octokit({
+    authStrategy: () => createTokenAuth(token),
+  })
+
 let conn: Connection
 
 export const getConn = async () =>
@@ -64,20 +71,15 @@ export const getConn = async () =>
 
 export const getAssets = (() => {
   let assets: Asset[]
-  let timeoutId: NodeJS.Timeout
-
-  const startTimer = () => {
-    timeoutId = setTimeout(() => {
-      assets = null
-      clearTimeout(timeoutId)
-      startTimer()
-    }, 30 * 1000)
+  let lastCheck: number
+  return async () => {
+    const now = Date.now()
+    if (assets && lastCheck && now - lastCheck < 30 * 1000) {
+      return assets
+    }
+    lastCheck = now
+    return (assets = filterAssets(await mixin.query_assets({})))
   }
-
-  startTimer()
-
-  return async () =>
-    assets || (assets = filterAssets(await mixin.query_assets({})))
 })()
 
 export const syncTransactions = async (projectId?: string) => {

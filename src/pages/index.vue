@@ -72,6 +72,7 @@ export default {
     ...mapState(['envs', 'user', 'randomUid']),
     githubOauthUrl() {
       return this.$utils.normalizeUrl(this.$utils.GITHUB_OAUTH_URL, {
+        scope: 'user:email',
         client_id: this.envs.GITHUB_CLIENT_ID,
         state: this.randomUid,
         redirect_uri: `${this.envs.GITHUB_OAUTH_CALLBACK}?path=/profile`,

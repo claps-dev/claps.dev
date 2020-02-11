@@ -2,7 +2,7 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import axios from 'axios'
 import { Context } from 'koa'
 
-import { octokit } from '../utils'
+import { createOctokit, octokitMap } from '../utils'
 
 @Controller
 export class GitHubController {
@@ -43,16 +43,15 @@ export class GitHubController {
       return ctx.throw(400, error_description, error)
     }
 
-    const { data: user } = await octokit.users.getAuthenticated({
-      headers: {
-        authorization: `bearer ${gitHubToken}`,
-      },
-    })
+    const octokit = createOctokit(gitHubToken)
+    const { data: user } = await octokit.users.getAuthenticated()
 
     Object.assign(ctx.session, {
       gitHubToken,
       user,
     })
+
+    octokitMap.set(user.id, octokit)
 
     ctx.redirect(`${path.replace(/ /g, '%2B')}`)
   }

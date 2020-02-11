@@ -1,5 +1,6 @@
 export * from './bot'
 export * from './member'
+export * from './member-wallet'
 export * from './project'
 export * from './repository'
 export * from './transaction'

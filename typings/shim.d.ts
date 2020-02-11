@@ -1,3 +1,4 @@
+/* tslint:disable: ordered-imports */
 declare module '@1stg/postcss-config' {
   const postcssConfig: () => PostcssConfiguration
   export = postcssConfig
@@ -12,8 +13,8 @@ declare module 'http' {
 }
 
 declare module 'vue/types/vue' {
-  import { AxiosInstance } from 'axios'
   import * as utils from '@/utils'
+  import { AxiosInstance } from 'axios'
 
   interface Vue {
     $http: AxiosInstance
