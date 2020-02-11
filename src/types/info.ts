@@ -6,5 +6,6 @@ export interface AuthInfo {
   envs: Env
   user?: Octokit.UsersGetAuthenticatedResponse
   mixinAuth?: boolean
+  foxoneAuth?: boolean
   randomUid?: string
 }

@@ -71,7 +71,7 @@
           </v-snackbar>
         </div>
         <v-card-text class="pt-0">
-          <tips>
+          <tips class="my-4">
             Use the address to donate in {{ asset.name }} network. It may take
             30 mins to be confirmed.
           </tips>

@@ -18,7 +18,7 @@ const ENV_KEYS = [...STR_ENV_KEYS, ...STR_ARR_ENV_KEYS]
 export class CommonController {
   @RequestMapping('/authInfo')
   authInfo(ctx: Context) {
-    const { user = null, mixinToken } = ctx.session
+    const { user = null, mixinToken, foxoneToken } = ctx.session
 
     let randomUid: string = null
 
@@ -30,6 +30,7 @@ export class CommonController {
       user,
       randomUid,
       mixinAuth: !!mixinToken,
+      foxoneAuth: !!foxoneToken,
       envs: ENV_KEYS.reduce((envs, key) => {
         let value: string | string[] = process.env[key]
 

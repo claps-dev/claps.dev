@@ -2,39 +2,57 @@
   <v-container>
     <c-back-title>Assets</c-back-title>
     <div class="headline">≈0.00783823 BTC</div>
-    <div class="subtitle-1">≈$53.30</div>
+    <div class="mb-4 subtitle-1">≈$53.30</div>
+    <tips v-if="!mixinAuth && !foxoneAuth" class="mb-4">
+      Because we store assets in Mixin Network, you must connect to Mixin or
+      Fox.ONE App to withdraw your assets.
+    </tips>
     <n-link
       is="v-btn"
       v-if="mixinAuth"
       to="withdraw"
-      class="mt-5"
+      class="mb-4"
+      block
+      color="primary"
+      rounded
+    >
+      Withdraw to Mixin
+    </n-link>
+    <a
+      is="v-btn"
+      v-else
+      :href="mixinOauthUrl"
+      class="mb-4"
+      block
+      color="primary"
+      rounded
+      @click="$utils.setCookie('redirectPath', $route.fullPath)"
+    >
+      Connect with Mixin
+    </a>
+    <n-link
+      is="v-btn"
+      v-if="foxoneAuth"
+      to="withdraw"
+      class="mb-4"
       block
       color="primary"
       rounded
     >
       Withdraw to Fox.ONE
     </n-link>
-    <template v-else>
-      <tips>
-        Because we store assets in Mixin Network, you must connect to Mixin or
-        Fox.ONE App to withdraw your assets.
-      </tips>
-      <a
-        is="v-btn"
-        :href="mixinOauthUrl"
-        class="mb-4"
-        block
-        color="primary"
-        rounded
-        @click="$utils.setCookie('redirectPath', $route.fullPath)"
-      >
-        Connect with Mixin
-      </a>
-      <a is="v-btn" :href="foxoneOauthUrl" block color="primary" rounded>
-        Connect with Fox.ONE
-      </a>
-    </template>
-    <v-list class="mt-2 mx--4 transparent">
+    <a
+      is="v-btn"
+      v-else
+      :href="foxoneOauthUrl"
+      class="mb-4"
+      block
+      color="primary"
+      rounded
+    >
+      Connect with Fox.ONE
+    </a>
+    <v-list class="mx--4 py-0 transparent">
       <v-list-item
         v-for="{ asset_id, icon_url, name, symbol } of assets"
         :key="asset_id"
@@ -72,7 +90,7 @@ export default {
     return app.store.dispatch('getAssets')
   },
   computed: {
-    ...mapState(['assets', 'envs', 'mixinAuth', 'randomUid']),
+    ...mapState(['assets', 'envs', 'mixinAuth', 'foxoneAuth', 'randomUid']),
     mixinOauthUrl() {
       return this.$utils.normalizeUrl(this.$utils.MIXIN_OAUTH_URL, {
         client_id: this.envs.MIXIN_CLIENT_ID,

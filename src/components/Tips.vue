@@ -1,5 +1,5 @@
 <template>
-  <div class="my-4 pa-3 caption" :class="$style.tips">
+  <div class="pa-3 caption" :class="$style.tips">
     <slot />
     <div v-if="link" class="font-weight-bold text-right">
       Learn more
