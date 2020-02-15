@@ -119,7 +119,7 @@
           >
             Choose Distribution
           </full-select>
-          <tips class="mb-0">
+          <tips class="mt-4 mb-0">
             {{ donationDistribution.description }}
           </tips>
         </v-card-text>
