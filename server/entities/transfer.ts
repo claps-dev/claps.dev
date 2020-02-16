@@ -8,6 +8,11 @@ export class Transfer {
   snapshotId: string
 
   @Column({
+    name: 'user_id',
+  })
+  userId: number
+
+  @Column({
     name: 'trace_id',
   })
   traceId: string

@@ -1,7 +1,7 @@
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import axios from 'axios'
 import { Context } from 'koa'
-import { MixinResponse } from 'mixin-node-sdk'
+import { MixinResponse, User } from 'mixin-node-sdk'
 
 import { mixin } from '../utils'
 
@@ -34,9 +34,20 @@ export class MixinController {
       return ctx.throw(error.status, error.description, error.code)
     }
 
+    const mixinToken = data.access_token
+
+    const {
+      data: { data: mixinUser },
+    } = await axios.get<MixinResponse<User>>('https://api.mixin.one/me', {
+      headers: {
+        Authorization: `Bearer ${mixinToken}`,
+      },
+    })
+
     Object.assign(ctx.session, {
-      mixinToken: data.access_token,
+      mixinToken,
       mixinScope: data.scope,
+      mixinUser,
     })
 
     ctx.redirect(decodeURIComponent(ctx.cookies.get('redirectPath')) || '/')

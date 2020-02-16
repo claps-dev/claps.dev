@@ -1,8 +1,6 @@
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
-import axios from 'axios'
 import { Context } from 'koa'
 import { BigNumber, bignumber } from 'mathjs'
-import { MixinResponse, User } from 'mixin-node-sdk'
 import { FindOperator } from 'typeorm'
 
 import { LoginRequired } from '../decorators'
@@ -100,14 +98,6 @@ export class UserController {
     const transfers: Transfer[] = []
     const wallets: Wallet[] = []
 
-    const {
-      data: { data: user },
-    } = await axios.get<MixinResponse<User>>('https://api.mixin.one/me', {
-      headers: {
-        Authorization: `Bearer ${ctx.session.mixinToken}`,
-      },
-    })
-
     await Promise.all(
       bots.map(async bot => {
         const botMixin = mixinBot(bot)
@@ -122,11 +112,12 @@ export class UserController {
         const transfer = await botMixin.transfer({
           amount: memberWallet.balance,
           asset_id: assetId,
-          opponent_id: user.user_id,
+          opponent_id: ctx.session.mixUser.user_id,
           memo: ['Claps.dev donation', bot.project].join(' - '),
         })
         transfers.push({
           snapshotId: transfer.snapshot_id,
+          userId: ctx.session.user.id,
           traceId: transfer.trace_id,
           opponentId: transfer.opponent_id,
           assetId: transfer.asset_id,
@@ -143,5 +134,22 @@ export class UserController {
 
     await ctx.conn.getRepository(Transfer).save(transfers)
     await walletRepo.save(wallets)
+  }
+
+  @LoginRequired
+  @RequestMapping('/transactions')
+  async transactions(ctx: Context) {
+    const { assetId } = ctx.query
+
+    if (!assetId) {
+      return ctx.throw(400, 'assetId is required')
+    }
+
+    ctx.body = await ctx.conn.getRepository(Transfer).find({
+      where: {
+        userId: ctx.session.user.id,
+        assetId,
+      },
+    })
   }
 }
