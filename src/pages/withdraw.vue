@@ -3,24 +3,38 @@
     <c-back-title>Withdraw {{ asset.symbol }}</c-back-title>
     <v-card>
       <v-card-text>
-        <full-select v-model="assetId" :items="items" />
+        <full-select
+          v-model="assetId"
+          :items="assetItems"
+          @change="onAssetChange"
+        />
         <v-text-field
-          v-model="amount"
+          :value="amount"
           :hint="'≈$' + usdt"
-          persistent-hint
           :suffix="asset.symbol"
+          persistent-hint
+          disabled
           type="number"
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
-        <v-btn block color="primary" rounded>Send</v-btn>
+        <v-btn
+          block
+          color="primary"
+          :disabled="amount <= 0"
+          :loading="loading"
+          rounded
+          @click="onSend"
+        >
+          Send
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
 </template>
 <script lang="ts">
 import { multiply } from 'mathjs'
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 import { FullSelect } from '@/components'
 
@@ -31,25 +45,22 @@ export default {
   components: {
     FullSelect,
   },
-  asyncData({ app }) {
-    return app.store.dispatch('getAssets')
+  fetch({ app }) {
+    return Promise.all([
+      app.store.dispatch('getAssets'),
+      app.store.dispatch('getUserAssets'),
+    ])
   },
   data() {
     return {
       assetId: null,
-      amount: 0.0001,
+      amount: 0,
+      loading: false,
     }
   },
   computed: {
-    ...mapState(['assets']),
-    items() {
-      return this.assets.map(({ symbol, name, icon_url, asset_id }) => ({
-        title: symbol,
-        description: name,
-        avatar: icon_url,
-        value: asset_id,
-      }))
-    },
+    ...mapGetters(['assetItems']),
+    ...mapState(['assets', 'userAssets']),
     asset() {
       return (
         (this.assetId &&
@@ -59,6 +70,22 @@ export default {
     },
     usdt() {
       return multiply(this.asset.price_usd || 0, this.amount)
+    },
+  },
+  methods: {
+    onAssetChange() {
+      this.amount = this.userAssets[this.assetId] || 0
+    },
+    async onSend() {
+      this.loading = true
+      try {
+        await this.$http.post('/user/withdraw', {
+          assetId: this.assetId,
+          amount: this.amount,
+        })
+      } finally {
+        this.loading = false
+      }
     },
   },
 }

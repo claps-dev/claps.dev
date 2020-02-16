@@ -80,7 +80,7 @@
       <template v-else>
         <v-card-subtitle>Choose a asset you want to donate</v-card-subtitle>
         <v-card-text>
-          <full-select v-model="assetId" :items="items">
+          <full-select v-model="assetId" :items="assetItems">
             Choose Coin
           </full-select>
         </v-card-text>
@@ -150,7 +150,7 @@
 <script lang="ts">
 import { multiply } from 'mathjs'
 import Qrcode from 'vue-qrcode'
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import uuid from 'uuid'
 
 import { FullSelect, LocalScope, Tips } from '@/components'
@@ -185,17 +185,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['assetItems']),
     ...mapState(['assets']),
     botId() {
       return this.project.botIds[this.donationDistributionValue]
-    },
-    items() {
-      return this.assets.map(({ symbol, name, icon_url, asset_id }) => ({
-        title: symbol,
-        description: name,
-        avatar: icon_url,
-        value: asset_id,
-      }))
     },
     asset() {
       return (

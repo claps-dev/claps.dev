@@ -1,8 +1,9 @@
 import { Plugin } from '@nuxt/types'
 import { AxiosInstance } from 'axios'
+import { bignumber } from 'mathjs'
 import { Asset } from 'mixin-node-sdk'
 import Vue from 'vue'
-import Vuex, { ActionTree, MutationTree } from 'vuex'
+import Vuex, { ActionTree, GetterTree, MutationTree } from 'vuex'
 
 import { AuthInfo, Project, RootState } from '@/types'
 import { filterAssets } from '@/utils'
@@ -16,6 +17,32 @@ const state = (): RootState => ({
   loading: false,
   projects: {},
 })
+
+const getters: GetterTree<RootState, RootState> = {
+  userPrices(state) {
+    return state.assets.reduce(
+      (acc, asset) => {
+        const amount = state.userAssets?.[asset.asset_id] || 0
+        return {
+          btc: acc.btc.add(bignumber(amount).mul(asset.price_btc)),
+          usd: acc.usd.add(bignumber(amount).mul(asset.price_usd)),
+        }
+      },
+      {
+        btc: bignumber(0),
+        usd: bignumber(0),
+      },
+    )
+  },
+  assetItems(state) {
+    return state.assets.map(({ symbol, name, icon_url, asset_id }) => ({
+      title: symbol,
+      description: name,
+      avatar: icon_url,
+      value: asset_id,
+    }))
+  },
+}
 
 const actions: ActionTree<RootState, RootState> = {
   async fetchAuthInfo({ commit, rootState }) {
@@ -42,6 +69,13 @@ const actions: ActionTree<RootState, RootState> = {
     }
     const { data } = await rootState.http.get<Asset[]>('/mixin/assets')
     commit('SET_ALL_ASSETS', data)
+  },
+  async getUserAssets({ commit, rootState }) {
+    if (rootState.userAssets) {
+      return
+    }
+    const { data } = await rootState.http.get<Asset[]>('/user/assets')
+    commit('SET_USER_ASSETS', data)
   },
 }
 
@@ -74,10 +108,14 @@ const mutations: MutationTree<RootState> = {
     state.allAssets = allAssets
     state.assets = filterAssets(allAssets)
   },
+  SET_USER_ASSETS(state, userAssets: Record<string, number>) {
+    state.userAssets = userAssets
+  },
 }
 
 const store = new Vuex.Store({
   state,
+  getters,
   actions,
   mutations,
 })

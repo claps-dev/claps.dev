@@ -103,8 +103,8 @@ declare module 'mixin-node-sdk' {
   }
 
   export interface Snapshot {
-    amount: string
     type: 'snapshot'
+    amount: string
     asset: AssetCore
     created_at: string
     snapshot_id: string
@@ -113,6 +113,17 @@ declare module 'mixin-node-sdk' {
     trace_id?: string
     opponent_id?: string
     data?: string
+  }
+
+  export interface Transfer {
+    type: 'transfer'
+    snapshot_id: string
+    opponent_id: string
+    asset_id: string
+    amount: string
+    trace_id: string
+    memo: string
+    created_at: string
   }
 
   export class Mixin {
@@ -140,5 +151,12 @@ declare module 'mixin-node-sdk' {
     }): Promise<User>
 
     pin_update(params: { old_pin: string; pin: string }): Promise<User>
+
+    transfer(params: {
+      amount: number | string
+      asset_id: string
+      opponent_id: string
+      memo: string
+    }): Promise<Transfer>
   }
 }

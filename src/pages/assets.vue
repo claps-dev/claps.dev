@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <c-back-title>Assets</c-back-title>
-    <div class="headline">≈{{ prices.btc }} BTC</div>
-    <div class="mb-4 subtitle-1">≈${{ prices.usd }}</div>
+    <div class="headline">≈{{ userPrices.btc }} BTC</div>
+    <div class="mb-4 subtitle-1">≈${{ userPrices.usd }}</div>
     <tips v-if="!mixinAuth && !foxoneAuth" class="mb-4">
       Because we store assets in Mixin Network, you must connect to Mixin or
       Fox.ONE App to withdraw your assets.
@@ -75,7 +75,7 @@
 </template>
 <script lang="ts">
 import { bignumber } from 'mathjs'
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 import { LocalScope, Tips } from '@/components'
 import { Asset } from '@/types'
@@ -88,32 +88,22 @@ export default {
     LocalScope,
     Tips,
   },
-  async asyncData({ app }) {
-    const [userAssets] = await Promise.all([
-      app.http.get('/user/assets'),
+  fetch({ app }) {
+    return Promise.all([
       app.store.dispatch('getAssets'),
+      app.store.dispatch('getUserAssets'),
     ])
-    return {
-      userAssets,
-    }
   },
   computed: {
-    ...mapState(['assets', 'envs', 'mixinAuth', 'foxoneAuth', 'randomUid']),
-    prices() {
-      return this.assets.reduce(
-        (acc, asset) => {
-          const amount = this.userAssets?.[asset.asset_id] || 0
-          return {
-            btc: acc.btc.add(asset.price_btc * amount),
-            usd: acc.usd.add(asset.price_usd * amount),
-          }
-        },
-        {
-          btc: bignumber(0),
-          usd: bignumber(0),
-        },
-      )
-    },
+    ...mapGetters(['userPrices']),
+    ...mapState([
+      'assets',
+      'userAssets',
+      'envs',
+      'mixinAuth',
+      'foxoneAuth',
+      'randomUid',
+    ]),
     mixinOauthUrl() {
       return this.$utils.normalizeUrl(this.$utils.MIXIN_OAUTH_URL, {
         client_id: this.envs.MIXIN_CLIENT_ID,
