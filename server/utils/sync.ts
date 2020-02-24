@@ -219,7 +219,7 @@ export const syncTransactions = async () => {
       }
 
       if (snapshots.length < 500) {
-        timeoutId = setTimeout(() => {
+        timeoutId = global.setTimeout(() => {
           syncTransactions()
         }, 30 * 1000)
         break
