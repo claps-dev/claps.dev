@@ -64,7 +64,7 @@
     "@1stg/app-config": "^0.4.2",
     "@1stg/tslint-config": "^0.8.2",
     "@d-ts/vue": "^0.4.2",
-    "@nuxt/types": "^0.6.1",
+    "@nuxt/types": "^0.6.2",
     "@nuxt/typescript-build": "^0.5.7",
     "@nuxt/typescript-runtime": "^0.3.8",
     "@nuxtjs/eslint-config-typescript": "^1.0.2",
