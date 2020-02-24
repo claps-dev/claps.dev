@@ -68,7 +68,7 @@
     "@nuxt/typescript-build": "^0.5.7",
     "@nuxt/typescript-runtime": "^0.3.8",
     "@nuxtjs/eslint-config-typescript": "^1.0.2",
-    "@pkgr/rollup": "^0.10.2",
+    "@pkgr/rollup": "^0.10.3",
     "@types/clipboard": "^2.0.1",
     "@types/http-proxy": "^1.17.3",
     "@types/koa": "^2.11.1",
