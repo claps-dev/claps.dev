@@ -13,7 +13,7 @@
     "build:app": "env-cmd nuxt-ts build",
     "build:server": "cross-env NODE_ENV=production r -i server/index -f cjs -x '*' -o dist --terser '{keep_fnames:true}'",
     "dev": "env-cmd run-p dev:*",
-    "dev:router": "tsnd -O '{\"module\":\"commonjs\",\"target\":\"es2015\"}' -r tsconfig-paths/register -T server/router/dev",
+    "dev:router": "cross-env ROUTER_DEV=true tsnd -O '{\"module\":\"commonjs\",\"target\":\"es2015\"}' -r tsconfig-paths/register -T server/router/dev",
     "dev:server": "tsnd -O '{\"module\":\"commonjs\",\"target\":\"es2015\"}' -r tsconfig-paths/register -T server",
     "lint": "run-p lint:*",
     "lint:es": "env-cmd eslint . --cache --ext md,ts,tsx,vue",

@@ -30,4 +30,7 @@ export class Transaction {
 
   @Column()
   sender: string
+
+  @Column()
+  receiver: string
 }

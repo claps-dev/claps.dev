@@ -7,13 +7,7 @@ import { pki } from 'node-forge'
 import { DonationDistribution, unionDisplayName } from '@/utils'
 
 import { Bot, Project, Wallet } from '../entities'
-import {
-  getAssets,
-  mixin,
-  mixinBot,
-  randomPin,
-  syncTransactions,
-} from '../utils'
+import { getAssets, mixin, mixinBot, randomPin } from '../utils'
 
 const generateKeyPair = promisify(pki.rsa.generateKeyPair)
 
@@ -112,10 +106,5 @@ export class AdminController {
       botRepo.save(bots),
       ctx.conn.getRepository(Wallet).save(wallets),
     ])
-  }
-
-  @RequestMapping('/sync')
-  async sync(ctx: Context) {
-    ctx.body = await syncTransactions(ctx.query.projectId)
   }
 }
