@@ -63,7 +63,7 @@
   "devDependencies": {
     "@1stg/app-config": "^0.4.2",
     "@1stg/tslint-config": "^0.8.2",
-    "@d-ts/vue": "^0.4.2",
+    "@d-ts/vue": "^0.4.3",
     "@nuxt/types": "^0.6.1",
     "@nuxt/typescript-build": "^0.5.6",
     "@nuxt/typescript-runtime": "^0.3.8",
