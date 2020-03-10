@@ -63,7 +63,6 @@
 </template>
 <script lang="ts">
 import { mdiArrowLeft, mdiChevronRight } from '@mdi/js'
-import { createComponent } from '@vue/composition-api'
 
 import { SelectItem } from '@/types'
 
@@ -71,7 +70,7 @@ export interface FullSelectProps {
   items: SelectItem[]
 }
 
-export default createComponent({
+export default {
   model: {
     event: 'change',
   },
@@ -83,7 +82,15 @@ export default createComponent({
     },
     value: {
       type: [String, Number, Symbol],
+      default: null,
     },
+  },
+  data() {
+    return {
+      arrowLeft: mdiArrowLeft,
+      right: mdiChevronRight,
+      visible: false,
+    }
   },
   computed: {
     activeItem(): SelectItem {
@@ -108,14 +115,7 @@ export default createComponent({
       },
     },
   },
-  setup() {
-    return {
-      arrowLeft: mdiArrowLeft,
-      right: mdiChevronRight,
-      visible: false,
-    }
-  },
-})
+}
 </script>
 <style lang="scss" module>
 .container {
