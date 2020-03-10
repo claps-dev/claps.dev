@@ -151,7 +151,7 @@
 import { multiply } from 'mathjs'
 import Qrcode from 'vue-qrcode'
 import { mapGetters, mapState } from 'vuex'
-import uuid from 'uuid'
+import { v4 as uuid } from 'uuid'
 
 import { FullSelect, LocalScope, Tips } from '@/components'
 

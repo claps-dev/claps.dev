@@ -9,18 +9,20 @@
 </template>
 <script lang="ts">
 import { mdiChevronDoubleRight } from '@mdi/js'
-import { createComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default {
   props: {
-    link: String,
+    link: {
+      type: String,
+      default: null,
+    },
   },
   setup() {
     return {
       doubleRight: mdiChevronDoubleRight,
     }
   },
-})
+}
 </script>
 <style lang="scss" module>
 .tips {
