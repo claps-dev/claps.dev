@@ -35,7 +35,7 @@
     "axios": "^0.19.2",
     "clipboard": "^2.0.6",
     "core-js": "^3.6.4",
-    "date-fns": "^2.10.0",
+    "date-fns": "^2.11.0",
     "hashids": "^2.2.1",
     "koa": "^2.11.0",
     "koa-better-http-proxy": "^0.2.4",
