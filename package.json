@@ -99,7 +99,7 @@
     "ts-node-dev": "^1.0.0-pre.44",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^6.0.0",
-    "type-coverage": "^2.4.0",
+    "type-coverage": "^2.4.2",
     "typescript": "^3.8.3",
     "yarn-deduplicate": "^2.0.0"
   },
