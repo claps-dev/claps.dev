@@ -9,7 +9,7 @@ export class FoxoneController {
     const { code, state } = ctx.query
 
     if (!state || state !== ctx.session.uid) {
-      ctx.session.mixinToken = null
+      ctx.session.foxoneToken = null
       return ctx.throw(400, 'invalid oauth redirect')
     }
 

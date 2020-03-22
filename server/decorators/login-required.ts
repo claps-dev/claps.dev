@@ -7,8 +7,6 @@ import {
 import consola from 'consola'
 import { Middleware } from 'koa'
 
-import { createOctokit, octokitMap } from '../utils'
-
 export const LoginRequired = (
   target: Target,
   propertyKey?: string,
@@ -44,12 +42,8 @@ export const LoginRequired = (
     (ctx, next) => {
       const { gitHubToken, user } = ctx.session
 
-      if (!user) {
+      if (!gitHubToken || !user) {
         return ctx.redirect('/')
-      }
-
-      if (!octokitMap.has(user.id)) {
-        octokitMap.set(user.id, createOctokit(gitHubToken))
       }
 
       return next()

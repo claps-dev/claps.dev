@@ -5,7 +5,9 @@ import { Asset } from 'mixin-node-sdk'
 import { Like } from 'typeorm'
 
 import { Project, Transaction } from '../entities'
-import { getAssets, getConn, octokit } from '../utils'
+import { getAssets, getConn } from '../utils'
+
+import { createOctokit } from './../utils/helpers'
 
 @Controller
 @RequestMapping('/projects')
@@ -52,10 +54,12 @@ export class ProjectController {
       }),
       ...project.repositories.map(async repository => {
         const [owner, repo] = repository.slug.split('/')
-        const { data } = await octokit.repos.get({
-          owner,
-          repo,
-        })
+        const { data } = await createOctokit(ctx.session.gitHubToken).repos.get(
+          {
+            owner,
+            repo,
+          },
+        )
         Object.assign(repository, {
           stars: data.stargazers_count,
           updatedAt: data.updated_at,

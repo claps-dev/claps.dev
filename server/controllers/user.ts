@@ -12,7 +12,7 @@ import {
   Transfer,
   Wallet,
 } from '../entities'
-import { mixinBot, octokitMap } from '../utils'
+import { createOctokit, mixinBot } from '../utils'
 
 @Controller
 @RequestMapping('/user')
@@ -20,8 +20,11 @@ export class UserController {
   @LoginRequired
   @RequestMapping('/profile')
   async profile(ctx: Context) {
-    const userId = ctx.session.user.id
-    const { data } = await octokitMap.get(userId).users.listEmails()
+    const {
+      gitHubToken,
+      user: { id: userId },
+    } = ctx.session
+    const { data } = await createOctokit(gitHubToken).users.listEmails()
     ctx.body = {
       emails: data,
       projects: await ctx.conn.getRepository(Project).findByIds(

@@ -24,10 +24,6 @@ export const startRouter = async (app?: Koa) => {
   const middlewares: Middleware[] = [
     (ctx, next) => {
       ctx.conn = conn
-      const { gitHubToken } = ctx.session
-      if (typeof gitHubToken === 'string') {
-        process.env.GITHUB_CLIENT_TOKEN = gitHubToken
-      }
       return next()
     },
     bodyParser(),
