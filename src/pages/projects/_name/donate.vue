@@ -47,20 +47,43 @@
           <div class="mb-4 subtitle font-weight-bold">
             Use {{ asset.symbol }} Network
           </div>
-          <div class="mb-4 pa-3" :class="$style.destination">
-            {{ destinations[assetId] || 'Loading...' }}
-          </div>
-          <v-btn
-            v-clipboard="destinations[assetId]"
-            class="font-weight-bold"
-            color="primary"
-            outlined
-            rounded
-            :disabled="!destinations[assetId]"
-            @clipboard-success="copied = true"
+          <local-scope
+            v-slot="{ botAsset }"
+            :bot-asset="botAssets[assetId] || {}"
           >
-            Copy
-          </v-btn>
+            <div class="mb-4 pa-3" :class="$style.destination">
+              {{ botAsset.destination || 'Loading...' }}
+            </div>
+            <v-btn
+              v-clipboard="botAsset.destination"
+              class="mb-4 font-weight-bold"
+              color="primary"
+              outlined
+              rounded
+              :disabled="!botAsset.destination"
+              @clipboard-success="copied = true"
+            >
+              Copy
+            </v-btn>
+            <template v-if="botAsset.tag">
+              <div class="mb-4 subtitle font-weight-bold">
+                {{ asset.symbol }} Memo
+              </div>
+              <div class="mb-4 pa-3" :class="$style.destination">
+                {{ botAsset.tag }}
+              </div>
+              <v-btn
+                v-clipboard="botAsset.tag"
+                class="mb-4 font-weight-bold"
+                color="primary"
+                outlined
+                rounded
+                @clipboard-success="copied = true"
+              >
+                Copy
+              </v-btn>
+            </template>
+          </local-scope>
           <v-snackbar
             v-model="copied"
             :class="$style.copied"
@@ -71,7 +94,7 @@
           </v-snackbar>
         </div>
         <v-card-text class="pt-0">
-          <tips class="my-4">
+          <tips class="mb-4">
             Use the address to donate in {{ asset.name }} network. It may take
             30 mins to be confirmed.
           </tips>
@@ -181,7 +204,7 @@ export default {
       donating: false,
       amount: null,
       copied: false,
-      destinations: {},
+      botAssets: {},
     }
   },
   computed: {
@@ -191,11 +214,7 @@ export default {
       return this.project.botIds[this.donationDistributionValue]
     },
     asset() {
-      return (
-        (this.assetId &&
-          this.assets.find(asset => asset.asset_id === this.assetId)) ||
-        {}
-      )
+      return this.assets?.find(asset => asset.asset_id === this.assetId) || {}
     },
     qrcode() {
       return (
@@ -228,13 +247,13 @@ export default {
     },
     async donate() {
       this.donating = true
-      if (this.destinations[this.assetId]) {
+      if (this.botAssets[this.assetId]) {
         return
       }
       const { data } = await this.$http.get(
         `/bots/${this.botId}/assets/${this.assetId}`,
       )
-      this.$set(this.destinations, this.assetId, data.destination)
+      this.$set(this.botAssets, this.assetId, data)
     },
   },
 }

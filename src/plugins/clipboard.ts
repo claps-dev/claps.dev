@@ -1,7 +1,7 @@
 import Clipboard from 'clipboard'
-import Vue, { DirectiveFunction, DirectiveOptions, VNode } from 'vue'
+import Vue, { DirectiveFunction, DirectiveOptions } from 'vue'
 
-export interface ClipboardVm extends Vue {
+export interface ClipboardEl extends HTMLElement {
   $$clipboard?: Clipboard
   $$clipboardValue?: string
 }
@@ -9,13 +9,12 @@ export interface ClipboardVm extends Vue {
 const bind: DirectiveFunction = (
   el,
   { value }: { value?: string },
-  { context, componentInstance },
-  _oldVNode,
+  { componentInstance },
 ) => {
   const $$clipboard = new Clipboard(el, {
-    text: () => (context as ClipboardVm).$$clipboardValue,
+    text: () => (el as ClipboardEl).$$clipboardValue,
   })
-  Object.assign(context, {
+  Object.assign(el, {
     $$clipboardValue: value,
     $$clipboard,
   })
@@ -31,8 +30,8 @@ const bind: DirectiveFunction = (
   })
 }
 
-const destroy = (vnode: VNode) => {
-  const { $$clipboard } = vnode.context as ClipboardVm
+const destroy = (el: ClipboardEl) => {
+  const { $$clipboard } = el
   if (!$$clipboard) {
     return
   }
@@ -41,14 +40,12 @@ const destroy = (vnode: VNode) => {
 
 export const VueClipboard: DirectiveOptions = {
   inserted: bind,
-  update(_el, { value }: { value?: string }, { context }) {
-    Object.assign(context, {
+  update(el, { value }: { value?: string }) {
+    Object.assign(el, {
       $$clipboardValue: value,
     })
   },
-  unbind(_el, _binding, vnode) {
-    destroy(vnode)
-  },
+  unbind: destroy,
 }
 
 Vue.directive('clipboard', VueClipboard)

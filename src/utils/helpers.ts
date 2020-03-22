@@ -29,7 +29,9 @@ export const authScopes = (scopes = BASE_AUTH_SCOPES, writable = false) =>
 
 export const perMonth = memoize(
   (total: number, createdAt: string) =>
-    (total / differenceInMonths(Date.now(), new Date(createdAt))).toFixed(2),
+    (total / (differenceInMonths(Date.now(), new Date(createdAt)) + 1)).toFixed(
+      2,
+    ),
   (total: number, createdAt: string) => [total, createdAt].join('$'),
 )
 
