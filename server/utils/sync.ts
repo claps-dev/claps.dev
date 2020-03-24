@@ -80,7 +80,9 @@ export const syncTransactions = async () => {
 
   try {
     while (true) {
-      const offset = formatRFC3339Nano(lastSyncTime)
+      const offset = formatRFC3339Nano(
+        (lastSyncTime || (Date.now() - 30 * 24 * 60 * 60 * 1000) * 1e6) - 1,
+      )
 
       consola.log('offset:', offset)
 
