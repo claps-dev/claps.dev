@@ -3,7 +3,7 @@
     <c-back-title>Transactions</c-back-title>
     <template v-if="transactions.length">
       <template
-        v-for="({ id, botId, assetId, amount, createdAt },
+        v-for="({ id, assetId, amount, createdAt, sender },
         index) of transactions"
       >
         <v-divider
@@ -22,7 +22,7 @@
                 {{ amount }} {{ symbol }}
               </v-list-item-title>
               <v-list-item-subtitle class="caption">
-                from {{ botId }} at
+                from {{ sender }} at
                 {{ $utils.formatDistanceToNow(createdAt) }} ago
               </v-list-item-subtitle>
             </v-list-item-content>
