@@ -3,7 +3,7 @@
     <c-back-title>Transactions</c-back-title>
     <template v-if="transactions.length">
       <template
-        v-for="({ id, bot_id, asset_id, amount, created_at },
+        v-for="({ id, botId, assetId, amount, createdAt },
         index) of transactions"
       >
         <v-divider
@@ -13,10 +13,7 @@
           style="margin-left:60px"
         />
         <v-list-item :key="id">
-          <local-scope
-            v-slot="{ icon_url, symbol }"
-            v-bind="getAsset(asset_id)"
-          >
+          <local-scope v-slot="{ icon_url, symbol }" v-bind="getAsset(assetId)">
             <v-list-item-avatar size="32" color="grey" class="mr-3 rounded">
               <v-img :src="icon_url" />
             </v-list-item-avatar>
@@ -25,8 +22,8 @@
                 {{ amount }} {{ symbol }}
               </v-list-item-title>
               <v-list-item-subtitle class="caption">
-                from {{ bot_id }} at
-                {{ $utils.formatDistanceToNow(created_at) }} ago
+                from {{ botId }} at
+                {{ $utils.formatDistanceToNow(createdAt) }} ago
               </v-list-item-subtitle>
             </v-list-item-content>
           </local-scope>

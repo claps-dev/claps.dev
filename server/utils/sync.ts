@@ -76,10 +76,10 @@ export const syncTransactions = async () => {
 
   const memberMap: Record<string, Member[]> = {}
 
-  await queryRunner.startTransaction()
-
   try {
     while (true) {
+      await queryRunner.startTransaction()
+
       const offset = formatRFC3339Nano(
         (lastSyncTime || (Date.now() - 30 * 24 * 60 * 60 * 1000) * 1e6) - 1,
       )
@@ -114,11 +114,11 @@ export const syncTransactions = async () => {
             id: snapshot.snapshot_id,
             projectId: botMap[botId].projectId,
             botId,
-            assetId: snapshot.asset,
+            assetId: snapshot.asset.asset_id,
             amount: Number(snapshot.amount),
             createdAt: snapshot.created_at,
-            sender: snapshot.user_id,
-            receiver: snapshot.opponent_id,
+            sender: snapshot.opponent_id,
+            receiver: snapshot.user_id,
           }),
         ),
       )
@@ -127,15 +127,10 @@ export const syncTransactions = async () => {
         for await (const bot of bots) {
           const botId = bot.id
           const projectId = bot.projectId
-          const wallet = await manager.findOneOrFail(Wallet, {
-            where: {
-              projectId,
-            },
-          })
 
-          let members: Member[]
+          let members = memberMap[projectId]
 
-          if (!memberMap[projectId]) {
+          if (!members) {
             members = memberMap[projectId] = await manager.find(Member, {
               where: {
                 projectId,
@@ -145,8 +140,20 @@ export const syncTransactions = async () => {
 
           for await (const asset of assets) {
             const assetId = asset.asset_id
+
+            const wallet = await manager.findOneOrFail(Wallet, {
+              where: {
+                assetId,
+                botId,
+                projectId,
+              },
+            })
+
             const incomeTransactions = transactions.filter(
-              t => t.botId === t.receiver && t.projectId === projectId,
+              t =>
+                t.botId === t.receiver &&
+                t.projectId === projectId &&
+                t.assetId === assetId,
             )
 
             const { total, balance } = incomeTransactions.reduce(
@@ -219,6 +226,8 @@ export const syncTransactions = async () => {
       if (snapshots.length > 0) {
         lastSyncTime = new Date(last(snapshots).created_at).getTime() * 1e6
       }
+
+      await queryRunner.commitTransaction()
 
       if (snapshots.length < 500) {
         timeoutId = global.setTimeout(() => {
