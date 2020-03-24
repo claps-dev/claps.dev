@@ -88,8 +88,13 @@ export const formatRFC3339Nano = (
   const ts = String(timestamp).replace(nsReg, '$1')
   const ns = String(timestamp).replace(nsReg, '$2')
 
-  if (!timestamp || timestamp < 999999999 || !parseInt(ts) || !parseInt(ns)) {
-    return formatRFC3339Nano()
+  if (
+    !timestamp ||
+    timestamp < 999999999 ||
+    isNaN(parseInt(ts)) ||
+    isNaN(parseInt(ns))
+  ) {
+    return null
   }
 
   return new Date(parseInt(ts + '000')).toISOString().replace('.000', `.${ns}`)
