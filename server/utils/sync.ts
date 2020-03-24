@@ -99,7 +99,7 @@ export const syncTransactions = async () => {
             ? snapshot.opponent_id
             : null
           if (botId) {
-            Object.assign({
+            Object.assign(acc, {
               [botId]: snapshot,
             })
           }
