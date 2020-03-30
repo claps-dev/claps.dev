@@ -130,7 +130,8 @@ export class ProjectController {
       .getRepository(Transaction)
       .createQueryBuilder()
       .select('project_id', 'projectId')
-      .select('COUNT(DISTINCT(`sender`))', 'count')
+      .addSelect('COUNT(DISTINCT(`sender`))', 'count')
+      .groupBy('projectId')
       .where(
         projectId && {
           projectId,

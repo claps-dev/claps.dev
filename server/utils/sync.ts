@@ -187,7 +187,10 @@ export const syncTransactions = async () => {
                   const amount = total.dividedBy(members.length)
                   newMemberWallets = members.map(m => {
                     const memberWallet =
-                      memberWallets.find(({ userId }) => m.userId === userId) ||
+                      memberWallets.find(
+                        ({ userId, botId }) =>
+                          m.userId === userId && bot.id === botId,
+                      ) ||
                       Object.assign(new MemberWallet(), {
                         projectId,
                         botId: bot.id,
@@ -237,8 +240,11 @@ export const syncTransactions = async () => {
       }
     }
   } catch (e) {
-    consola.error(e)
+    consola.error('sync transactions failed:', e)
     await queryRunner.rollbackTransaction()
+    timeoutId = global.setTimeout(() => {
+      syncTransactions()
+    }, 3 * 1000)
   } finally {
     await queryRunner.release()
   }
