@@ -151,6 +151,7 @@ export const syncTransactions = async () => {
 
             const incomeTransactions = transactions.filter(
               t =>
+                t.botId === botId &&
                 t.botId === t.receiver &&
                 t.projectId === projectId &&
                 t.assetId === assetId,

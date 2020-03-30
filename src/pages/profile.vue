@@ -31,7 +31,9 @@
       <div class="body-2 pa-4">
         <div class="mb-4">
           You received
-          <strong class="primary--text">${{ donations.total }}</strong>
+          <strong class="primary--text">
+            ${{ $utils.numToStr(donations.total) }}
+          </strong>
           from
           <strong class="primary--text">{{ donations.patrons }}</strong>
           patrons.

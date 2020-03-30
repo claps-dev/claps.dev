@@ -23,7 +23,7 @@
         <div>
           <div class="caption grey--text text--darken-1">Total</div>
           <strong class="subtitle-2 font-weight-bold primary--text">
-            ${{ total }}
+            ${{ $utils.numToStr(total) }}
           </strong>
         </div>
         <div class="text-center">

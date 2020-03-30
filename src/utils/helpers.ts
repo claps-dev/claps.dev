@@ -3,6 +3,7 @@ import {
   formatDistanceToNow as _formatDistanceToNow,
 } from 'date-fns'
 import { flatMap, memoize } from 'lodash'
+import { BigNumber } from 'mathjs'
 import { IStringifyOptions, stringify } from 'qs'
 
 import { Asset } from '@/types'
@@ -65,3 +66,16 @@ export const filterAssets = (assets: Asset[]) =>
     }
     return acc
   }, [])
+
+export const numToStr = (num: number | BigNumber) => {
+  num = typeof num === 'number' ? num : num.toNumber()
+  if (num === 0) {
+    return '0'
+  }
+  return num
+    .toLocaleString('fullwide', {
+      minimumFractionDigits: 20,
+      useGrouping: false,
+    })
+    .replace(/([^0.])\.?0+$/, '$1')
+}

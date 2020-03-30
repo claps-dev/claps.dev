@@ -19,7 +19,7 @@
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title class="subtitle-2 mb-0">
-                {{ amount }} {{ symbol }}
+                {{ $utils.numToStr(amount) }} {{ symbol }}
               </v-list-item-title>
               <v-list-item-subtitle class="caption">
                 from {{ sender }} at

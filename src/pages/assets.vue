@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <c-back-title>Assets</c-back-title>
-    <div class="headline">≈{{ userPrices.btc }} BTC</div>
-    <div class="mb-4 subtitle-1">≈${{ userPrices.usd }}</div>
+    <div class="headline">≈{{ $utils.numToStr(userPrices.btc) }} BTC</div>
+    <div class="mb-4 subtitle-1">≈${{ $utils.numToStr(userPrices.usd) }}</div>
     <tips v-if="!mixinAuth && !foxoneAuth" class="mb-4">
       Because we store assets in Mixin Network, you must connect to Mixin or
       Fox.ONE App to withdraw your assets.
@@ -61,11 +61,11 @@
           <local-scope v-slot="{ amount, usd }" v-bind="getAssetAmount(a)">
             <v-list-item-title class="subtitle-2 mb-0">
               {{ a.symbol }}
-              <span class="float-right">{{ amount }}</span>
+              <span class="float-right">{{ $utils.numToStr(amount) }}</span>
             </v-list-item-title>
             <v-list-item-subtitle class="caption">
               {{ a.name }}
-              <span class="float-right">${{ usd }}</span>
+              <span class="float-right">${{ $utils.numToStr(usd) }}</span>
             </v-list-item-subtitle>
           </local-scope>
         </v-list-item-content>
