@@ -1,12 +1,14 @@
 import { createTokenAuth } from '@octokit/auth-token'
 import { Octokit } from '@octokit/rest'
 import { BinaryLike, createHash, randomBytes } from 'crypto'
+import { BigNumber, bignumber, multiply } from 'mathjs'
 import { Asset } from 'mixin-node-sdk'
 import { Connection, createConnection } from 'typeorm'
 
 import { filterAssets } from '@/utils'
 
 import * as entities from '../entities'
+import { Project, Transaction } from '../entities'
 
 import { mixin } from './constants'
 
@@ -98,4 +100,53 @@ export const formatRFC3339Nano = (
   }
 
   return new Date(parseInt(ts + '000')).toISOString().replace('.000', `.${ns}`)
+}
+
+export const getTotal = async (project: Project) => {
+  const assets = await getAssets()
+  const assetsMap = new Map<string, Asset>()
+  assets.forEach(asset => {
+    assetsMap.set(asset.asset_id, asset)
+  })
+  let total = bignumber(0)
+  project.wallets.forEach(w => {
+    const asset = assetsMap.get(w.assetId)
+    total = total.add(
+      multiply(bignumber(asset.price_usd), w.total) as BigNumber,
+    )
+  })
+  delete project.wallets
+  return total.toNumber()
+}
+
+export function getPatrons(): Promise<Record<string, number>>
+export function getPatrons(projectId: number): Promise<number>
+export async function getPatrons(projectId?: number) {
+  const conn = await getConn()
+  const counts: Array<{
+    projectId: string
+    count: string
+  }> = await conn
+    .getRepository(Transaction)
+    .createQueryBuilder()
+    .select('project_id', 'projectId')
+    .addSelect('COUNT(1)', 'count')
+    .groupBy('projectId')
+    .where(
+      projectId && {
+        projectId,
+      },
+    )
+    .getRawMany()
+  return typeof projectId === 'number'
+    ? counts.length
+      ? Number(counts[0].count)
+      : 0
+    : counts.reduce(
+        (acc, { projectId, count }) =>
+          Object.assign(acc, {
+            [projectId]: Number(count),
+          }),
+        {} as Record<string, number>,
+      )
 }

@@ -109,16 +109,14 @@ export default {
   computed: {
     ...mapState(['user']),
     donations() {
-      let total = 0
-      let patrons = 0
-      this.projects.forEach(p => {
-        total += p.total
-        patrons += p.patrons
-      })
-      return {
-        total,
-        patrons,
-      }
+      return this.projects.reduce(
+        (donations, p) => {
+          donations.total += p.total
+          donations.patrons += p.patrons
+          return donations
+        },
+        { total: 0, patrons: 0 },
+      )
     },
   },
 }

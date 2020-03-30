@@ -1,13 +1,9 @@
 import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import { Context } from 'koa'
-import { BigNumber, bignumber, multiply } from 'mathjs'
-import { Asset } from 'mixin-node-sdk'
 import { Like } from 'typeorm'
 
 import { Project, Transaction } from '../entities'
-import { getAssets, getConn } from '../utils'
-
-import { createOctokit } from './../utils/helpers'
+import { createOctokit, getPatrons, getTotal } from '../utils'
 
 @Controller
 @RequestMapping('/projects')
@@ -22,11 +18,11 @@ export class ProjectController {
           name: Like(`%${keyword}%`),
         },
       }),
-      this.getPatrons(),
+      getPatrons(),
     ])
     await Promise.all(
       projects.map(p =>
-        this.getTotal(p).then(total => {
+        getTotal(p).then(total => {
           p.patrons = patrons[p.id] || 0
           p.total = total
         }),
@@ -47,7 +43,7 @@ export class ProjectController {
     })
 
     const [patrons] = await Promise.all<any>([
-      this.getPatrons(project.id),
+      getPatrons(project.id),
       project.bots.then(bots => {
         delete project.__bots__
         project.botIds = bots.map(({ id }) => id)
@@ -69,7 +65,7 @@ export class ProjectController {
     ])
 
     project.patrons = patrons
-    project.total = await this.getTotal(project)
+    project.total = await getTotal(project)
 
     ctx.body = project
   }
@@ -100,52 +96,5 @@ export class ProjectController {
         assetId: ctx.query.assetId,
       },
     })
-  }
-
-  async getTotal(project: Project) {
-    const assets = await getAssets()
-    const assetsMap = new Map<string, Asset>()
-    assets.forEach(asset => {
-      assetsMap.set(asset.asset_id, asset)
-    })
-    let total = bignumber(0)
-    project.wallets.forEach(w => {
-      const asset = assetsMap.get(w.assetId)
-      total = total.add(
-        multiply(bignumber(asset.price_usd), w.total) as BigNumber,
-      )
-    })
-    delete project.wallets
-    return total.toNumber()
-  }
-
-  getPatrons(): Promise<Record<string, number>>
-  getPatrons(projectId: number): Promise<number>
-  async getPatrons(projectId?: number) {
-    const conn = await getConn()
-    const counts: Array<{
-      projectId: string
-      count: string
-    }> = await conn
-      .getRepository(Transaction)
-      .createQueryBuilder()
-      .select('project_id', 'projectId')
-      .addSelect('COUNT(DISTINCT(`sender`))', 'count')
-      .groupBy('projectId')
-      .where(
-        projectId && {
-          projectId,
-        },
-      )
-      .getRawMany()
-    return typeof projectId === 'number'
-      ? Number(counts[0].count)
-      : counts.reduce(
-          (acc, { projectId, count }) =>
-            Object.assign(acc, {
-              [projectId]: Number(count),
-            }),
-          {} as Record<string, number>,
-        )
   }
 }

@@ -12,7 +12,7 @@ import {
   Transfer,
   Wallet,
 } from '../entities'
-import { createOctokit, mixinBot } from '../utils'
+import { createOctokit, getPatrons, getTotal, mixinBot } from '../utils'
 
 @Controller
 @RequestMapping('/user')
@@ -27,15 +27,26 @@ export class UserController {
     const { data } = await createOctokit(gitHubToken).users.listEmails()
     ctx.body = {
       emails: data,
-      projects: await ctx.conn.getRepository(Project).findByIds(
+      projects: await Promise.all(
         (
-          await ctx.conn.getRepository(Member).find({
-            select: ['projectId'],
-            where: {
-              userId,
+          await ctx.conn.getRepository(Project).findByIds(
+            (
+              await ctx.conn.getRepository(Member).find({
+                select: ['projectId'],
+                where: {
+                  userId,
+                },
+              })
+            ).map(({ projectId }) => projectId),
+            {
+              relations: ['wallets'],
             },
-          })
-        ).map(({ projectId }) => projectId),
+          )
+        ).map(async project => {
+          project.total = await getTotal(project)
+          project.patrons = await getPatrons(project.id)
+          return project
+        }),
       ),
     }
   }
@@ -49,12 +60,15 @@ export class UserController {
         userId,
       },
     })
-    ctx.body = memberWallets.reduce<Record<string, BigNumber>>(
-      (acc, { assetId, balance }) => {
+    ctx.body = memberWallets.reduce<Record<string, BigNumber | number>>(
+      (acc, { assetId, balance }, index) => {
         if (acc[assetId] == null) {
           acc[assetId] = bignumber(0)
         }
-        acc[assetId] = acc[assetId].add(balance)
+        acc[assetId] = (acc[assetId] as BigNumber).add(balance)
+        if (index === memberWallets.length - 1) {
+          acc[assetId] = (acc[assetId] as BigNumber).toNumber()
+        }
         return acc
       },
       {},
