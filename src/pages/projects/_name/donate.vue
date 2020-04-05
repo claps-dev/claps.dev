@@ -159,7 +159,7 @@
                     v-slot="{ distributed: [x, y] }"
                     :distributed="distributeDonation(user)"
                   >
-                    {{ x }} {{ asset.symbol }} ({{ y }}%)
+                    {{ $utils.numToStr(x) }} {{ asset.symbol }} ({{ y }}%)
                   </local-scope>
                 </span>
               </v-list-item-title>

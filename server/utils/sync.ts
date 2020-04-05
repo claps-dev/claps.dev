@@ -98,7 +98,7 @@ export const syncTransactions = async () => {
             : botIds.includes(snapshot.opponent_id)
             ? snapshot.opponent_id
             : null
-          if (botId) {
+          if (botId && Number(snapshot.amount) > 0) {
             Object.assign(acc, {
               [botId]: snapshot,
             })

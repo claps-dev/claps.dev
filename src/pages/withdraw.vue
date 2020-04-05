@@ -9,8 +9,8 @@
           @change="onAssetChange"
         />
         <v-text-field
-          :value="amount"
-          :hint="'≈$' + usdt"
+          :value="$utils.numToStr(amount)"
+          :hint="'≈$' + $utils.numToStr(usdt)"
           :suffix="asset.symbol"
           persistent-hint
           disabled
@@ -83,6 +83,7 @@ export default {
           assetId: this.assetId,
           amount: this.amount,
         })
+        this.$router.go(-1)
       } finally {
         this.loading = false
       }

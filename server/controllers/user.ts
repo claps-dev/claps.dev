@@ -1,7 +1,10 @@
-import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
+import { Controller, Method, RequestMapping } from '@rxts/koa-router-decorators'
+import consola from 'consola'
 import { Context } from 'koa'
 import { BigNumber, bignumber } from 'mathjs'
 import { FindOperator } from 'typeorm'
+
+import { numToStr } from '@/utils'
 
 import { LoginRequired } from '../decorators'
 import {
@@ -76,18 +79,21 @@ export class UserController {
   }
 
   @LoginRequired
-  @RequestMapping('/withdraw')
+  @RequestMapping('/withdraw', Method.POST)
   async withdraw(ctx: Context) {
-    const { assetId, amount } = ctx.query
+    const { assetId, amount } = ctx.request.body
 
     if (!assetId || !amount) {
       return ctx.throw(400, 'assetId and amount are required')
     }
 
-    const memberWallets = await ctx.conn.getRepository(MemberWallet).find({
+    const memberWalletRepo = ctx.conn.getRepository(MemberWallet)
+
+    const memberWallets = await memberWalletRepo.find({
       where: {
         assetId,
         balance: new FindOperator('moreThanOrEqual', 0),
+        userId: ctx.session.user.id,
       },
     })
 
@@ -126,19 +132,33 @@ export class UserController {
           },
         })
         const memberWallet = memberWallets.find(m => m.botId === botId)
+        const amount = numToStr(memberWallet.balance)
+        if (memberWallet.balance <= 0) {
+          return
+        }
         const transfer = await botMixin.transfer({
-          amount: memberWallet.balance,
+          amount,
           asset_id: assetId,
-          opponent_id: ctx.session.mixUser.user_id,
-          memo: ['Claps.dev donation', bot.project].join(' - '),
+          opponent_id: ctx.session.mixinUser.user_id,
+          memo: ['Claps.dev donation', bot.project.name].join(' - '),
         })
+        if ('code' in transfer) {
+          consola.error({
+            amount,
+            asset_id: assetId,
+            opponent_id: ctx.session.mixinUser.user_id,
+            memo: ['Claps.dev donation', bot.project.name].join(' - '),
+          })
+          // @ts-ignore
+          throw new Error(transfer.description)
+        }
         transfers.push({
           snapshotId: transfer.snapshot_id,
           userId: ctx.session.user.id,
           traceId: transfer.trace_id,
           opponentId: transfer.opponent_id,
           assetId: transfer.asset_id,
-          amount: Number(transfer.amount),
+          amount: -Number(transfer.amount),
           memo: transfer.memo,
           createdAt: new Date(transfer.created_at),
         })
@@ -151,6 +171,11 @@ export class UserController {
 
     await ctx.conn.getRepository(Transfer).save(transfers)
     await walletRepo.save(wallets)
+    await memberWalletRepo.save(
+      memberWallets.map(memberWallet => ({ ...memberWallet, balance: 0 })),
+    )
+
+    ctx.status = 200
   }
 
   @LoginRequired
