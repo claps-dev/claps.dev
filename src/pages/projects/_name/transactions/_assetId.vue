@@ -10,7 +10,7 @@
           v-if="index"
           :key="'_' + id"
           class="mr-4"
-          style="margin-left:60px"
+          style="margin-left: 60px;"
         />
         <v-list-item :key="id">
           <local-scope v-slot="{ icon_url, symbol }" v-bind="getAsset(assetId)">

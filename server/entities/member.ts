@@ -15,19 +15,13 @@ export class Member {
   })
   userId: number
 
-  @ManyToOne(
-    () => Project,
-    project => project.id,
-  )
+  @ManyToOne(() => Project, project => project.id)
   @JoinColumn({
     name: 'project_id',
   })
   project: Project
 
-  @OneToOne(
-    () => User,
-    user => user.id,
-  )
+  @OneToOne(() => User, user => user.id)
   @JoinColumn({
     name: 'user_id',
   })

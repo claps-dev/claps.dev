@@ -17,10 +17,7 @@ export const base64 = (data: string | Buffer, uriEncode = false) => {
     'base64',
   )
   if (uriEncode) {
-    result = result
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '')
+    result = result.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
   }
   return result
 }
@@ -38,9 +35,7 @@ export function sha256(
   buffer: BinaryLike,
   encoding?: HexBase64Latin1Encoding,
 ): Buffer | string {
-  return createHash('sha256')
-    .update(buffer)
-    .digest(encoding)
+  return createHash('sha256').update(buffer).digest(encoding)
 }
 
 export const randomPin = (length = 6) => {

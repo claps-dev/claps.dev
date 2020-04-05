@@ -49,10 +49,7 @@ export class Repository {
   })
   updatedAt: Date
 
-  @ManyToOne(
-    () => Project,
-    project => project.id,
-  )
+  @ManyToOne(() => Project, project => project.id)
   @JoinColumn({
     name: 'project_id',
   })

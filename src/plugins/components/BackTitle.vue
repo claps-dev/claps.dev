@@ -2,7 +2,7 @@
   <div class="d-flex mb-4 headline align-center font-weight-bold">
     <v-icon
       v-if="$listeners.click"
-      class="d-inline-flex  mr-3 black--text"
+      class="d-inline-flex mr-3 black--text"
       @click="$listeners.click"
     >
       {{ svgPath }}

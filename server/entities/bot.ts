@@ -38,10 +38,7 @@ export class Bot {
   })
   privateKey: string
 
-  @OneToOne(
-    () => Project,
-    project => project.id,
-  )
+  @OneToOne(() => Project, project => project.id)
   @JoinColumn({
     name: 'project_id',
   })

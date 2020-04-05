@@ -13,7 +13,7 @@
           work. Both do the initial work and to maintain it take time and cost
           money.
         </p>
-        <p style="margin-bottom:0">
+        <p style="margin-bottom: 0;">
           <strong>Claps.dev</strong>
           's donations system is designed to provide a great way to fund basic
           income to creators and team, enabling them to keep doing great work
@@ -26,13 +26,13 @@
         </n-link>
       </v-card-actions>
     </v-card>
-    <v-card style="margin-top:25px">
+    <v-card style="margin-top: 25px;">
       <v-card-text>
         <div class="subtitle-2 font-weight-bold">for Creators</div>
         <p>
           Are you a developer of open source projects?
         </p>
-        <p style="margin-bottom:0">
+        <p style="margin-bottom: 0;">
           Yes? Then
           <strong>Clasps.dev</strong>
           is for you! Create your account and ask your supporters to financially

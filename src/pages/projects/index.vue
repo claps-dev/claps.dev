@@ -61,7 +61,7 @@ export default {
     }
   },
   watch: {
-    keyword: throttle(async function(keyword: string) {
+    keyword: throttle(async function (keyword: string) {
       this.$router.replace(
         this.$utils.normalizeUrl(this.$route.path, {
           keyword,

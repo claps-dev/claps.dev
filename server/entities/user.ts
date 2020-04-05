@@ -24,10 +24,7 @@ export class User {
   })
   avatarUrl?: string
 
-  @OneToOne(
-    () => Member,
-    member => member.user,
-  )
+  @OneToOne(() => Member, member => member.user)
   @JoinColumn({
     name: 'id',
   })

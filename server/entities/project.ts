@@ -43,28 +43,16 @@ export class Project {
   })
   updatedAt: Date
 
-  @OneToMany(
-    () => Repository,
-    repository => repository.project,
-  )
+  @OneToMany(() => Repository, repository => repository.project)
   repositories?: Repository[]
 
-  @OneToMany(
-    () => Member,
-    member => member.project,
-  )
+  @OneToMany(() => Member, member => member.project)
   members?: Member[]
 
-  @OneToMany(
-    () => Wallet,
-    wallet => wallet.project,
-  )
+  @OneToMany(() => Wallet, wallet => wallet.project)
   wallets?: Wallet[]
 
-  @OneToMany(
-    () => Bot,
-    bot => bot.project,
-  )
+  @OneToMany(() => Bot, bot => bot.project)
   bots?: Promise<Bot[]>
 
   botIds?: string[]

@@ -11,7 +11,7 @@
           <v-img :src="activeItem.avatar" />
         </v-avatar>
         <div class="ml-2 flex-grow-1">
-          <div style="line-height:20px">{{ activeItem.title }}</div>
+          <div style="line-height: 20px;">{{ activeItem.title }}</div>
           <div v-if="!concise" class="caption" :class="$style.description">
             {{ activeItem.description }}
           </div>
