@@ -113,7 +113,8 @@ const config: Configuration = {
       },
     ],
   },
-  mode: __DEV__ ? 'spa' : undefined,
+  // mode: __DEV__ ? 'spa' : undefined,
+  mode: 'spa',
   router: {
     extendRoutes(routes) {
       if (__DEV__) {
