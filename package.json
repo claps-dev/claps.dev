@@ -28,7 +28,7 @@
     "@koa/router": "^8.0.8",
     "@mdi/js": "^5.0.45",
     "@octokit/auth-token": "^2.4.0",
-    "@octokit/rest": "^16.43.1",
+    "@octokit/rest": "^17.1.4",
     "@rxts/koa-proxy": "^0.2.0",
     "@rxts/koa-router-decorators": "^0.2.1",
     "@vue/composition-api": "^0.5.0",
