@@ -12,3 +12,28 @@
 [![codechecks.io](https://raw.githubusercontent.com/codechecks/docs/master/images/badges/badge-default.svg?sanitize=true)](https://codechecks.io)
 
 > Help you funding the creators and projects you appreciate with crypto currencies.
+
+## Deployment
+
+1. Create MySQL database according to `server/database.sql`
+2. Create a file named `.env.local`
+3. Required environment variables:
+
+   ```sh
+   GITHUB_CLIENT_ID=
+   GITHUB_CLIENT_SECRET=
+   GITHUB_CLIENT_TOKEN=
+   GITHUB_OAUTH_CALLBACK=
+   
+   MIXIN_CLIENT_ID=
+   MIXIN_CLIENT_CONFIG= # json config
+   MIXIN_CLIENT_SECRET=
+   
+   DATABASE_CONFIG= # json config with `host`, `port`, `username`, `password` and `database`
+   ```
+
+4. Install [`pm2`](https://github.com/Unitech/pm2) globally: `yarn global add pm2`
+5. Build assets: `yarn build`
+6. Run server in background: `pm2 start --name Claps.dev npm -- start`
+7. Create project, repositories, users and members manually into database
+8. Create wallet bots with `yarn exec-ts scripts/create-bots {projectId}`

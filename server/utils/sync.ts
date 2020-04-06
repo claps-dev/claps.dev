@@ -84,7 +84,7 @@ export const syncTransactions = async () => {
         (lastSyncTime || (Date.now() - 30 * 24 * 60 * 60 * 1000) * 1e6) - 1,
       )
 
-      consola.log('offset:', offset)
+      consola.debug('offset:', offset)
 
       const snapshots = await mixin.query_network_snapshots({
         offset,

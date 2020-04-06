@@ -9,12 +9,12 @@
     "node": ">=12"
   },
   "scripts": {
-    "build": "run-p build:*",
+    "build": "run-s build:app build:server",
     "build:app": "env-cmd nuxt-ts build",
     "build:server": "cross-env NODE_ENV=production r -i server/index -f cjs -x '*' -o dist --terser '{keep_fnames:true}'",
-    "dev": "env-cmd run-p dev:*",
-    "dev:router": "cross-env ROUTER_DEV=true tsnd -O '{\"module\":\"commonjs\",\"target\":\"es2015\"}' -r tsconfig-paths/register -T server/router/dev",
-    "dev:server": "tsnd -O '{\"module\":\"commonjs\",\"target\":\"es2015\"}' -r tsconfig-paths/register -T server",
+    "dev": "run-p dev:*",
+    "dev:router": "cross-env ROUTER_DEV=true yarn exec-ts:dev server/router/dev",
+    "dev:server": "yarn exec-ts:dev server",
     "lint": "run-p lint:*",
     "lint:es": "env-cmd eslint . --cache --ext md,ts,tsx,vue",
     "lint:style": "stylelint --cache 'src/**/*.{scss,vue}'",
@@ -22,7 +22,9 @@
     "lint:tsc": "tsc --incremental false --noEmit",
     "postinstall": "cpy env.js . --rename=.env.js && yarn-deduplicate || exit 0",
     "start": "cross-env NODE_ENV=production env-cmd node dist/cjs.min",
-    "type-coverage": "type-coverage --detail --ignore-catch --ignore-files '**/*.d.ts' --strict"
+    "type-coverage": "type-coverage --detail --ignore-catch --ignore-files '**/*.d.ts' --strict",
+    "exec-ts:dev": "env-cmd tsnd -O '{\"module\":\"commonjs\",\"target\":\"es2015\"}' -r tsconfig-paths/register -T",
+    "exec-ts": "env-cmd ts-node -O '{\"module\":\"commonjs\",\"target\":\"es2015\"}' -r tsconfig-paths/register -T"
   },
   "dependencies": {
     "@koa/router": "^8.0.8",
