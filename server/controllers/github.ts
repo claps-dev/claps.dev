@@ -2,6 +2,7 @@ import { Controller, RequestMapping } from '@rxts/koa-router-decorators'
 import axios from 'axios'
 import { Context } from 'koa'
 
+import { User } from '../entities'
 import { createOctokit } from '../utils'
 
 @Controller
@@ -46,6 +47,19 @@ export class GitHubController {
     const { data: user } = await createOctokit(
       gitHubToken,
     ).users.getAuthenticated()
+
+    const userRepo = ctx.conn.getRepository(User)
+
+    const userInDb = await userRepo.findOne({ id: user.id })
+
+    if (!userInDb) {
+      userRepo.save({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatarUrl: user.avatar_url,
+      })
+    }
 
     Object.assign(ctx.session, {
       gitHubToken,
