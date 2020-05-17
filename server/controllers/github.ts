@@ -55,7 +55,8 @@ export class GitHubController {
     if (!userInDb) {
       userRepo.save({
         id: user.id,
-        name: user.name,
+        name: user.login,
+        displayName: user.name,
         email: user.email,
         avatarUrl: user.avatar_url,
       })
