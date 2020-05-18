@@ -55,6 +55,11 @@ export class MixinController {
 
   @RequestMapping('/assets')
   async assets(ctx: Context) {
-    ctx.body = await mixin.query_assets({})
+    try {
+      const resp = await mixin.query_assets({})
+      ctx.body = resp || []
+    } catch (err) {
+      ctx.body = err
+    }
   }
 }

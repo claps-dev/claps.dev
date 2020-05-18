@@ -58,14 +58,15 @@ export const unionDisplayName = (
 export const delay = (milliseconds?: number) =>
   new Promise<void>(resolve => setTimeout(resolve, milliseconds))
 
-export const filterAssets = (assets: Asset[]) =>
-  assets.reduce<Asset[]>((acc, asset) => {
+export const filterAssets = (assets: Asset[]) => {
+  return assets.reduce<Asset[]>((acc, asset) => {
     const index = ASSETS.indexOf(asset.symbol)
     if (index !== -1) {
       acc[index] = asset
     }
     return acc
   }, [])
+}
 
 export const numToStr = (num: number | BigNumber) => {
   num = typeof num === 'number' ? num : num.toNumber()
