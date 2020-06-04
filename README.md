@@ -13,27 +13,90 @@
 
 > Help you funding the creators and projects you appreciate with crypto currencies.
 
-## Deployment
+## How to run
 
-1. Create MySQL database according to `server/database.sql`
-2. Create a file named `.env.local`
-3. Required environment variables:
+### Setup Database
 
-   ```sh
-   GITHUB_CLIENT_ID=
-   GITHUB_CLIENT_SECRET=
-   GITHUB_CLIENT_TOKEN=
-   GITHUB_OAUTH_CALLBACK=
-   
-   MIXIN_CLIENT_ID=
-   MIXIN_CLIENT_CONFIG= # json config
-   MIXIN_CLIENT_SECRET=
-   
-   DATABASE_CONFIG= # json config with `host`, `port`, `username`, `password` and `database`
-   ```
+Create MySQL database according to `server/database.sql`
 
-4. Install [`pm2`](https://github.com/Unitech/pm2) globally: `yarn global add pm2`
-5. Build assets: `yarn build`
-6. Run server in background: `pm2 start --name Claps.dev npm -- start`
-7. Create project, repositories, users and members manually into database
-8. Create wallet bots with `yarn exec-ts scripts/create-bots {projectId}`
+### Create a Mixin bot
+
+1. Visit https://mixin.one, install and download Mixin Messenger
+2. Visit https://developer.mixin.one/dashboard, create a new bot, fill the bot info
+3. Copy `client ID`(应用 ID), generate `client secret`(应用密钥) and the `keystore json file`(应用 Session) at "密钥"
+
+### Create a Github OAuth App
+
+1. Visit https://github.com/settings/developers and create a new Github OAuth App
+2. Visit https://github.com/settings/tokens and create a new personal token for development
+
+### Config 
+
+1. Create a file named `.env.local`
+2. Required environment variables:
+
+  ```sh
+  GITHUB_CLIENT_ID=YOUR_GITHUB_OAUTH_APP_CLIENT_ID
+  GITHUB_CLIENT_SECRET=YOUR_GITHUB_OAUTH_APP_CLIENT_SECRET
+  GITHUB_CLIENT_TOKEN=YOUR_GITHUB_OAUTH_APP_CLIENT_TOKEN
+  GITHUB_OAUTH_CALLBACK=YOUR_GITHUB_OAUTH_CALLBACK
+
+  MIXIN_CLIENT_ID=YOUR_MIXIN_BOT_CLIENT_ID
+  MIXIN_CLIENT_CONFIG=PATH_OF_KEYSTORE_FILE
+  MIXIN_CLIENT_SECRET=YOUR_MIXIN_BOT_CLIENT_SECRET
+
+  DATABASE_CONFIG={"host": "", "port": "3306", "username": "", "password": "", "database": ""}
+  ```
+
+### Run
+
+1. run `yarn`
+2. run `yarn dev`
+
+### Add projects, repos, users, etc
+
+1. Create project, repositories, users and members manually into database
+2. Create wallet bots with `yarn exec-ts scripts/create-bots {projectId}`
+
+### Deployment
+
+**Approach 1: Use `pm2` **
+
+1. Install [`pm2`](https://github.com/Unitech/pm2) globally: `yarn global add pm2`
+2. Build assets: `yarn build`
+3. Run server in background: `pm2 start --name Claps.dev npm -- start`
+
+**Approach 2: Use `systemd`**
+
+1. Write a shell script at `/PATH/TO/CLAPS/start.sh`:
+    ```sh
+    #!/usr/bin/env bash
+    # comment the line if you do not use nvm
+    . /home/YOUR_NAME/.nvm/nvm.sh
+    yarn start
+    ```
+
+2. Write a systemd service file at `/etc/systemd/system/claps.service`:
+    ```sh
+    [Unit]
+    Description=Claps Service
+    After=network.target
+    After=systemd-user-sessions.service
+    After=network-online.target
+
+    [Service]
+    ExecStart=/PATH/TO/CLAPS/start.sh
+    WorkingDirectory=/home/ubuntu/claps
+    Type=simple
+    User=ubuntu
+    Group=ubuntu
+    Restart=always
+    RestartSec=1s
+    StartLimitIntervalSec=10
+    StartLimitBurst=10
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+3. Enable claps service: `sudo systemctl enable claps.service`
+4. Start claps service: `sudo systemctl start claps.service`
