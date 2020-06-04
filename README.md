@@ -60,7 +60,7 @@ Create MySQL database according to `server/database.sql`
 
 ### Deployment
 
-**Approach 1: Use `pm2` **
+**Approach 1: Use `pm2`**
 
 1. Install [`pm2`](https://github.com/Unitech/pm2) globally: `yarn global add pm2`
 2. Build assets: `yarn build`
