@@ -22,7 +22,7 @@ Create MySQL database according to `server/database.sql`
 ### Create a Mixin bot
 
 1. Visit https://mixin.one, install and download Mixin Messenger
-2. Visit https://developer.mixin.one/dashboard, create a new bot, fill the bot info
+2. Visit https://developers.mixin.one/dashboard, create a new bot, fill the bot info
 3. Copy `client ID`(应用 ID), generate `client secret`(应用密钥) and the `keystore json file`(应用 Session) at "密钥"
 
 ### Create a Github OAuth App
